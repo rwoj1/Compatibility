@@ -12,11 +12,10 @@
       <a href="#">Home</a> / <span>Syringe driver compatibility</span>
     </nav>
     <h1>Syringe driver compatibility</h1>
-    <p class="lede">Search 2 or 3 medicines and a diluent to view compatibility, qualifiers, and references.</p>
+    <p class="lede">Select 2 or 3 medicines to view compatibility across diluents, qualifiers, and references.</p>
   </header>
 
   <main class="container">
-    <!-- Key messages / On this page style -->
     <aside class="toc">
       <h2>Key messages</h2>
       <ul>
@@ -32,22 +31,15 @@
         <div class="grid">
           <label>
             Medicine 1
-            <input type="text" id="drug1" required placeholder="e.g., morphine sulfate" />
+            <select id="drug1" required></select>
           </label>
           <label>
             Medicine 2
-            <input type="text" id="drug2" required placeholder="e.g., haloperidol" />
+            <select id="drug2" required></select>
           </label>
           <label>
             Medicine 3 (optional)
-            <input type="text" id="drug3" placeholder="(optional)" />
-          </label>
-          <label>
-            Diluent
-            <select id="diluent" required>
-              <option value="NaCl 0.9%">Sodium chloride 0.9%</option>
-              <option value="WFI">Water for injection</option>
-            </select>
+            <select id="drug3"></select>
           </label>
         </div>
         <button type="submit" class="btn">Search</button>
