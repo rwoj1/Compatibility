@@ -1,0 +1,500 @@
+drug_1,drug_2,drug_3,diluent,classification,qualifiers,reference_ids
+Cyclizine,Fentanyl,,WFI,2,,"2, 4"
+Glycopyrronium bromide (glycopyrrolate),Fentanyl,,WFI,1,,4
+Haloperidol,Fentanyl,,WFI,1,H,4
+Hyoscine Butylbromide,Fentanyl,,WFI,1,,4
+Levomepromazine,Fentanyl,,WFI,1,,4
+Metoclopramide,Fentanyl,,WFI,1,,4
+Midazolam,Fentanyl,,WFI,1,,4
+Ondansetron,Fentanyl,,WFI,1,,4
+Ranitidine,Fentanyl,,WFI,1,,4
+Ketamine,Fentanyl,,NaCl,7,,"2, 3"
+Midazolam,Fentanyl,,NaCl,7,,2
+Ondansetron,Fentanyl,,NaCl,7,,2
+Ranitidine,Fentanyl,,NaCl,1,,4
+Cyclizine,Hydromorphone,,WFI,2,,"1, 2, 3"
+Glycopyrronium bromide (glycopyrrolate),Hydromorphone,,WFI,7,,"1, 2"
+Haloperidol,Hydromorphone,,WFI,2,H,"1, 2"
+Hyoscine Butylbromide,Hydromorphone,,WFI,7,,"1, 2"
+Ketamine,Hydromorphone,,WFI,7,,"1, 2"
+Ketorolac,Hydromorphone,,WFI,2,,1
+Levomepromazine,Hydromorphone,,WFI,7,,"1, 2"
+Metoclopramide,Hydromorphone,,WFI,7,,"1, 2"
+Midazolam,Hydromorphone,,WFI,7,,"1, 2"
+Octreotide,Hydromorphone,,WFI,1,,4
+Clonazepam,Hydromorphone,,NaCl,1,C,"1, 4"
+Glycopyrronium bromide (glycopyrrolate),Hydromorphone,,NaCl,7,,"1, 2"
+Haloperidol,Hydromorphone,,NaCl,2,H,"1, 2"
+Hyoscine Butylbromide,Hydromorphone,,NaCl,7,,"1, 2"
+Ketamine,Hydromorphone,,NaCl,7,,"1, 2"
+Ketorolac,Hydromorphone,,NaCl,1,,4
+Levomepromazine,Hydromorphone,,NaCl,7,,"1, 2"
+Metoclopramide,Hydromorphone,,NaCl,7,,"1, 2"
+Midazolam,Hydromorphone,,NaCl,7,,"1, 2"
+Octreotide,Hydromorphone,,NaCl,1,,4
+Ondansetron,Hydromorphone,,NaCl,7,,"1, 2, 3"
+Ranitidine,Hydromorphone,,NaCl,1,,4
+Clonazepam,Methadone,,WFI,1,C,4
+Cyclizine,Methadone,,WFI,1,,4
+Haloperidol,Methadone,,WFI,1,H,4
+Hyoscine Butylbromide,Methadone,,WFI,1,,4
+Ketamine,Methadone,,WFI,1,,4
+Levomepromazine,Methadone,,WFI,1,,4
+Metoclopramide,Methadone,,WFI,1,,4
+Midazolam,Methadone,,WFI,1,,4
+Ranitidine,Methadone,,WFI,1,,4
+Clonazepam,Methadone,,NaCl,1,C,2
+Glycopyrronium bromide (glycopyrrolate),Methadone,,NaCl,1,,2
+Haloperidol,Methadone,,NaCl,1,H,2
+Hyoscine Butylbromide,Methadone,,NaCl,1,,4
+Ketamine,Methadone,,NaCl,1,,4
+Ketorolac,Methadone,,NaCl,6,P,"2, 3"
+Levomepromazine,Methadone,,NaCl,1,,4
+Midazolam,Methadone,,NaCl,1,,2
+Octreotide,Methadone,,NaCl,1,,4
+Ranitidine,Methadone,,NaCl,1,,4
+Haloperidol,Morphine hydrochloride,,WFI,6,H,3
+Hyoscine Butylbromide,Morphine hydrochloride,,WFI,6,,3
+Haloperidol,Morphine hydrochloride,,NaCl,7,H,"2, 4"
+Hyoscine Butylbromide,Morphine hydrochloride,,NaCl,7,,"2, 3"
+Ketorolac,Morphine hydrochloride,,NaCl,2,,2
+Metoclopramide,Morphine hydrochloride,,NaCl,6,,"2, 3, 4"
+Midazolam,Morphine hydrochloride,,NaCl,7,,"2, 3"
+Clonazepam,Morphine sulphate,,WFI,1,C,"1, 4"
+Cyclizine,Morphine sulphate,,WFI,7,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Morphine sulphate,,WFI,1,,1
+Haloperidol,Morphine sulphate,,WFI,7,H,"1, 2"
+Hyoscine Butylbromide,Morphine sulphate,,WFI,7,,"1, 2"
+Ketamine,Morphine sulphate,,WFI,1,,1
+Ketorolac,Morphine sulphate,,WFI,3,,1
+Levetiracetam,Morphine sulphate,,WFI,1,,4
+Levomepromazine,Morphine sulphate,,WFI,7,,"1, 2"
+Metoclopramide,Morphine sulphate,,WFI,7,,"1, 2"
+Midazolam,Morphine sulphate,,WFI,7,,"1, 2"
+Octreotide,Morphine sulphate,,WFI,1,,"1, 4"
+Ondansetron,Morphine sulphate,,WFI,1,,"2, 4"
+Ranitidine,Morphine sulphate,,WFI,1,,4
+Clonazepam,Morphine sulphate,,NaCl,1,C,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Morphine sulphate,,NaCl,1,,4
+Haloperidol,Morphine sulphate,,NaCl,1,H,"1, 2"
+Hyoscine Butylbromide,Morphine sulphate,,NaCl,1,,1
+Ketamine,Morphine sulphate,,NaCl,7,,"1, 2, 3"
+Levetiracetam,Morphine sulphate,,NaCl,1,,4
+Levomepromazine,Morphine sulphate,,NaCl,1,,"1, 2"
+Metoclopramide,Morphine sulphate,,NaCl,7,,"1, 2, 3"
+Midazolam,Morphine sulphate,,NaCl,7,,"1, 2, 3"
+Octreotide,Morphine sulphate,,NaCl,1,,"1, 2"
+Ondansetron,Morphine sulphate,,NaCl,7,,"1, 2, 3"
+Ranitidine,Morphine sulphate,,NaCl,1,,4
+Clonazepam,Oxycodone,,WFI,6,C,"1, 2"
+Cyclizine,Oxycodone,,WFI,2,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Oxycodone,,WFI,7,,"1, 2"
+Haloperidol,Oxycodone,,WFI,7,H,"1, 2"
+Hyoscine Butylbromide,Oxycodone,,WFI,7,,"1, 2, 3"
+Ketamine,Oxycodone,,WFI,7,,"2, 4"
+Ketorolac,Oxycodone,,WFI,6,,2
+Levetiracetam,Oxycodone,,WFI,1,,5
+Levomepromazine,Oxycodone,,WFI,7,,"1, 2"
+Metoclopramide,Oxycodone,,WFI,7,,"1, 2, 3"
+Midazolam,Oxycodone,,WFI,7,,"1, 2"
+Octreotide,Oxycodone,,WFI,6,,"1, 2"
+Ondansetron,Oxycodone,,WFI,6,,2
+Ranitidine,Oxycodone,,WFI,6,,2
+Clonazepam,Oxycodone,,NaCl,6,C,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Oxycodone,,NaCl,7,,"2, 4"
+Haloperidol,Oxycodone,,NaCl,7,H,"1, 2, 3"
+Hyoscine Butylbromide,Oxycodone,,NaCl,7,,"1, 2, 3"
+Ketamine,Oxycodone,,NaCl,7,,"1, 2"
+Ketorolac,Oxycodone,,NaCl,6,,"1, 2"
+Levomepromazine,Oxycodone,,NaCl,7,,"1, 2"
+Metoclopramide,Oxycodone,,NaCl,7,,"1, 2, 3"
+Midazolam,Oxycodone,,NaCl,7,,"1, 2"
+Octreotide,Oxycodone,,NaCl,6,,"1, 2"
+Ondansetron,Oxycodone,,NaCl,6,,"1, 2"
+Ranitidine,Oxycodone,,NaCl,6,,"2, 4"
+Clonazepam,Cyclizine,,WFI,1,C,1
+Clonazepam,Glycopyrronium bromide (glycopyrrolate),,WFI,1,C,"1, 2"
+Clonazepam,Haloperidol,,WFI,1,"C, H","1, 2, 4"
+Clonazepam,Hyoscine Butylbromide,,WFI,1,C,"1, 2, 4"
+Clonazepam,Levomepromazine,,WFI,1,C,4
+Clonazepam,Metoclopramide,,WFI,1,C,"2, 4"
+Clonazepam,Midazolam,,WFI,1,C,1
+Clonazepam,Ondansetron,,WFI,1,C,2
+Cyclizine,Glycopyrronium bromide (glycopyrrolate),,WFI,1,,4
+Cyclizine,Haloperidol,,WFI,1,H,"1, 2"
+Cyclizine,Hyoscine Butylbromide,,WFI,3,,"1, 4"
+Cyclizine,Ketorolac,,WFI,3,,"1, 2"
+Cyclizine,Levomepromazine,,WFI,1,,4
+Cyclizine,Metoclopramide,,WFI,2,,"2, 4"
+Cyclizine,Midazolam,,WFI,1,,"1, 4"
+Cyclizine,Octreotide,,WFI,1,,"1, 4"
+Cyclizine,Ondansetron,,WFI,3,,4
+Cyclizine,Ranitidine,,WFI,1,,4
+Glycopyrronium bromide (glycopyrrolate),Haloperidol,,WFI,1,H,1
+Glycopyrronium bromide (glycopyrrolate),Ketamine,,WFI,1,,1
+Glycopyrronium bromide (glycopyrrolate),Ketorolac,,WFI,3,,1
+Glycopyrronium bromide (glycopyrrolate),Levomepromazine,,WFI,1,,"1, 4"
+Glycopyrronium bromide (glycopyrrolate),Metoclopramide,,WFI,1,,"1, 4"
+Glycopyrronium bromide (glycopyrrolate),Midazolam,,WFI,1,,"1, 2, 4"
+Glycopyrronium bromide (glycopyrrolate),Octreotide,,WFI,1,,"1, 2, 4"
+Glycopyrronium bromide (glycopyrrolate),Ranitidine,,WFI,1,,2
+Haloperidol,Hyoscine Butylbromide,,WFI,1,H,"1, 2"
+Haloperidol,Ketamine,,WFI,1,H,"1, 4"
+Haloperidol,Ketorolac,,WFI,3,H,1
+Haloperidol,Midazolam,,WFI,1,H,"1, 4"
+Haloperidol,Octreotide,,WFI,1,H,"1, 2, 4"
+Haloperidol,Ondansetron,,WFI,1,H,4
+Haloperidol,Ranitidine,,WFI,1,H,4
+Hyoscine Butylbromide,Levetiracetam,,WFI,1,,4
+Hyoscine Butylbromide,Levomepromazine,,WFI,1,,"1, 2, 4"
+Hyoscine Butylbromide,Metoclopramide,,WFI,1,,4
+Hyoscine Butylbromide,Midazolam,,WFI,1,,1
+Hyoscine Butylbromide,Octreotide,,WFI,1,,"1, 4"
+Hyoscine Butylbromide,Ondansetron,,WFI,1,,4
+Hyoscine Butylbromide,Ranitidine,,WFI,1,,4
+Ketamine,Levetiracetam,,WFI,1,,4
+Ketamine,Levomepromazine,,WFI,1,,2
+Ketamine,Metoclopramide,,WFI,1,,1
+Ketamine,Midazolam,,WFI,1,,1
+Ketorolac,Levomepromazine,,WFI,3,,1
+Ketorolac,Metoclopramide,,WFI,1,,4
+Ketorolac,Midazolam,,WFI,3,,1
+Ketorolac,Ranitidine,,WFI,1,,4
+Levetiracetam,Metoclopramide,,WFI,1,,6
+Levetiracetam,Midazolam,,WFI,1,,4
+Levomepromazine,Midazolam,,WFI,1,,"1, 2"
+Levomepromazine,Octreotide,,WFI,1,,"1, 2, 4"
+Levomepromazine,Ondansetron,,WFI,1,,4
+Levomepromazine,Ranitidine,,WFI,2,,"2, 4"
+Metoclopramide,Midazolam,,WFI,1,,"1, 2"
+Metoclopramide,Octreotide,,WFI,1,,"1, 2"
+Metoclopramide,Ondansetron,,WFI,1,,4
+Metoclopramide,Ranitidine,,WFI,1,,4
+Midazolam,Octreotide,,WFI,1,,"1, 4"
+Midazolam,Ondansetron,,WFI,1,,4
+Midazolam,Ranitidine,,WFI,3,,"3, 4"
+Octreotide,Ondansetron,,WFI,1,,"1, 2"
+Clonazepam,Glycopyrronium bromide (glycopyrrolate),,NaCl,1,C,"1, 4"
+Clonazepam,Haloperidol,,NaCl,1,"C, H","1, 2"
+Clonazepam,Hyoscine Butylbromide,,NaCl,1,C,"2, 4"
+Clonazepam,Ketamine,,NaCl,1,C,1
+Clonazepam,Ketorolac,,NaCl,1,C,4
+Clonazepam,Levomepromazine,,NaCl,1,C,"1, 2, 4"
+Clonazepam,Metoclopramide,,NaCl,1,C,"1, 2"
+Clonazepam,Midazolam,,NaCl,1,C,1
+Clonazepam,Octreotide,,NaCl,1,C,"1, 2, 4"
+Clonazepam,Ondansetron,,NaCl,1,C,4
+Glycopyrronium bromide (glycopyrrolate),Haloperidol,,NaCl,1,H,2
+Glycopyrronium bromide (glycopyrrolate),Hyoscine Butylbromide,,NaCl,1,,1
+Glycopyrronium bromide (glycopyrrolate),Ketamine,,NaCl,1,,4
+Glycopyrronium bromide (glycopyrrolate),Ketorolac,,NaCl,3,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Levetiracetam,,NaCl,1,,4
+Glycopyrronium bromide (glycopyrrolate),Levomepromazine,,NaCl,1,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Metoclopramide,,NaCl,1,,"2, 4"
+Glycopyrronium bromide (glycopyrrolate),Midazolam,,NaCl,1,,4
+Glycopyrronium bromide (glycopyrrolate),Octreotide,,NaCl,1,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Ondansetron,,NaCl,7,,"1, 2"
+Haloperidol,Hyoscine Butylbromide,,NaCl,2,H,"1, 2, 3"
+Haloperidol,Ketamine,,NaCl,1,H,"1, 2"
+Haloperidol,Ketorolac,,NaCl,2,H,"1, 3"
+Haloperidol,Midazolam,,NaCl,7,H,"1, 2, 3, 4"
+Haloperidol,Octreotide,,NaCl,1,H,"1, 4"
+Haloperidol,Ondansetron,,NaCl,6,H,3
+Haloperidol,Ranitidine,,NaCl,1,H,4
+Hyoscine Butylbromide,Ketamine,,NaCl,1,,4
+Hyoscine Butylbromide,Ketorolac,,NaCl,6,,3
+Hyoscine Butylbromide,Levetiracetam,,NaCl,1,,4
+Hyoscine Butylbromide,Levomepromazine,,NaCl,1,,"1, 2, 3"
+Hyoscine Butylbromide,Metoclopramide,,NaCl,6,,"2, 3"
+Hyoscine Butylbromide,Midazolam,,NaCl,7,,"1, 2"
+Hyoscine Butylbromide,Octreotide,,NaCl,1,,1
+Hyoscine Butylbromide,Ondansetron,,NaCl,1,,2
+Hyoscine Butylbromide,Ranitidine,,NaCl,1,,4
+Ketamine,Ketorolac,,NaCl,1,,4
+Ketamine,Levomepromazine,,NaCl,1,,"1, 2, 4"
+Ketamine,Metoclopramide,,NaCl,1,,4
+Ketamine,Midazolam,,NaCl,6,,"1, 2, 3, 4"
+Ketamine,Octreotide,,NaCl,1,,4
+Ketorolac,Levomepromazine,,NaCl,3,,1
+Ketorolac,Metoclopramide,,NaCl,2,,"2, 3"
+Ketorolac,Midazolam,,NaCl,2,,1
+Ketorolac,Octreotide,,NaCl,1,,1
+Ketorolac,Ranitidine,,NaCl,1,,2
+Levetiracetam,Levomepromazine,,NaCl,1,,4
+Levetiracetam,Midazolam,,NaCl,1,,4
+Levomepromazine,Midazolam,,NaCl,1,,"1, 2"
+Levomepromazine,Octreotide,,NaCl,1,,4
+Levomepromazine,Ondansetron,,NaCl,1,,"2, 4"
+Levomepromazine,Ranitidine,,NaCl,2,,"2, 4"
+Metoclopramide,Midazolam,,NaCl,6,,"1, 2"
+Metoclopramide,Octreotide,,NaCl,1,,"2, 4"
+Metoclopramide,Ondansetron,,NaCl,7,,"2, 4"
+Metoclopramide,Ranitidine,,NaCl,7,,"3, 4"
+Midazolam,Octreotide,,NaCl,1,,"1, 4"
+Midazolam,Ondansetron,,NaCl,7,,"1, 2"
+Midazolam,Ranitidine,,NaCl,3,,4
+Octreotide,Ondansetron,,NaCl,1,,"1, 2"
+Octreotide,Ranitidine,,NaCl,1,,4
+Fentanyl,cyclizine,Midazolam,WFI,2,,2
+Fentanyl,Glycopyrronium bromide (glycopyrrolate),Midazolam,WFI,1,,4
+Fentanyl,Haloperidol,Midazolam,WFI,1,H,4
+Fentanyl,hyoscine butylbromide,Levomepromazine,WFI,1,,4
+Fentanyl,hyoscine butylbromide,Midazolam,WFI,1,,4
+Fentanyl,levomepromazine,Midazolam,WFI,1,,4
+Fentanyl,metoclopramide,Ondansetron,WFI,1,,4
+Fentanyl,metoclopramide,Ranitidine,WFI,1,,4
+Fentanyl,Haloperidol,Midazolam,NaCl,1,H,"2, 4"
+Hydromorphone,cyclizine,Haloperidol,WFI,2,H,"2, 4"
+Hydromorphone,cyclizine,Midazolam,WFI,2,,2
+Hydromorphone,cyclizine,Octreotide,WFI,2,,"1, 2"
+Hydromorphone,Haloperidol,Ketamine,WFI,2,"H, S","1, 4"
+Hydromorphone,Haloperidol,Ketorolac,WFI,3,H,"1, 2"
+Hydromorphone,Haloperidol,Midazolam,WFI,2,H,"1, 4"
+Hydromorphone,levomepromazine,Midazolam,WFI,1,S,"1, 4"
+Hydromorphone,levomepromazine,Octreotide,WFI,1,,4
+Hydromorphone,metoclopramide,Midazolam,WFI,1,,"1, 4"
+Hydromorphone,Clonazepam,Haloperidol,NaCl,2,"C, H",4
+Hydromorphone,Haloperidol,Ketamine,NaCl,2,H,4
+Hydromorphone,Haloperidol,Ketorolac,NaCl,3,H,"1, 2"
+Hydromorphone,Haloperidol,Midazolam,NaCl,2,H,"1, 2, 4"
+Hydromorphone,Haloperidol,Ranitidine,NaCl,2,H,4
+Hydromorphone,hyoscine butylbromide,Levomepromazine,NaCl,7,,"2, 4"
+Hydromorphone,hyoscine butylbromide,Midazolam,NaCl,1,,4
+Hydromorphone,ketamine,Levomepromazine,NaCl,1,,4
+Hydromorphone,ketamine,Midazolam,NaCl,1,S,"1, 2, 4"
+Hydromorphone,ketorolac,Metoclopramide,NaCl,1,,4
+Hydromorphone,levomepromazine,Midazolam,NaCl,7,,"1, 2, 4"
+Hydromorphone,levomepromazine,Ranitidine,NaCl,2,,4
+Hydromorphone,metoclopramide,Midazolam,NaCl,7,,"1, 2, 4"
+Hydromorphone,metoclopramide,Octreotide,NaCl,1,,4
+Hydromorphone,metoclopramide,Ondansetron,NaCl,1,,4
+Hydromorphone,octreotide,Ondansetron,NaCl,1,,4
+Methadone,Clonazepam,Haloperidol,WFI,1,"C, H",4
+Methadone,Clonazepam,Hyoscine butylbromide,WFI,1,C,4
+Methadone,Clonazepam,Metoclopramide,WFI,2,C,4
+Methadone,Haloperidol,Ketamine,WFI,1,H,4
+Methadone,Haloperidol,Midazolam,WFI,1,H,4
+Methadone,hyoscine butylbromide,Levomepromazine,WFI,1,,4
+Methadone,ketamine,Midazolam,WFI,1,,4
+Methadone,levomepromazine,Midazolam,WFI,2,,4
+Methadone,metoclopramide,Midazolam,WFI,1,,4
+Methadone,metoclopramide,Ranitidine,WFI,1,,4
+Methadone,Clonazepam,Haloperidol,NaCl,1,"C, H",2
+Methadone,Clonazepam,Levomepromazine,NaCl,1,C,4
+Methadone,Glycopyrronium bromide (glycopyrrolate),Midazolam,NaCl,1,,2
+Methadone,Haloperidol,Ketamine,NaCl,1,H,4
+Methadone,Haloperidol,Midazolam,NaCl,1,H,2
+Methadone,hyoscine butylbromide,Ranitidine,NaCl,1,,4
+Methadone,levomepromazine,Midazolam,NaCl,1,,4
+Methadone,octreotide,Ranitidine,NaCl,1,,4
+Morphine hydrochloride,Haloperidol,Hyoscine butylbromide,NaCl,7,H,2
+Morphine hydrochloride,Haloperidol,Ketorolac,NaCl,2,H,3
+Morphine hydrochloride,Haloperidol,Midazolam,NaCl,6,H,2
+Morphine hydrochloride,hyoscine butylbromide,Ketorolac,NaCl,2,,"2, 3"
+Morphine hydrochloride,hyoscine butylbromide,Metoclopramide,NaCl,6,,"2, 3"
+Morphine hydrochloride,hyoscine butylbromide,Midazolam,NaCl,2,,"2, 3"
+Morphine hydrochloride,ketorolac,Metoclopramide,NaCl,2,,"2, 3"
+Morphine hydrochloride,levomepromazine,Midazolam,NaCl,3,,3
+Morphine hydrochloride,metoclopramide,Midazolam,NaCl,6,,2
+Morphine sulfate,Clonazepam,Cyclizine,WFI,1,C,"1, 2"
+Morphine sulfate,Clonazepam,Haloperidol,WFI,1,"C, H",4
+Morphine sulfate,Clonazepam,Hyoscine butylbromide,WFI,1,C,4
+Morphine sulfate,Clonazepam,Levomepromazine,WFI,1,C,2
+Morphine sulfate,Clonazepam,Metoclopramide,WFI,1,C,4
+Morphine sulfate,cyclizine,Glycopyrronium bromide (glycopyrrolate),WFI,1,,4
+Morphine sulfate,cyclizine,Haloperidol,WFI,7,H,"1, 2, 4"
+Morphine sulfate,cyclizine,Hyoscine butylbromide,WFI,3,,"1, 2, 4"
+Morphine sulfate,cyclizine,Levomepromazine,WFI,1,,"2, 4"
+Morphine sulfate,cyclizine,Midazolam,WFI,7,,"1, 2, 4"
+Morphine sulfate,cyclizine,Octreotide,WFI,1,,4
+Morphine sulfate,cyclizine,Ranitidine,WFI,2,,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Haloperidol,WFI,1,H,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,WFI,1,,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Midazolam,WFI,7,,"1, 2, 4"
+Morphine sulfate,Haloperidol,Hyoscine butylbromide,WFI,7,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Midazolam,WFI,7,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Octreotide,WFI,1,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Ranitidine,WFI,1,H,4
+Morphine sulfate,hyoscine butylbromide,Levomepromazine,WFI,1,,"1, 4"
+Morphine sulfate,hyoscine butylbromide,Midazolam,WFI,7,,"1, 2, 4"
+Morphine sulfate,hyoscine butylbromide,Octreotide,WFI,1,,4
+Morphine sulfate,hyoscine butylbromide,Ondansetron,WFI,1,,4
+Morphine sulfate,hyoscine butylbromide,Ranitidine,WFI,1,,4
+Morphine sulfate,ketamine,Midazolam,WFI,1,,4
+Morphine sulfate,levetiracetam,Midazolam,WFI,1,,4
+Morphine sulfate,levomepromazine,Midazolam,WFI,7,,"1, 2, 4"
+Morphine sulfate,levomepromazine,Octreotide,WFI,1,,4
+Morphine sulfate,levomepromazine,Ondansetron,WFI,1,,4
+Morphine sulfate,levomepromazine,Ranitidine,WFI,2,,4
+Morphine sulfate,metoclopramide,Midazolam,WFI,7,,"1, 2, 4"
+Morphine sulfate,metoclopramide,Ranitidine,WFI,1,,4
+Morphine sulfate,midazolam,Octreotide,WFI,1,,4
+Morphine sulfate,midazolam,Ranitidine,WFI,3,,4
+Morphine sulfate,Clonazepam,Haloperidol,NaCl,1,"C, H","1, 4"
+Morphine sulfate,Clonazepam,Hyoscine butylbromide,NaCl,1,C,"1, 2"
+Morphine sulfate,Clonazepam,Ketamine,NaCl,1,C,1
+Morphine sulfate,Clonazepam,Levomepromazine,NaCl,1,C,"1, 2"
+Morphine sulfate,Clonazepam,Metoclopramide,NaCl,1,C,1
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Levetiracetam,NaCl,1,,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,NaCl,1,,"1, 2"
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Metoclopramide,NaCl,1,,2
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Midazolam,NaCl,1,,"1, 2, 4"
+Morphine sulfate,Haloperidol,Hyoscine butylbromide,NaCl,2,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Ketamine,NaCl,1,H,"1, 2"
+Morphine sulfate,Haloperidol,Midazolam,NaCl,7,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Octreotide,NaCl,1,H,1
+Morphine sulfate,Haloperidol,Ondansetron,NaCl,1,H,4
+Morphine sulfate,hyoscine butylbromide,Levomepromazine,NaCl,7,,"1, 2, 4"
+Morphine sulfate,hyoscine butylbromide,Midazolam,NaCl,1,,"1, 2"
+Morphine sulfate,hyoscine butylbromide,Octreotide,NaCl,1,,"2, 4"
+Morphine sulfate,hyoscine butylbromide,Ondansetron,NaCl,1,,"2, 4"
+Morphine sulfate,ketamine,Metoclopramide,NaCl,1,,1
+Morphine sulfate,ketamine,Midazolam,NaCl,1,,"1, 4"
+Morphine sulfate,levetiracetam,Levomepromazine,NaCl,1,,4
+Morphine sulfate,levetiracetam,Midazolam,NaCl,7,,4
+Morphine sulfate,levomepromazine,Midazolam,NaCl,1,,"1, 2, 4"
+Morphine sulfate,levomepromazine,Octreotide,NaCl,1,,4
+Morphine sulfate,levomepromazine,Ondansetron,NaCl,7,,2
+Morphine sulfate,metoclopramide,Midazolam,NaCl,1,,"1, 2, 4"
+Morphine sulfate,metoclopramide,Octreotide,NaCl,1,,4
+Morphine sulfate,metoclopramide,Ondansetron,NaCl,1,,2
+Morphine sulfate,metoclopramide,Ranitidine,NaCl,1,,4
+Morphine sulfate,midazolam,Octreotide,NaCl,1,,"1, 2, 4"
+Morphine sulfate,midazolam,Ondansetron,NaCl,1,,4
+Morphine sulfate,midazolam,Ranitidine,NaCl,3,,4
+Oxyocodone,Clonazepam,Glycopyrronium bromide (glycopyrrolate),WFI,1,"C, O",4
+Oxyocodone,Clonazepam,Haloperidol,WFI,6,"C, H, O","1, 2, 4"
+Oxyocodone,Clonazepam,Hyoscine butylbromide,WFI,6,"C, O","1, 2, 4"
+Oxyocodone,Clonazepam,Levomepromazine,WFI,1,"C, O","1, 2, 4"
+Oxyocodone,Clonazepam,Metoclopramide,WFI,6,"C, O","1, 2, 4"
+Oxyocodone,cyclizine,Glycopyrronium bromide (glycopyrrolate),WFI,2,O,"1, 2"
+Oxyocodone,cyclizine,Haloperidol,WFI,2,"H, O","1, 2, 4"
+Oxyocodone,cyclizine,Hyoscine butylbromide,WFI,3,O,"1, 4"
+Oxyocodone,cyclizine,Levomepromazine,WFI,2,O,2
+Oxyocodone,cyclizine,Midazolam,WFI,2,O,"1, 2, 4"
+Oxyocodone,cyclizine,Octreotide,WFI,2,O,4
+Oxyocodone,cyclizine,Ondansetron,WFI,3,O,4
+Oxyocodone,cyclizine,Ranitidine,WFI,2,O,4
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,WFI,1,O,2
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Metoclopramide,WFI,1,O,4
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Midazolam,WFI,7,O,"1, 2, 4"
+Oxyocodone,Haloperidol,Hyoscine butylbromide,WFI,7,"H, O","1, 2, 4"
+Oxyocodone,Haloperidol,Ketamine,WFI,6,"H, O","1, 2"
+Oxyocodone,Haloperidol,Midazolam,WFI,7,"H, O","1, 2, 4"
+Oxyocodone,Haloperidol,Octreotide,WFI,1,"H, O",4
+Oxyocodone,Haloperidol,Ondansetron,WFI,1,"H, O",4
+Oxyocodone,Haloperidol,Ranitidine,WFI,1,"H, O",4
+Oxyocodone,hyoscine butylbromide,Levomepromazine,WFI,7,O,"1, 2, 4"
+Oxyocodone,hyoscine butylbromide,Metoclopramide,WFI,1,O,4
+Oxyocodone,hyoscine butylbromide,Midazolam,WFI,7,O,"1, 2, 4"
+Oxyocodone,hyoscine butylbromide,Octreotide,WFI,7,O,"2, 4"
+Oxyocodone,hyoscine butylbromide,Ondansetron,WFI,1,O,4
+Oxyocodone,hyoscine butylbromide,Ranitidine,WFI,1,O,4
+Oxyocodone,ketamine,Levomepromazine,WFI,7,O,2
+Oxyocodone,ketamine,Midazolam,WFI,1,O,"1, 4"
+Oxyocodone,ketorolac,Metoclopramide,WFI,1,O,"1, 4"
+Oxyocodone,ketorolac,Ranitidine,WFI,6,O,2
+Oxyocodone,levetiracetam,Metoclopramide,WFI,1,O,5
+Oxyocodone,levetiracetam,Midazolam,WFI,1,O,4
+Oxyocodone,levomepromazine,Midazolam,WFI,7,O,"1, 2, 4"
+Oxyocodone,levomepromazine,Octreotide,WFI,6,"O, S","1, 2, 4"
+Oxyocodone,levomepromazine,Ondansetron,WFI,1,O,"2, 4"
+Oxyocodone,levomepromazine,Ranitidine,WFI,3,O,4
+Oxyocodone,metoclopramide,Midazolam,WFI,7,O,"1, 2, 4"
+Oxyocodone,metoclopramide,Octreotide,WFI,1,O,4
+Oxyocodone,metoclopramide,Ranitidine,WFI,2,O,4
+Oxyocodone,midazolam,Octreotide,WFI,1,O,"1, 4"
+Oxyocodone,midazolam,Ondansetron,WFI,1,O,4
+Oxyocodone,midazolam,Ranitidine,WFI,3,O,4
+Oxyocodone,octreotide,Ondansetron,WFI,6,O,"1, 2"
+Oxyocodone,Clonazepam,Glycopyrronium bromide (glycopyrrolate),NaCl,1,"C, O","1, 4"
+Oxyocodone,Clonazepam,Haloperidol,NaCl,6,"C, H, O","1, 2, 4"
+Oxyocodone,Clonazepam,Hyoscine butylbromide,NaCl,6,"C, O","1, 2"
+Oxyocodone,Clonazepam,Ketamine,NaCl,1,"C, O","1, 4"
+Oxyocodone,Clonazepam,Ketorolac,NaCl,1,"C, O",4
+Oxyocodone,Clonazepam,Levomepromazine,NaCl,1,"C, O","1, 2, 4"
+Oxyocodone,Clonazepam,Metoclopramide,NaCl,6,"C, O","1, 2"
+Oxyocodone,Clonazepam,Octreotide,NaCl,1,"C, O","1, 2, 4"
+Oxyocodone,Clonazepam,Ondansetron,NaCl,1,"C, O",4
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Ketamine,NaCl,1,O,"1, 4"
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,NaCl,1,O,2
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Metoclopramide,NaCl,1,O,4
+Oxyocodone,Glycopyrronium bromide (glycopyrrolate),Midazolam,NaCl,1,O,2
+Oxyocodone,Haloperidol,Hyoscine butylbromide,NaCl,2,"H, O","1, 2, 4"
+Oxyocodone,Haloperidol,Ketamine,NaCl,6,"H, O","1, 2, 4"
+Oxyocodone,Haloperidol,Midazolam,NaCl,7,"H, O","1, 2, 4"
+Oxyocodone,Haloperidol,Octreotide,NaCl,1,"H, O","1, 2, 4"
+Oxyocodone,hyoscine butylbromide,Levomepromazine,NaCl,6,O,"1, 2, 4"
+Oxyocodone,hyoscine butylbromide,Midazolam,NaCl,1,O,"1, 2, 4"
+Oxyocodone,hyoscine butylbromide,Octreotide,NaCl,1,O,4
+Oxyocodone,hyoscine butylbromide,Ranitidine,NaCl,1,O,4
+Oxyocodone,ketamine,Levomepromazine,NaCl,1,O,"1, 4"
+Oxyocodone,ketamine,Metoclopramide,NaCl,1,O,4
+Oxyocodone,ketamine,Midazolam,NaCl,1,O,"1, 4"
+Oxyocodone,ketamine,Octreotide,NaCl,1,O,4
+Oxyocodone,ketorolac,Ranitidine,NaCl,6,O,2
+Oxyocodone,levetiracetam,Midazolam,NaCl,1,O,6
+Oxyocodone,levomepromazine,Midazolam,NaCl,7,O,"1, 2, 4"
+Oxyocodone,levomepromazine,Octreotide,NaCl,6,O,"1, 2, 4"
+Oxyocodone,levomepromazine,Ondansetron,NaCl,1,O,"2, 4"
+Oxyocodone,levomepromazine,Ranitidine,NaCl,1,O,4
+Oxyocodone,metoclopramide,Midazolam,NaCl,7,O,"1, 2, 4"
+Oxyocodone,metoclopramide,Octreotide,NaCl,1,O,2
+Oxyocodone,metoclopramide,Ondansetron,NaCl,1,O,2
+Oxyocodone,metoclopramide,Ranitidine,NaCl,2,O,4
+Oxyocodone,midazolam,Octreotide,NaCl,1,O,2
+Oxyocodone,midazolam,Ondansetron,NaCl,1,O,"1, 2"
+Oxyocodone,midazolam,Ranitidine,NaCl,3,O,4
+Oxyocodone,octreotide,Ondansetron,NaCl,6,O,"1, 2, 4"
+Clonazepam,cyclizine,Midazolam,WFI,2,C,4
+Clonazepam,Haloperidol,Hyoscine butylbromide,WFI,1,"C, H",4
+cyclizine,Glycopyrronium bromide (glycopyrrolate),Haloperidol,WFI,1,H,4
+cyclizine,Haloperidol,Hyoscine butylbromide,WFI,3,H,1
+cyclizine,Haloperidol,Midazolam,WFI,1,H,"1, 2"
+cyclizine,Haloperidol,Octreotide,WFI,2,H,4
+cyclizine,Haloperidol,Ranitidine,WFI,1,H,4
+cyclizine,hyoscine butylbromide,Midazolam,WFI,3,,1
+cyclizine,levomepromazine,Octreotide,WFI,2,,4
+cyclizine,metoclopramide,Octreotide,WFI,2,,2
+Glycopyrronium bromide (glycopyrrolate),ketamine,Midazolam,WFI,1,,1
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Midazolam,WFI,1,,"2, 4"
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Octreotide,WFI,1,,"1, 2, 4"
+Haloperidol,hyoscine butylbromide,Midazolam,WFI,6,H,"1, 2, 4"
+Haloperidol,hyoscine butylbromide,Ranitidine,WFI,1,H,4
+Haloperidol,ketamine,Midazolam,WFI,1,"H, S","1, 4"
+hyoscine butylbromide,levetiracetam,Midazolam,WFI,1,,4
+hyoscine butylbromide,levomepromazine,Midazolam,WFI,1,,4
+hyoscine butylbromide,levomepromazine,Octreotide,WFI,1,S,"2, 4"
+hyoscine butylbromide,levomepromazine,Ranitidine,WFI,2,,4
+hyoscine butylbromide,metoclopramide,Octreotide,WFI,1,,4
+hyoscine butylbromide,octreotide,Ondansetron,WFI,1,,4
+ketamine,levomepromazine,Midazolam,WFI,1,,4
+levomepromazine,midazolam,Ondansetron,WFI,1,,4
+levomepromazine,octreotide,Ranitidine,WFI,3,,4
+metoclopramide,midazolam,Ranitidine,WFI,2,,4
+Clonazepam,levomepromazine,Ondansetron,NaCl,1,C,4
+Glycopyrronium bromide (glycopyrrolate),Haloperidol,Ondansetron,NaCl,1,H,2
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Midazolam,NaCl,1,,2
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Octreotide,NaCl,1,,"1, 2"
+Haloperidol,hyoscine butylbromide,Midazolam,NaCl,2,H,"1, 2"
+Haloperidol,hyoscine butylbromide,Octreotide,NaCl,2,H,4
+Haloperidol,hyoscine butylbromide,Ranitidine,NaCl,2,H,4
+Haloperidol,ketamine,Midazolam,NaCl,1,H,2
+Haloperidol,midazolam,Octreotide,NaCl,1,H,"2, 4"
+hyoscine butylbromide,ketamine,Levomepromazine,NaCl,1,,"1, 4"
+hyoscine butylbromide,ketorolac,Octreotide,NaCl,1,,1
+hyoscine butylbromide,levetiracetam,Levomepromazine,NaCl,1,,4
+hyoscine butylbromide,levomepromazine,Octreotide,NaCl,1,,"1, 4"
+hyoscine butylbromide,levomepromazine,Ondansetron,NaCl,1,,4
+hyoscine butylbromide,levomepromazine,Ranitidine,NaCl,2,,4
+hyoscine butylbromide,metoclopramide,Midazolam,NaCl,6,,2
+hyoscine butylbromide,midazolam,Octreotide,NaCl,1,,4
+hyoscine butylbromide,octreotide,Ondansetron,NaCl,1,,4
+hyoscine butylbromide,octreotide,Ranitidine,NaCl,1,,4
+ketamine,levomepromazine,Midazolam,NaCl,1,,4
+levomepromazine,midazolam,Octreotide,NaCl,1,,"1, 2"
+levomepromazine,octreotide,Ondansetron,NaCl,1,,2
+levomepromazine,octreotide,Ranitidine,NaCl,3,,4
+metoclopramide,midazolam,Ranitidine,NaCl,2,,4
+metoclopramide,octreotide,Ondansetron,NaCl,1,,2
+metoclopramide,octreotide,Ranitidine,NaCl,1,,4
