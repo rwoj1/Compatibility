@@ -261,8 +261,7 @@ function renderObservationPanel(drugs, noData, anecdotal){
         <select id="q5"><option>24</option><option>48</option><option>&gt; 48</option></select>
       </label>` : ``}
     </div>
-    <button type="button" class="btn" id="openForm">Submit via Google Form</button>
-    <p class="meta">A new tab will open with your responses pre-filled. You can review and submit there.</p>
+    <button type="button" class="btn" id="openForm">Submit</button>
   `;
   resultsEl.appendChild(panel);
 
