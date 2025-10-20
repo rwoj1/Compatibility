@@ -2,26 +2,22 @@
    CONFIG
 ======================= */
 const DATA = {
-  main: 'data/Website_DataSet.csv',
-  refs: 'data/reference.csv',
-  classLegend: 'data/classification_legend.csv',
-  qualLegend: 'data/qualifier_legend.csv'
+  main: 'data/Website_DataSet.csv',          // required
+  refs: 'data/reference.csv',                // required (id,full_reference)
+  classLegend: 'data/classification_legend.csv',  // id,label,description (include 5)
+  qualLegend: 'data/qualifier_legend.csv'         // code,description (C,H,O,S,P)
 };
 
-// Set this to your Google Form "formResponse" URL.
-// Example: 'https://docs.google.com/forms/d/e/XXXXXXXXXXXX/formResponse'
+// Set this to your Google Form "formResponse" URL and entry IDs.
+// Create a prefilled link in Google Forms to discover entry IDs (entry.########).
 const GOOGLE_FORM = {
   enabled: true,
   action: 'PASTE_YOUR_GOOGLE_FORM_formResponse_URL_HERE',
-  // Map your Google Form entry IDs to fields we will send.
-  // Find these by creating a "prefilled link" in Google Forms and copying the `entry.123456` params.
   fields: {
-    // Core context:
     combo_drug_1: 'entry.DRUG1',          // e.g., entry.1111111111
     combo_drug_2: 'entry.DRUG2',
     combo_drug_3: 'entry.DRUG3',
     classification_at_search: 'entry.CLASS',
-    // Q1–Q5:
     q1_used_in_practice: 'entry.Q1',
     q2_more_than_24h: 'entry.Q2',
     q3_diluent_used: 'entry.Q3',
@@ -31,7 +27,7 @@ const GOOGLE_FORM = {
 };
 
 /* =======================
-   LIGHTWEIGHT CSV PARSER (handles quoted commas)
+   CSV PARSER (handles quoted commas)
 ======================= */
 function parseCSV(text){
   const rows = [];
@@ -42,7 +38,7 @@ function parseCSV(text){
     const c = text[i];
     if(inQuotes){
       if(c === '"'){
-        if(text[i+1] === '"'){ field += '"'; i+=2; continue; } // escaped quote
+        if(text[i+1] === '"'){ field += '"'; i+=2; continue; }
         inQuotes = false; i++; continue;
       }
       field += c; i++; continue;
@@ -64,7 +60,7 @@ async function loadCSV(url){
   const headers = rows[0].map(h => h.trim());
   const out = rows.slice(1).map(r => {
     const obj = {};
-    headers.forEach((h,idx)=> obj[h] = (r[idx] ?? '').trim());
+    headers.forEach((h,idx)=> obj[h] = ((r[idx] ?? '') + '').trim());
     return obj;
   });
   return {headers, rows: out};
@@ -77,8 +73,8 @@ const norm = s => (s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');
 const uniq = arr => [...new Set(arr)];
 const nonEmpty = x => x && x.trim().length;
 
-// conservative precedence across duplicates in same diluent
-const precedence = { "3":5, "2":4, "7":3, "6":2, "1":1 }; // no 4 here; "no data" means no row
+// conservative precedence: 3 (incompatible) > 5 (not recommended) > 2 > 7 > 6 > 1
+const precedence = { "3":6, "5":5, "2":4, "7":3, "6":2, "1":1 };
 
 const classificationLabels = new Map(); // id -> {label, description}
 const qualifierLabels = new Map();      // code -> description
@@ -133,7 +129,7 @@ function findMatches(drugs){
   return dataset.filter(r => r.key === k);
 }
 
-// group rows by diluent and summarise
+/* summary per diluent */
 function summariseByDiluent(records){
   const by = new Map();
   records.forEach(r => {
@@ -149,7 +145,7 @@ function summariseByDiluent(records){
     const refs  = uniq(rows.flatMap(x => (x.reference_ids||'').split(',').map(s=>s.trim()).filter(Boolean)));
     summaries.push({ diluent, classification: best, qualifiers: quals, references: refs });
   });
-  // sort diluents helpful order: Water for injection first
+  // Preferred order: Water for injection, Sodium chloride 0.9%, then others if any
   summaries.sort((a,b)=>{
     const score = s => s === 'Water for injection' ? 0 : s === 'Sodium chloride 0.9%' ? 1 : 2;
     return score(a.diluent) - score(b.diluent);
@@ -157,10 +153,7 @@ function summariseByDiluent(records){
   return summaries;
 }
 
-function clsBadge(code){
-  // map numeric -> class string
-  return `badge c${code}`;
-}
+function clsBadge(code){ return `badge c${code}`; }
 
 function refsHtml(refIds){
   if(!refIds.length) return '';
@@ -177,9 +170,12 @@ function qualsHtml(qualCodes){
   return `<div class="section-title">Qualifiers</div><div class="qualifiers">${chips}</div>`;
 }
 
+/* render result cards and observation form logic */
 function renderResult(drugs, summaries){
   resultsEl.innerHTML = '';
+
   if(!summaries.length){
+    // No data case
     const wrap = document.createElement('div');
     wrap.className = 'result';
     wrap.innerHTML = `
@@ -192,8 +188,8 @@ function renderResult(drugs, summaries){
     return;
   }
 
-  // show one card per diluent
   let anyAnecdotal = false;
+
   summaries.forEach(s => {
     const cls = classificationLabels.get((s.classification||'').toString()) || {label:'', description:''};
     if(s.classification === '1') anyAnecdotal = true;
@@ -219,7 +215,7 @@ function renderResult(drugs, summaries){
   }
 }
 
-/* ====== Observation panel (Google Form) ====== */
+/* Observation panel -> Google Form */
 function renderObservationPanel(drugs, noData, anecdotal){
   if(!GOOGLE_FORM.enabled) return;
 
@@ -259,7 +255,7 @@ function renderObservationPanel(drugs, noData, anecdotal){
     params.set(F.combo_drug_2, d2);
     if(d3) params.set(F.combo_drug_3, d3);
 
-    // classification context: "1" for anecdotal, "4" for no data
+    // Context label rather than numeric code (per your spec)
     params.set(F.classification_at_search, noData ? 'No data' : 'Appears compatible');
 
     params.set(F.q1_used_in_practice, document.getElementById('q1').value);
@@ -275,9 +271,11 @@ function renderObservationPanel(drugs, noData, anecdotal){
   });
 }
 
-/* ====== INIT ====== */
+/* =======================
+   INIT
+======================= */
 async function init(){
-  // legends
+  // load legends
   try{
     const [cl, ql] = await Promise.all([
       loadCSV(DATA.classLegend),
@@ -302,16 +300,14 @@ async function init(){
       key: keyFor([a,b,c]),
       drugs: [a,b,c].filter(Boolean),
       diluent: r.diluent||'',
-      classification: (r.classification||'').trim(),   // numeric code: 1,2,3,6,7
-      qualifiers: (r.qualifiers||'').trim(),           // letters: C,H,O,S,P
+      classification: (r.classification||'').trim(),   // "1","2","3","5","6","7"
+      qualifiers: (r.qualifiers||'').trim(),           // letters: C,H,O,S,P (comma/pipe separated ok)
       reference_ids: (r.reference_ids||'').trim()
     };
   });
 
-  // dropdowns
   buildDrugOptions();
 
-  // search
   document.getElementById('searchForm').addEventListener('submit', (e)=>{
     e.preventDefault();
     const d1 = drug1Sel.value, d2 = drug2Sel.value, d3 = drug3Sel.value;
