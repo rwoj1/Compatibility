@@ -2,14 +2,14 @@
    CONFIG
 ======================= */
 const DATA = {
-  main: 'data/Website_DataSet.csv',          // required
-  refs: 'data/reference.csv',                // required (id,full_reference)
-  classLegend: 'data/classification_legend.csv',  // id,label,description (include 5)
-  qualLegend: 'data/qualifier_legend.csv'         // code,description (C,H,O,S,P)
+  main: 'data/Website_DataSet.csv',              // required
+  refs: 'data/reference.csv',                    // required (id,full_reference)
+  classLegend: 'data/classification_legend.csv', // required (id,label,description; includes 5)
+  qualLegend: 'data/qualifier_legend.csv',       // required (code,description: C,H,O,S,P)
+  classes: 'data/drug_classes.csv'               // NEW: drug_name,class (for same-class rule)
 };
 
-// Set this to your Google Form "formResponse" URL and entry IDs.
-// Create a prefilled link in Google Forms to discover entry IDs (entry.########).
+// Google Form settings (prefilled submission). Replace with your actual formResponse URL & entry IDs.
 const GOOGLE_FORM = {
   enabled: true,
   action: 'PASTE_YOUR_GOOGLE_FORM_formResponse_URL_HERE',
@@ -34,11 +34,12 @@ function parseCSV(text){
   let i=0, field='', row=[], inQuotes=false;
   const pushField = () => { row.push(field); field=''; };
   const pushRow = () => { rows.push(row); row=[]; };
+
   while(i < text.length){
     const c = text[i];
     if(inQuotes){
       if(c === '"'){
-        if(text[i+1] === '"'){ field += '"'; i+=2; continue; }
+        if(text[i+1] === '"'){ field += '"'; i+=2; continue; } // escaped quote
         inQuotes = false; i++; continue;
       }
       field += c; i++; continue;
@@ -50,9 +51,10 @@ function parseCSV(text){
       field += c; i++; continue;
     }
   }
-  if(field.length || row.length) { pushField(); pushRow(); }
+  if(field.length || row.length){ pushField(); pushRow(); }
   return rows;
 }
+
 async function loadCSV(url){
   const res = await fetch(url);
   const txt = await res.text();
@@ -80,6 +82,7 @@ const classificationLabels = new Map(); // id -> {label, description}
 const qualifierLabels = new Map();      // code -> description
 const refsMap = new Map();              // id -> full_reference
 let dataset = [];
+let classMap = new Map();               // canon drug -> class
 
 /* UI refs */
 const drug1Sel = document.getElementById('drug1');
@@ -129,7 +132,25 @@ function findMatches(drugs){
   return dataset.filter(r => r.key === k);
 }
 
-/* summary per diluent */
+/* ===== Same-class rule (SCV p.3) ===== */
+const FLAG_CLASSES = new Set(['Opioid','Dopamine antagonist']); // extend if needed
+
+function sharedFlagClass(drugs){
+  const counts = {};
+  drugs.map(d => d||'')
+       .map(s => s.toLowerCase().replace(/\s+/g,' '))
+       .forEach(k => {
+         const cls = classMap.get(k);
+         if(!cls) return;
+         counts[cls] = (counts[cls]||0) + 1;
+       });
+  for(const cls of Object.keys(counts)){
+    if(FLAG_CLASSES.has(cls) && counts[cls] >= 2) return cls;
+  }
+  return null;
+}
+
+/* ===== Summarise rows per diluent ===== */
 function summariseByDiluent(records){
   const by = new Map();
   records.forEach(r => {
@@ -170,12 +191,12 @@ function qualsHtml(qualCodes){
   return `<div class="section-title">Qualifiers</div><div class="qualifiers">${chips}</div>`;
 }
 
-/* render result cards and observation form logic */
+/* ===== Render results + observation form ===== */
 function renderResult(drugs, summaries){
   resultsEl.innerHTML = '';
 
   if(!summaries.length){
-    // No data case
+    // No data
     const wrap = document.createElement('div');
     wrap.className = 'result';
     wrap.innerHTML = `
@@ -189,7 +210,6 @@ function renderResult(drugs, summaries){
   }
 
   let anyAnecdotal = false;
-
   summaries.forEach(s => {
     const cls = classificationLabels.get((s.classification||'').toString()) || {label:'', description:''};
     if(s.classification === '1') anyAnecdotal = true;
@@ -215,7 +235,7 @@ function renderResult(drugs, summaries){
   }
 }
 
-/* Observation panel -> Google Form */
+/* ===== Observation panel -> Google Form ===== */
 function renderObservationPanel(drugs, noData, anecdotal){
   if(!GOOGLE_FORM.enabled) return;
 
@@ -255,7 +275,7 @@ function renderObservationPanel(drugs, noData, anecdotal){
     params.set(F.combo_drug_2, d2);
     if(d3) params.set(F.combo_drug_3, d3);
 
-    // Context label rather than numeric code (per your spec)
+    // Context label (not numeric)
     params.set(F.classification_at_search, noData ? 'No data' : 'Appears compatible');
 
     params.set(F.q1_used_in_practice, document.getElementById('q1').value);
@@ -275,7 +295,7 @@ function renderObservationPanel(drugs, noData, anecdotal){
    INIT
 ======================= */
 async function init(){
-  // load legends
+  // legends
   try{
     const [cl, ql] = await Promise.all([
       loadCSV(DATA.classLegend),
@@ -291,6 +311,16 @@ async function init(){
     rows.forEach(r => { if(r.id) refsMap.set(r.id.trim(), (r.full_reference||'').trim()); });
   }catch(e){ console.warn('reference.csv missing?', e); }
 
+  // class map (same-class rule)
+  try{
+    const {rows} = await loadCSV(DATA.classes);
+    rows.forEach(r=>{
+      const name = (r.drug_name||'').trim();
+      const cls  = (r.class||'').trim();
+      if(name && cls) classMap.set((name.toLowerCase().replace(/\s+/g,' ')), cls);
+    });
+  }catch(e){ console.warn('drug_classes.csv missing?', e); }
+
   // dataset
   const main = await loadCSV(DATA.main);
   dataset = main.rows.map(r => {
@@ -301,25 +331,43 @@ async function init(){
       drugs: [a,b,c].filter(Boolean),
       diluent: r.diluent||'',
       classification: (r.classification||'').trim(),   // "1","2","3","5","6","7"
-      qualifiers: (r.qualifiers||'').trim(),           // letters: C,H,O,S,P (comma/pipe separated ok)
+      qualifiers: (r.qualifiers||'').trim(),           // letters: C,H,O,S,P (comma/pipe ok)
       reference_ids: (r.reference_ids||'').trim()
     };
   });
 
+  // dropdowns
   buildDrugOptions();
 
+  // search
   document.getElementById('searchForm').addEventListener('submit', (e)=>{
     e.preventDefault();
     const d1 = drug1Sel.value, d2 = drug2Sel.value, d3 = drug3Sel.value;
     if(!nonEmpty(d1) || !nonEmpty(d2)){ alert('Please select at least two medicines.'); return; }
 
     const chosen = d3 ? [d1,d2,d3] : [d1,d2];
+
+    // apply same-class rule (Code 5) before any dataset lookup
+    const clsHit = sharedFlagClass(chosen);
+    if(clsHit){
+      // This class-based rule applies regardless of diluent — present a single black badge
+      const summaries = [{
+        diluent: '—',
+        classification: '5',
+        qualifiers: [],
+        references: []
+      }];
+      renderResult(chosen, summaries);
+      return;
+    }
+
     const matches = findMatches(chosen);
     const summaries = summariseByDiluent(matches);
-
     renderResult(chosen, summaries);
   });
 
-  document.getElementById('dataVersion').textContent = new Date().toISOString().slice(0,10);
+  // footer version stamp
+  const vEl = document.getElementById('dataVersion');
+  if(vEl) vEl.textContent = new Date().toISOString().slice(0,10);
 }
 init();
