@@ -1,9 +1,10 @@
 id,label,description
-1,Appears compatible,Based on anecdotal evidence, based on observational information.
-2,Use with caution,Reports of incompatibility, compatibility may depend on order of mixing or medication concentrations.
-3,Incompatible,Do not use, incompatible at usual concentrations.
+1,Appears compatible,Appears compatible. Information is gathered from the clinical setting based on observation of the medication combination on mixing and during infusion for any physical changes e.g. precipitation or discolouration or clouding. The information is not validated evidence-based research. 
+2,Use with caution,Use with caution reports of incompatibility or compatibility may depend on order of mixing or medication concentrations
+3,Incompatible,Do not use as incompatible at usual concentrations.
 4,No Data,No published compatibility found for this combination.
 5,Combination generally not recommended,Not applicable or not generally recommended e.g. seek specialist advice as may be in the same medication class.
-6,Physical Compatibility Reported,Laboratory information exists for physical compatibility in varying ambient conditions.
-7,Physical and Chemical Compatibility Reported,Laboratory information exists for both physical or chemical compatibility in varying ambient conditions.
+6,Physical Compatibility Reported,Reported compatible (data may be observational but also some laboratory information exists for physical compatibility in varying ambient conditions).
+7,Physical and Chemical Compatibility Reported,Reported compatible (data may be observational but also some laboratory information exists for both physical or chemical compatibility in varying ambient conditions).
+
 
