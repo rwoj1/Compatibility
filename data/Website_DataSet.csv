@@ -1,0 +1,500 @@
+drug_1,drug_2,drug_3,diluent,classification,qualifiers,reference_ids
+Cyclizine,Fentanyl,,Water for injection,2,,"2, 4"
+Glycopyrronium bromide (glycopyrrolate),Fentanyl,,Water for injection,1,,4
+Haloperidol,Fentanyl,,Water for injection,1,H,4
+Hyoscine Butylbromide,Fentanyl,,Water for injection,1,,4
+Levomepromazine,Fentanyl,,Water for injection,1,,4
+Metoclopramide,Fentanyl,,Water for injection,1,,4
+Midazolam,Fentanyl,,Water for injection,1,,4
+Ondansetron,Fentanyl,,Water for injection,1,,4
+Ranitidine,Fentanyl,,Water for injection,1,,4
+Ketamine,Fentanyl,,Sodium chloride 0.9%,7,,"2, 3"
+Midazolam,Fentanyl,,Sodium chloride 0.9%,7,,2
+Ondansetron,Fentanyl,,Sodium chloride 0.9%,7,,2
+Ranitidine,Fentanyl,,Sodium chloride 0.9%,1,,4
+Cyclizine,Hydromorphone,,Water for injection,2,,"1,2, 3"
+Glycopyrronium bromide (glycopyrrolate),Hydromorphone,,Water for injection,7,,"1, 2"
+Haloperidol,Hydromorphone,,Water for injection,2,H,"1, 2"
+Hyoscine Butylbromide,Hydromorphone,,Water for injection,7,,"1, 2"
+Ketamine,Hydromorphone,,Water for injection,7,,"1, 2"
+Ketorolac,Hydromorphone,,Water for injection,2,,1
+Levomepromazine,Hydromorphone,,Water for injection,7,,"1, 2"
+Metoclopramide,Hydromorphone,,Water for injection,7,,"1, 2"
+Midazolam,Hydromorphone,,Water for injection,7,,"1, 2"
+Octreotide,Hydromorphone,,Water for injection,1,,4
+Clonazepam,Hydromorphone,,Sodium chloride 0.9%,1,C,"1, 4"
+Glycopyrronium bromide (glycopyrrolate),Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2"
+Haloperidol,Hydromorphone,,Sodium chloride 0.9%,2,H,"1, 2"
+Hyoscine Butylbromide,Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2"
+Ketamine,Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2"
+Ketorolac,Hydromorphone,,Sodium chloride 0.9%,1,,4
+Levomepromazine,Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2"
+Metoclopramide,Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2"
+Midazolam,Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2"
+Octreotide,Hydromorphone,,Sodium chloride 0.9%,1,,4
+Ondansetron,Hydromorphone,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Ranitidine,Hydromorphone,,Sodium chloride 0.9%,1,,4
+Clonazepam,Methadone,,Water for injection,1,C,4
+Cyclizine,Methadone,,Water for injection,1,,4
+Haloperidol,Methadone,,Water for injection,1,H,4
+Hyoscine Butylbromide,Methadone,,Water for injection,1,,4
+Ketamine,Methadone,,Water for injection,1,,4
+Levomepromazine,Methadone,,Water for injection,1,,4
+Metoclopramide,Methadone,,Water for injection,1,,4
+Midazolam,Methadone,,Water for injection,1,,4
+Ranitidine,Methadone,,Water for injection,1,,4
+Clonazepam,Methadone,,Sodium chloride 0.9%,1,C,2
+Glycopyrronium bromide (glycopyrrolate),Methadone,,Sodium chloride 0.9%,1,,2
+Haloperidol,Methadone,,Sodium chloride 0.9%,1,H,2
+Hyoscine Butylbromide,Methadone,,Sodium chloride 0.9%,1,,4
+Ketamine,Methadone,,Sodium chloride 0.9%,1,,4
+Ketorolac,Methadone,,Sodium chloride 0.9%,6,P,"2, 3"
+Levomepromazine,Methadone,,Sodium chloride 0.9%,1,,4
+Midazolam,Methadone,,Sodium chloride 0.9%,1,,2
+Octreotide,Methadone,,Sodium chloride 0.9%,1,,4
+Ranitidine,Methadone,,Sodium chloride 0.9%,1,,4
+Haloperidol,Morphine hydrochloride,,Water for injection,6,H,3
+Hyoscine Butylbromide,Morphine hydrochloride,,Water for injection,6,,3
+Haloperidol,Morphine hydrochloride,,Sodium chloride 0.9%,7,H,"2, 4"
+Hyoscine Butylbromide,Morphine hydrochloride,,Sodium chloride 0.9%,7,,"2, 3"
+Ketorolac,Morphine hydrochloride,,Sodium chloride 0.9%,2,,2
+Metoclopramide,Morphine hydrochloride,,Sodium chloride 0.9%,6,,"2, 3, 4"
+Midazolam,Morphine hydrochloride,,Sodium chloride 0.9%,7,,"2, 3"
+Clonazepam,Morphine sulfate,,Water for injection,1,C,"1, 4"
+Cyclizine,Morphine sulfate,,Water for injection,7,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Morphine sulfate,,Water for injection,1,,1
+Haloperidol,Morphine sulfate,,Water for injection,7,H,"1, 2"
+Hyoscine Butylbromide,Morphine sulfate,,Water for injection,7,,"1, 2"
+Ketamine,Morphine sulfate,,Water for injection,1,,1
+Ketorolac,Morphine sulfate,,Water for injection,3,,1
+Levetiracetam,Morphine sulfate,,Water for injection,1,,4
+Levomepromazine,Morphine sulfate,,Water for injection,7,,"1, 2"
+Metoclopramide,Morphine sulfate,,Water for injection,7,,"1, 2"
+Midazolam,Morphine sulfate,,Water for injection,7,,"1, 2"
+Octreotide,Morphine sulfate,,Water for injection,1,,"1, 4"
+Ondansetron,Morphine sulfate,,Water for injection,1,,"2, 4"
+Ranitidine,Morphine sulfate,,Water for injection,1,,4
+Clonazepam,Morphine sulfate,,Sodium chloride 0.9%,1,C,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Morphine sulfate,,Sodium chloride 0.9%,1,,4
+Haloperidol,Morphine sulfate,,Sodium chloride 0.9%,1,H,"1, 2"
+Hyoscine Butylbromide,Morphine sulfate,,Sodium chloride 0.9%,1,,1
+Ketamine,Morphine sulfate,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Levetiracetam,Morphine sulfate,,Sodium chloride 0.9%,1,,4
+Levomepromazine,Morphine sulfate,,Sodium chloride 0.9%,1,,"1, 2"
+Metoclopramide,Morphine sulfate,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Midazolam,Morphine sulfate,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Octreotide,Morphine sulfate,,Sodium chloride 0.9%,1,,"1, 2"
+Ondansetron,Morphine sulfate,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Ranitidine,Morphine sulfate,,Sodium chloride 0.9%,1,,4
+Clonazepam,Oxycodone,,Water for injection,6,C,"1, 2"
+Cyclizine,Oxycodone,,Water for injection,2,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Oxycodone,,Water for injection,7,,"1, 2"
+Haloperidol,Oxycodone,,Water for injection,7,H,"1, 2"
+Hyoscine Butylbromide,Oxycodone,,Water for injection,7,,"1, 2, 3"
+Ketamine,Oxycodone,,Water for injection,7,,"2, 4"
+Ketorolac,Oxycodone,,Water for injection,6,,2
+Levetiracetam,Oxycodone,,Water for injection,1,,5
+Levomepromazine,Oxycodone,,Water for injection,7,,"1, 2"
+Metoclopramide,Oxycodone,,Water for injection,7,,"1, 2, 3"
+Midazolam,Oxycodone,,Water for injection,7,,"1, 2"
+Octreotide,Oxycodone,,Water for injection,6,,"1, 2"
+Ondansetron,Oxycodone,,Water for injection,6,,2
+Ranitidine,Oxycodone,,Water for injection,6,,2
+Clonazepam,Oxycodone,,Sodium chloride 0.9%,6,C,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Oxycodone,,Sodium chloride 0.9%,7,,"2, 4"
+Haloperidol,Oxycodone,,Sodium chloride 0.9%,7,H,"1, 2, 3"
+Hyoscine Butylbromide,Oxycodone,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Ketamine,Oxycodone,,Sodium chloride 0.9%,7,,"1, 2"
+Ketorolac,Oxycodone,,Sodium chloride 0.9%,6,,"1, 2"
+Levomepromazine,Oxycodone,,Sodium chloride 0.9%,7,,"1, 2"
+Metoclopramide,Oxycodone,,Sodium chloride 0.9%,7,,"1, 2, 3"
+Midazolam,Oxycodone,,Sodium chloride 0.9%,7,,"1, 2"
+Octreotide,Oxycodone,,Sodium chloride 0.9%,6,,"1, 2"
+Ondansetron,Oxycodone,,Sodium chloride 0.9%,6,,"1, 2"
+Ranitidine,Oxycodone,,Sodium chloride 0.9%,6,,"2, 4"
+Clonazepam,Cyclizine,,Water for injection,1,C,1
+Clonazepam,Glycopyrronium bromide (glycopyrrolate),,Water for injection,1,C,"1, 2"
+Clonazepam,Haloperidol,,Water for injection,1,"C, H","1, 2, 4"
+Clonazepam,Hyoscine Butylbromide,,Water for injection,1,C,"1, 2, 4"
+Clonazepam,Levomepromazine,,Water for injection,1,C,4
+Clonazepam,Metoclopramide,,Water for injection,1,C,"2, 4"
+Clonazepam,Midazolam,,Water for injection,1,C,1
+Clonazepam,Ondansetron,,Water for injection,1,C,2
+Cyclizine,Glycopyrronium bromide (glycopyrrolate),,Water for injection,1,,4
+Cyclizine,Haloperidol,,Water for injection,1,H,"1, 2"
+Cyclizine,Hyoscine Butylbromide,,Water for injection,3,,"1, 4"
+Cyclizine,Ketorolac,,Water for injection,3,,"1, 2"
+Cyclizine,Levomepromazine,,Water for injection,1,,4
+Cyclizine,Metoclopramide,,Water for injection,2,,"2, 4"
+Cyclizine,Midazolam,,Water for injection,1,,"1, 4"
+Cyclizine,Octreotide,,Water for injection,1,,"1, 4"
+Cyclizine,Ondansetron,,Water for injection,3,,4
+Cyclizine,Ranitidine,,Water for injection,1,,4
+Glycopyrronium bromide (glycopyrrolate),Haloperidol,,Water for injection,1,H,1
+Glycopyrronium bromide (glycopyrrolate),Ketamine,,Water for injection,1,,1
+Glycopyrronium bromide (glycopyrrolate),Ketorolac,,Water for injection,3,,1
+Glycopyrronium bromide (glycopyrrolate),Levomepromazine,,Water for injection,1,,"1, 4"
+Glycopyrronium bromide (glycopyrrolate),Metoclopramide,,Water for injection,1,,"1, 4"
+Glycopyrronium bromide (glycopyrrolate),Midazolam,,Water for injection,1,,"1, 2, 4"
+Glycopyrronium bromide (glycopyrrolate),Octreotide,,Water for injection,1,,"1, 2, 4"
+Glycopyrronium bromide (glycopyrrolate),Ranitidine,,Water for injection,1,,2
+Haloperidol,Hyoscine Butylbromide,,Water for injection,1,H,"1, 2"
+Haloperidol,Ketamine,,Water for injection,1,H,"1, 4"
+Haloperidol,Ketorolac,,Water for injection,3,H,1
+Haloperidol,Midazolam,,Water for injection,1,H,"1, 4"
+Haloperidol,Octreotide,,Water for injection,1,H,"1, 2, 4"
+Haloperidol,Ondansetron,,Water for injection,1,H,4
+Haloperidol,Ranitidine,,Water for injection,1,H,4
+Hyoscine Butylbromide,Levetiracetam,,Water for injection,1,,4
+Hyoscine Butylbromide,Levomepromazine,,Water for injection,1,,"1, 2, 4"
+Hyoscine Butylbromide,Metoclopramide,,Water for injection,1,,4
+Hyoscine Butylbromide,Midazolam,,Water for injection,1,,1
+Hyoscine Butylbromide,Octreotide,,Water for injection,1,,"1, 4"
+Hyoscine Butylbromide,Ondansetron,,Water for injection,1,,4
+Hyoscine Butylbromide,Ranitidine,,Water for injection,1,,4
+Ketamine,Levetiracetam,,Water for injection,1,,4
+Ketamine,Levomepromazine,,Water for injection,1,,2
+Ketamine,Metoclopramide,,Water for injection,1,,1
+Ketamine,Midazolam,,Water for injection,1,,1
+Ketorolac,Levomepromazine,,Water for injection,3,,1
+Ketorolac,Metoclopramide,,Water for injection,1,,4
+Ketorolac,Midazolam,,Water for injection,3,,1
+Ketorolac,Ranitidine,,Water for injection,1,,4
+Levetiracetam,Metoclopramide,,Water for injection,1,,6
+Levetiracetam,Midazolam,,Water for injection,1,,4
+Levomepromazine,Midazolam,,Water for injection,1,,"1, 2"
+Levomepromazine,Octreotide,,Water for injection,1,,"1, 2, 4"
+Levomepromazine,Ondansetron,,Water for injection,1,,4
+Levomepromazine,Ranitidine,,Water for injection,2,,"2, 4"
+Metoclopramide,Midazolam,,Water for injection,1,,"1, 2"
+Metoclopramide,Octreotide,,Water for injection,1,,"1, 2"
+Metoclopramide,Ondansetron,,Water for injection,1,,4
+Metoclopramide,Ranitidine,,Water for injection,1,,4
+Midazolam,Octreotide,,Water for injection,1,,"1, 4"
+Midazolam,Ondansetron,,Water for injection,1,,4
+Midazolam,Ranitidine,,Water for injection,3,,"3, 4"
+Octreotide,Ondansetron,,Water for injection,1,,"1, 2"
+Clonazepam,Glycopyrronium bromide (glycopyrrolate),,Sodium chloride 0.9%,1,C,"1, 4"
+Clonazepam,Haloperidol,,Sodium chloride 0.9%,1,"C, H","1, 2"
+Clonazepam,Hyoscine Butylbromide,,Sodium chloride 0.9%,1,C,"2, 4"
+Clonazepam,Ketamine,,Sodium chloride 0.9%,1,C,1
+Clonazepam,Ketorolac,,Sodium chloride 0.9%,1,C,4
+Clonazepam,Levomepromazine,,Sodium chloride 0.9%,1,C,"1, 2, 4"
+Clonazepam,Metoclopramide,,Sodium chloride 0.9%,1,C,"1, 2"
+Clonazepam,Midazolam,,Sodium chloride 0.9%,1,C,1
+Clonazepam,Octreotide,,Sodium chloride 0.9%,1,C,"1, 2, 4"
+Clonazepam,Ondansetron,,Sodium chloride 0.9%,1,C,4
+Glycopyrronium bromide (glycopyrrolate),Haloperidol,,Sodium chloride 0.9%,1,H,2
+Glycopyrronium bromide (glycopyrrolate),Hyoscine Butylbromide,,Sodium chloride 0.9%,1,,1
+Glycopyrronium bromide (glycopyrrolate),Ketamine,,Sodium chloride 0.9%,1,,4
+Glycopyrronium bromide (glycopyrrolate),Ketorolac,,Sodium chloride 0.9%,3,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Levetiracetam,,Sodium chloride 0.9%,1,,4
+Glycopyrronium bromide (glycopyrrolate),Levomepromazine,,Sodium chloride 0.9%,1,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Metoclopramide,,Sodium chloride 0.9%,1,,"2, 4"
+Glycopyrronium bromide (glycopyrrolate),Midazolam,,Sodium chloride 0.9%,1,,4
+Glycopyrronium bromide (glycopyrrolate),Octreotide,,Sodium chloride 0.9%,1,,"1, 2"
+Glycopyrronium bromide (glycopyrrolate),Ondansetron,,Sodium chloride 0.9%,7,,"1, 2"
+Haloperidol,Hyoscine Butylbromide,,Sodium chloride 0.9%,2,H,"1, 2, 3"
+Haloperidol,Ketamine,,Sodium chloride 0.9%,1,H,"1, 2"
+Haloperidol,Ketorolac,,Sodium chloride 0.9%,2,H,"1, 3"
+Haloperidol,Midazolam,,Sodium chloride 0.9%,7,H,"1, 2, 3, 4"
+Haloperidol,Octreotide,,Sodium chloride 0.9%,1,H,"1, 4"
+Haloperidol,Ondansetron,,Sodium chloride 0.9%,6,H,3
+Haloperidol,Ranitidine,,Sodium chloride 0.9%,1,H,4
+Hyoscine Butylbromide,Ketamine,,Sodium chloride 0.9%,1,,4
+Hyoscine Butylbromide,Ketorolac,,Sodium chloride 0.9%,6,,3
+Hyoscine Butylbromide,Levetiracetam,,Sodium chloride 0.9%,1,,4
+Hyoscine Butylbromide,Levomepromazine,,Sodium chloride 0.9%,1,,"1, 2, 3"
+Hyoscine Butylbromide,Metoclopramide,,Sodium chloride 0.9%,6,,"2, 3"
+Hyoscine Butylbromide,Midazolam,,Sodium chloride 0.9%,7,,"1, 2"
+Hyoscine Butylbromide,Octreotide,,Sodium chloride 0.9%,1,,1
+Hyoscine Butylbromide,Ondansetron,,Sodium chloride 0.9%,1,,2
+Hyoscine Butylbromide,Ranitidine,,Sodium chloride 0.9%,1,,4
+Ketamine,Ketorolac,,Sodium chloride 0.9%,1,,4
+Ketamine,Levomepromazine,,Sodium chloride 0.9%,1,,"1, 2, 4"
+Ketamine,Metoclopramide,,Sodium chloride 0.9%,1,,4
+Ketamine,Midazolam,,Sodium chloride 0.9%,6,,"1, 2, 3, 4"
+Ketamine,Octreotide,,Sodium chloride 0.9%,1,,4
+Ketorolac,Levomepromazine,,Sodium chloride 0.9%,3,,1
+Ketorolac,Metoclopramide,,Sodium chloride 0.9%,2,,"2, 3"
+Ketorolac,Midazolam,,Sodium chloride 0.9%,2,,1
+Ketorolac,Octreotide,,Sodium chloride 0.9%,1,,1
+Ketorolac,Ranitidine,,Sodium chloride 0.9%,1,,2
+Levetiracetam,Levomepromazine,,Sodium chloride 0.9%,1,,4
+Levetiracetam,Midazolam,,Sodium chloride 0.9%,1,,4
+Levomepromazine,Midazolam,,Sodium chloride 0.9%,1,,"1, 2"
+Levomepromazine,Octreotide,,Sodium chloride 0.9%,1,,4
+Levomepromazine,Ondansetron,,Sodium chloride 0.9%,1,,"2, 4"
+Levomepromazine,Ranitidine,,Sodium chloride 0.9%,2,,"2, 4"
+Metoclopramide,Midazolam,,Sodium chloride 0.9%,6,,"1, 2"
+Metoclopramide,Octreotide,,Sodium chloride 0.9%,1,,"2, 4"
+Metoclopramide,Ondansetron,,Sodium chloride 0.9%,7,,"2, 4"
+Metoclopramide,Ranitidine,,Sodium chloride 0.9%,7,,"3, 4"
+Midazolam,Octreotide,,Sodium chloride 0.9%,1,,"1, 4"
+Midazolam,Ondansetron,,Sodium chloride 0.9%,7,,"1, 2"
+Midazolam,Ranitidine,,Sodium chloride 0.9%,3,,4
+Octreotide,Ondansetron,,Sodium chloride 0.9%,1,,"1, 2"
+Octreotide,Ranitidine,,Sodium chloride 0.9%,1,,4
+Fentanyl,cyclizine,Midazolam,Water for injection,2,,2
+Fentanyl,Glycopyrronium bromide (glycopyrrolate),Midazolam,Water for injection,1,,4
+Fentanyl,Haloperidol,Midazolam,Water for injection,1,H,4
+Fentanyl,hyoscine butylbromide,Levomepromazine,Water for injection,1,,4
+Fentanyl,hyoscine butylbromide,Midazolam,Water for injection,1,,4
+Fentanyl,levomepromazine,Midazolam,Water for injection,1,,4
+Fentanyl,metoclopramide,Ondansetron,Water for injection,1,,4
+Fentanyl,metoclopramide,Ranitidine,Water for injection,1,,4
+Fentanyl,Haloperidol,Midazolam,Sodium chloride 0.9%,1,H,"2, 4"
+Hydromorphone,cyclizine,Haloperidol,Water for injection,2,H,"2, 4"
+Hydromorphone,cyclizine,Midazolam,Water for injection,2,,2
+Hydromorphone,cyclizine,Octreotide,Water for injection,2,,"1, 2"
+Hydromorphone,Haloperidol,Ketamine,Water for injection,2,"H, S","1, 4"
+Hydromorphone,Haloperidol,Ketorolac,Water for injection,3,H,"1, 2"
+Hydromorphone,Haloperidol,Midazolam,Water for injection,2,H,"1, 4"
+Hydromorphone,levomepromazine,Midazolam,Water for injection,1,S,"1, 4"
+Hydromorphone,levomepromazine,Octreotide,Water for injection,1,,4
+Hydromorphone,metoclopramide,Midazolam,Water for injection,1,,"1, 4"
+Hydromorphone,Clonazepam,Haloperidol,Sodium chloride 0.9%,2,"C, H",4
+Hydromorphone,Haloperidol,Ketamine,Sodium chloride 0.9%,2,H,4
+Hydromorphone,Haloperidol,Ketorolac,Sodium chloride 0.9%,3,H,"1, 2"
+Hydromorphone,Haloperidol,Midazolam,Sodium chloride 0.9%,2,H,"1, 2, 4"
+Hydromorphone,Haloperidol,Ranitidine,Sodium chloride 0.9%,2,H,4
+Hydromorphone,hyoscine butylbromide,Levomepromazine,Sodium chloride 0.9%,7,,"2, 4"
+Hydromorphone,hyoscine butylbromide,Midazolam,Sodium chloride 0.9%,1,,4
+Hydromorphone,ketamine,Levomepromazine,Sodium chloride 0.9%,1,,4
+Hydromorphone,ketamine,Midazolam,Sodium chloride 0.9%,1,S,"1, 2, 4"
+Hydromorphone,ketorolac,Metoclopramide,Sodium chloride 0.9%,1,,4
+Hydromorphone,levomepromazine,Midazolam,Sodium chloride 0.9%,7,,"1, 2, 4"
+Hydromorphone,levomepromazine,Ranitidine,Sodium chloride 0.9%,2,,4
+Hydromorphone,metoclopramide,Midazolam,Sodium chloride 0.9%,7,,"1, 2, 4"
+Hydromorphone,metoclopramide,Octreotide,Sodium chloride 0.9%,1,,4
+Hydromorphone,metoclopramide,Ondansetron,Sodium chloride 0.9%,1,,4
+Hydromorphone,octreotide,Ondansetron,Sodium chloride 0.9%,1,,4
+Methadone,Clonazepam,Haloperidol,Water for injection,1,"C, H",4
+Methadone,Clonazepam,Hyoscine butylbromide,Water for injection,1,C,4
+Methadone,Clonazepam,Metoclopramide,Water for injection,2,C,4
+Methadone,Haloperidol,Ketamine,Water for injection,1,H,4
+Methadone,Haloperidol,Midazolam,Water for injection,1,H,4
+Methadone,hyoscine butylbromide,Levomepromazine,Water for injection,1,,4
+Methadone,ketamine,Midazolam,Water for injection,1,,4
+Methadone,levomepromazine,Midazolam,Water for injection,2,,4
+Methadone,metoclopramide,Midazolam,Water for injection,1,,4
+Methadone,metoclopramide,Ranitidine,Water for injection,1,,4
+Methadone,Clonazepam,Haloperidol,Sodium chloride 0.9%,1,"C, H",2
+Methadone,Clonazepam,Levomepromazine,Sodium chloride 0.9%,1,C,4
+Methadone,Glycopyrronium bromide (glycopyrrolate),Midazolam,Sodium chloride 0.9%,1,,2
+Methadone,Haloperidol,Ketamine,Sodium chloride 0.9%,1,H,4
+Methadone,Haloperidol,Midazolam,Sodium chloride 0.9%,1,H,2
+Methadone,hyoscine butylbromide,Ranitidine,Sodium chloride 0.9%,1,,4
+Methadone,levomepromazine,Midazolam,Sodium chloride 0.9%,1,,4
+Methadone,octreotide,Ranitidine,Sodium chloride 0.9%,1,,4
+Morphine hydrochloride,Haloperidol,Hyoscine butylbromide,Sodium chloride 0.9%,7,H,2
+Morphine hydrochloride,Haloperidol,Ketorolac,Sodium chloride 0.9%,2,H,3
+Morphine hydrochloride,Haloperidol,Midazolam,Sodium chloride 0.9%,6,H,2
+Morphine hydrochloride,hyoscine butylbromide,Ketorolac,Sodium chloride 0.9%,2,,"2, 3"
+Morphine hydrochloride,hyoscine butylbromide,Metoclopramide,Sodium chloride 0.9%,6,,"2, 3"
+Morphine hydrochloride,hyoscine butylbromide,Midazolam,Sodium chloride 0.9%,2,,"2, 3"
+Morphine hydrochloride,ketorolac,Metoclopramide,Sodium chloride 0.9%,2,,"2, 3"
+Morphine hydrochloride,levomepromazine,Midazolam,Sodium chloride 0.9%,3,,3
+Morphine hydrochloride,metoclopramide,Midazolam,Sodium chloride 0.9%,6,,2
+Morphine sulfate,Clonazepam,Cyclizine,Water for injection,1,C,"1, 2"
+Morphine sulfate,Clonazepam,Haloperidol,Water for injection,1,"C, H",4
+Morphine sulfate,Clonazepam,Hyoscine butylbromide,Water for injection,1,C,4
+Morphine sulfate,Clonazepam,Levomepromazine,Water for injection,1,C,2
+Morphine sulfate,Clonazepam,Metoclopramide,Water for injection,1,C,4
+Morphine sulfate,cyclizine,Glycopyrronium bromide (glycopyrrolate),Water for injection,1,,4
+Morphine sulfate,cyclizine,Haloperidol,Water for injection,7,H,"1, 2, 4"
+Morphine sulfate,cyclizine,Hyoscine butylbromide,Water for injection,3,,"1, 2, 4"
+Morphine sulfate,cyclizine,Levomepromazine,Water for injection,1,,"2, 4"
+Morphine sulfate,cyclizine,Midazolam,Water for injection,7,,"1, 2, 4"
+Morphine sulfate,cyclizine,Octreotide,Water for injection,1,,4
+Morphine sulfate,cyclizine,Ranitidine,Water for injection,2,,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Haloperidol,Water for injection,1,H,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,Water for injection,1,,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Midazolam,Water for injection,7,,"1, 2, 4"
+Morphine sulfate,Haloperidol,Hyoscine butylbromide,Water for injection,7,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Midazolam,Water for injection,7,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Octreotide,Water for injection,1,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Ranitidine,Water for injection,1,H,4
+Morphine sulfate,hyoscine butylbromide,Levomepromazine,Water for injection,1,,"1, 4"
+Morphine sulfate,hyoscine butylbromide,Midazolam,Water for injection,7,,"1, 2, 4"
+Morphine sulfate,hyoscine butylbromide,Octreotide,Water for injection,1,,4
+Morphine sulfate,hyoscine butylbromide,Ondansetron,Water for injection,1,,4
+Morphine sulfate,hyoscine butylbromide,Ranitidine,Water for injection,1,,4
+Morphine sulfate,ketamine,Midazolam,Water for injection,1,,4
+Morphine sulfate,levetiracetam,Midazolam,Water for injection,1,,4
+Morphine sulfate,levomepromazine,Midazolam,Water for injection,7,,"1, 2, 4"
+Morphine sulfate,levomepromazine,Octreotide,Water for injection,1,,4
+Morphine sulfate,levomepromazine,Ondansetron,Water for injection,1,,4
+Morphine sulfate,levomepromazine,Ranitidine,Water for injection,2,,4
+Morphine sulfate,metoclopramide,Midazolam,Water for injection,7,,"1, 2, 4"
+Morphine sulfate,metoclopramide,Ranitidine,Water for injection,1,,4
+Morphine sulfate,midazolam,Octreotide,Water for injection,1,,4
+Morphine sulfate,midazolam,Ranitidine,Water for injection,3,,4
+Morphine sulfate,Clonazepam,Haloperidol,Sodium chloride 0.9%,1,"C, H","1, 4"
+Morphine sulfate,Clonazepam,Hyoscine butylbromide,Sodium chloride 0.9%,1,C,"1, 2"
+Morphine sulfate,Clonazepam,Ketamine,Sodium chloride 0.9%,1,C,1
+Morphine sulfate,Clonazepam,Levomepromazine,Sodium chloride 0.9%,1,C,"1, 2"
+Morphine sulfate,Clonazepam,Metoclopramide,Sodium chloride 0.9%,1,C,1
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Levetiracetam,Sodium chloride 0.9%,1,,4
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,Sodium chloride 0.9%,1,,"1, 2"
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Metoclopramide,Sodium chloride 0.9%,1,,2
+Morphine sulfate,Glycopyrronium bromide (glycopyrrolate),Midazolam,Sodium chloride 0.9%,1,,"1, 2, 4"
+Morphine sulfate,Haloperidol,Hyoscine butylbromide,Sodium chloride 0.9%,2,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Ketamine,Sodium chloride 0.9%,1,H,"1, 2"
+Morphine sulfate,Haloperidol,Midazolam,Sodium chloride 0.9%,7,H,"1, 2, 4"
+Morphine sulfate,Haloperidol,Octreotide,Sodium chloride 0.9%,1,H,1
+Morphine sulfate,Haloperidol,Ondansetron,Sodium chloride 0.9%,1,H,4
+Morphine sulfate,hyoscine butylbromide,Levomepromazine,Sodium chloride 0.9%,7,,"1, 2, 4"
+Morphine sulfate,hyoscine butylbromide,Midazolam,Sodium chloride 0.9%,1,,"1, 2"
+Morphine sulfate,hyoscine butylbromide,Octreotide,Sodium chloride 0.9%,1,,"2, 4"
+Morphine sulfate,hyoscine butylbromide,Ondansetron,Sodium chloride 0.9%,1,,"2, 4"
+Morphine sulfate,ketamine,Metoclopramide,Sodium chloride 0.9%,1,,1
+Morphine sulfate,ketamine,Midazolam,Sodium chloride 0.9%,1,,"1, 4"
+Morphine sulfate,levetiracetam,Levomepromazine,Sodium chloride 0.9%,1,,4
+Morphine sulfate,levetiracetam,Midazolam,Sodium chloride 0.9%,7,,4
+Morphine sulfate,levomepromazine,Midazolam,Sodium chloride 0.9%,1,,"1, 2, 4"
+Morphine sulfate,levomepromazine,Octreotide,Sodium chloride 0.9%,1,,4
+Morphine sulfate,levomepromazine,Ondansetron,Sodium chloride 0.9%,7,,2
+Morphine sulfate,metoclopramide,Midazolam,Sodium chloride 0.9%,1,,"1, 2, 4"
+Morphine sulfate,metoclopramide,Octreotide,Sodium chloride 0.9%,1,,4
+Morphine sulfate,metoclopramide,Ondansetron,Sodium chloride 0.9%,1,,2
+Morphine sulfate,metoclopramide,Ranitidine,Sodium chloride 0.9%,1,,4
+Morphine sulfate,midazolam,Octreotide,Sodium chloride 0.9%,1,,"1, 2, 4"
+Morphine sulfate,midazolam,Ondansetron,Sodium chloride 0.9%,1,,4
+Morphine sulfate,midazolam,Ranitidine,Sodium chloride 0.9%,3,,4
+Oxycodone,Clonazepam,Glycopyrronium bromide (glycopyrrolate),Water for injection,1,"C, O",4
+Oxycodone,Clonazepam,Haloperidol,Water for injection,6,"C, H, O","1, 2, 4"
+Oxycodone,Clonazepam,Hyoscine butylbromide,Water for injection,6,"C, O","1, 2, 4"
+Oxycodone,Clonazepam,Levomepromazine,Water for injection,1,"C, O","1, 2, 4"
+Oxycodone,Clonazepam,Metoclopramide,Water for injection,6,"C, O","1, 2, 4"
+Oxycodone,cyclizine,Glycopyrronium bromide (glycopyrrolate),Water for injection,2,O,"1, 2"
+Oxycodone,cyclizine,Haloperidol,Water for injection,2,"H, O","1, 2, 4"
+Oxycodone,cyclizine,Hyoscine butylbromide,Water for injection,3,O,"1, 4"
+Oxycodone,cyclizine,Levomepromazine,Water for injection,2,O,2
+Oxycodone,cyclizine,Midazolam,Water for injection,2,O,"1, 2, 4"
+Oxycodone,cyclizine,Octreotide,Water for injection,2,O,4
+Oxycodone,cyclizine,Ondansetron,Water for injection,3,O,4
+Oxycodone,cyclizine,Ranitidine,Water for injection,2,O,4
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,Water for injection,1,O,2
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Metoclopramide,Water for injection,1,O,4
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Midazolam,Water for injection,7,O,"1, 2, 4"
+Oxycodone,Haloperidol,Hyoscine butylbromide,Water for injection,7,"H, O","1, 2, 4"
+Oxycodone,Haloperidol,Ketamine,Water for injection,6,"H, O","1, 2"
+Oxycodone,Haloperidol,Midazolam,Water for injection,7,"H, O","1, 2, 4"
+Oxycodone,Haloperidol,Octreotide,Water for injection,1,"H, O",4
+Oxycodone,Haloperidol,Ondansetron,Water for injection,1,"H, O",4
+Oxycodone,Haloperidol,Ranitidine,Water for injection,1,"H, O",4
+Oxycodone,hyoscine butylbromide,Levomepromazine,Water for injection,7,O,"1, 2, 4"
+Oxycodone,hyoscine butylbromide,Metoclopramide,Water for injection,1,O,4
+Oxycodone,hyoscine butylbromide,Midazolam,Water for injection,7,O,"1, 2, 4"
+Oxycodone,hyoscine butylbromide,Octreotide,Water for injection,7,O,"2, 4"
+Oxycodone,hyoscine butylbromide,Ondansetron,Water for injection,1,O,4
+Oxycodone,hyoscine butylbromide,Ranitidine,Water for injection,1,O,4
+Oxycodone,ketamine,Levomepromazine,Water for injection,7,O,2
+Oxycodone,ketamine,Midazolam,Water for injection,1,O,"1, 4"
+Oxycodone,ketorolac,Metoclopramide,Water for injection,1,O,"1, 4"
+Oxycodone,ketorolac,Ranitidine,Water for injection,6,O,2
+Oxycodone,levetiracetam,Metoclopramide,Water for injection,1,O,5
+Oxycodone,levetiracetam,Midazolam,Water for injection,1,O,4
+Oxycodone,levomepromazine,Midazolam,Water for injection,7,O,"1, 2, 4"
+Oxycodone,levomepromazine,Octreotide,Water for injection,6,"O, S","1, 2, 4"
+Oxycodone,levomepromazine,Ondansetron,Water for injection,1,O,"2, 4"
+Oxycodone,levomepromazine,Ranitidine,Water for injection,3,O,4
+Oxycodone,metoclopramide,Midazolam,Water for injection,7,O,"1, 2, 4"
+Oxycodone,metoclopramide,Octreotide,Water for injection,1,O,4
+Oxycodone,metoclopramide,Ranitidine,Water for injection,2,O,4
+Oxycodone,midazolam,Octreotide,Water for injection,1,O,"1, 4"
+Oxycodone,midazolam,Ondansetron,Water for injection,1,O,4
+Oxycodone,midazolam,Ranitidine,Water for injection,3,O,4
+Oxycodone,octreotide,Ondansetron,Water for injection,6,O,"1, 2"
+Oxycodone,Clonazepam,Glycopyrronium bromide (glycopyrrolate),Sodium chloride 0.9%,1,"C, O","1, 4"
+Oxycodone,Clonazepam,Haloperidol,Sodium chloride 0.9%,6,"C, H, O","1, 2, 4"
+Oxycodone,Clonazepam,Hyoscine butylbromide,Sodium chloride 0.9%,6,"C, O","1, 2"
+Oxycodone,Clonazepam,Ketamine,Sodium chloride 0.9%,1,"C, O","1, 4"
+Oxycodone,Clonazepam,Ketorolac,Sodium chloride 0.9%,1,"C, O",4
+Oxycodone,Clonazepam,Levomepromazine,Sodium chloride 0.9%,1,"C, O","1, 2, 4"
+Oxycodone,Clonazepam,Metoclopramide,Sodium chloride 0.9%,6,"C, O","1, 2"
+Oxycodone,Clonazepam,Octreotide,Sodium chloride 0.9%,1,"C, O","1, 2, 4"
+Oxycodone,Clonazepam,Ondansetron,Sodium chloride 0.9%,1,"C, O",4
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Ketamine,Sodium chloride 0.9%,1,O,"1, 4"
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Levomepromazine,Sodium chloride 0.9%,1,O,2
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Metoclopramide,Sodium chloride 0.9%,1,O,4
+Oxycodone,Glycopyrronium bromide (glycopyrrolate),Midazolam,Sodium chloride 0.9%,1,O,2
+Oxycodone,Haloperidol,Hyoscine butylbromide,Sodium chloride 0.9%,2,"H, O","1, 2, 4"
+Oxycodone,Haloperidol,Ketamine,Sodium chloride 0.9%,6,"H, O","1, 2, 4"
+Oxycodone,Haloperidol,Midazolam,Sodium chloride 0.9%,7,"H, O","1, 2, 4"
+Oxycodone,Haloperidol,Octreotide,Sodium chloride 0.9%,1,"H, O","1, 2, 4"
+Oxycodone,hyoscine butylbromide,Levomepromazine,Sodium chloride 0.9%,6,O,"1, 2, 4"
+Oxycodone,hyoscine butylbromide,Midazolam,Sodium chloride 0.9%,1,O,"1, 2, 4"
+Oxycodone,hyoscine butylbromide,Octreotide,Sodium chloride 0.9%,1,O,4
+Oxycodone,hyoscine butylbromide,Ranitidine,Sodium chloride 0.9%,1,O,4
+Oxycodone,ketamine,Levomepromazine,Sodium chloride 0.9%,1,O,"1, 4"
+Oxycodone,ketamine,Metoclopramide,Sodium chloride 0.9%,1,O,4
+Oxycodone,ketamine,Midazolam,Sodium chloride 0.9%,1,O,"1, 4"
+Oxycodone,ketamine,Octreotide,Sodium chloride 0.9%,1,O,4
+Oxycodone,ketorolac,Ranitidine,Sodium chloride 0.9%,6,O,2
+Oxycodone,levetiracetam,Midazolam,Sodium chloride 0.9%,1,O,6
+Oxycodone,levomepromazine,Midazolam,Sodium chloride 0.9%,7,O,"1, 2, 4"
+Oxycodone,levomepromazine,Octreotide,Sodium chloride 0.9%,6,O,"1, 2, 4"
+Oxycodone,levomepromazine,Ondansetron,Sodium chloride 0.9%,1,O,"2, 4"
+Oxycodone,levomepromazine,Ranitidine,Sodium chloride 0.9%,1,O,4
+Oxycodone,metoclopramide,Midazolam,Sodium chloride 0.9%,7,O,"1, 2, 4"
+Oxycodone,metoclopramide,Octreotide,Sodium chloride 0.9%,1,O,2
+Oxycodone,metoclopramide,Ondansetron,Sodium chloride 0.9%,1,O,2
+Oxycodone,metoclopramide,Ranitidine,Sodium chloride 0.9%,2,O,4
+Oxycodone,midazolam,Octreotide,Sodium chloride 0.9%,1,O,2
+Oxycodone,midazolam,Ondansetron,Sodium chloride 0.9%,1,O,"1, 2"
+Oxycodone,midazolam,Ranitidine,Sodium chloride 0.9%,3,O,4
+Oxycodone,octreotide,Ondansetron,Sodium chloride 0.9%,6,O,"1, 2, 4"
+Clonazepam,cyclizine,Midazolam,Water for injection,2,C,4
+Clonazepam,Haloperidol,Hyoscine butylbromide,Water for injection,1,"C, H",4
+cyclizine,Glycopyrronium bromide (glycopyrrolate),Haloperidol,Water for injection,1,H,4
+cyclizine,Haloperidol,Hyoscine butylbromide,Water for injection,3,H,1
+cyclizine,Haloperidol,Midazolam,Water for injection,1,H,"1, 2"
+cyclizine,Haloperidol,Octreotide,Water for injection,2,H,4
+cyclizine,Haloperidol,Ranitidine,Water for injection,1,H,4
+cyclizine,hyoscine butylbromide,Midazolam,Water for injection,3,,1
+cyclizine,levomepromazine,Octreotide,Water for injection,2,,4
+cyclizine,metoclopramide,Octreotide,Water for injection,2,,2
+Glycopyrronium bromide (glycopyrrolate),ketamine,Midazolam,Water for injection,1,,1
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Midazolam,Water for injection,1,,"2, 4"
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Octreotide,Water for injection,1,,"1, 2, 4"
+Haloperidol,hyoscine butylbromide,Midazolam,Water for injection,6,H,"1, 2, 4"
+Haloperidol,hyoscine butylbromide,Ranitidine,Water for injection,1,H,4
+Haloperidol,ketamine,Midazolam,Water for injection,1,"H, S","1, 4"
+hyoscine butylbromide,levetiracetam,Midazolam,Water for injection,1,,4
+hyoscine butylbromide,levomepromazine,Midazolam,Water for injection,1,,4
+hyoscine butylbromide,levomepromazine,Octreotide,Water for injection,1,S,"2, 4"
+hyoscine butylbromide,levomepromazine,Ranitidine,Water for injection,2,,4
+hyoscine butylbromide,metoclopramide,Octreotide,Water for injection,1,,4
+hyoscine butylbromide,octreotide,Ondansetron,Water for injection,1,,4
+ketamine,levomepromazine,Midazolam,Water for injection,1,,4
+levomepromazine,midazolam,Ondansetron,Water for injection,1,,4
+levomepromazine,octreotide,Ranitidine,Water for injection,3,,4
+metoclopramide,midazolam,Ranitidine,Water for injection,2,,4
+Clonazepam,levomepromazine,Ondansetron,Sodium chloride 0.9%,1,C,4
+Glycopyrronium bromide (glycopyrrolate),Haloperidol,Ondansetron,Sodium chloride 0.9%,1,H,2
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Midazolam,Sodium chloride 0.9%,1,,2
+Glycopyrronium bromide (glycopyrrolate),levomepromazine,Octreotide,Sodium chloride 0.9%,1,,"1, 2"
+Haloperidol,hyoscine butylbromide,Midazolam,Sodium chloride 0.9%,2,H,"1, 2"
+Haloperidol,hyoscine butylbromide,Octreotide,Sodium chloride 0.9%,2,H,4
+Haloperidol,hyoscine butylbromide,Ranitidine,Sodium chloride 0.9%,2,H,4
+Haloperidol,ketamine,Midazolam,Sodium chloride 0.9%,1,H,2
+Haloperidol,midazolam,Octreotide,Sodium chloride 0.9%,1,H,"2, 4"
+hyoscine butylbromide,ketamine,Levomepromazine,Sodium chloride 0.9%,1,,"1, 4"
+hyoscine butylbromide,ketorolac,Octreotide,Sodium chloride 0.9%,1,,1
+hyoscine butylbromide,levetiracetam,Levomepromazine,Sodium chloride 0.9%,1,,4
+hyoscine butylbromide,levomepromazine,Octreotide,Sodium chloride 0.9%,1,,"1, 4"
+hyoscine butylbromide,levomepromazine,Ondansetron,Sodium chloride 0.9%,1,,4
+hyoscine butylbromide,levomepromazine,Ranitidine,Sodium chloride 0.9%,2,,4
+hyoscine butylbromide,metoclopramide,Midazolam,Sodium chloride 0.9%,6,,2
+hyoscine butylbromide,midazolam,Octreotide,Sodium chloride 0.9%,1,,4
+hyoscine butylbromide,octreotide,Ondansetron,Sodium chloride 0.9%,1,,4
+hyoscine butylbromide,octreotide,Ranitidine,Sodium chloride 0.9%,1,,4
+ketamine,levomepromazine,Midazolam,Sodium chloride 0.9%,1,,4
+levomepromazine,midazolam,Octreotide,Sodium chloride 0.9%,1,,"1, 2"
+levomepromazine,octreotide,Ondansetron,Sodium chloride 0.9%,1,,2
+levomepromazine,octreotide,Ranitidine,Sodium chloride 0.9%,3,,4
+metoclopramide,midazolam,Ranitidine,Sodium chloride 0.9%,2,,4
+metoclopramide,octreotide,Ondansetron,Sodium chloride 0.9%,1,,2
+metoclopramide,octreotide,Ranitidine,Sodium chloride 0.9%,1,,4
