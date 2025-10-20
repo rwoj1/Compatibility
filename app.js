@@ -261,6 +261,7 @@ function renderObservationPanel(drugs, noData, anecdotal){
         <select id="q5"><option>24</option><option>48</option><option>&gt; 48</option></select>
       </label>` : ``}
     </div>
+    <p class="confirm-text">I confirm this is an observational report, de-identified, for quality improvement and to inform future compatibility research.</p>
     <button type="button" class="btn" id="openForm">Submit</button>
   `;
   resultsEl.appendChild(panel);
