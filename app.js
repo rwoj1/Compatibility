@@ -11,7 +11,7 @@ const DATA = {
 
 // Google Form settings (prefilled submission). Replace with your actual formResponse URL & entry IDs.
 const GOOGLE_FORM = {
-  enabled: true,
+  enabled: false,
   action: 'PASTE_YOUR_GOOGLE_FORM_formResponse_URL_HERE',
   fields: {
     combo_drug_1: 'entry.DRUG1',          // e.g., entry.1111111111
@@ -237,57 +237,218 @@ function renderResult(drugs, summaries){
 
 /* ===== Observation panel -> Google Form ===== */
 function renderObservationPanel(drugs, noData, anecdotal){
-  if(!GOOGLE_FORM.enabled) return;
+  // If the feature flag is off we will download a CSV locally.
+  // If it's on, we'll still open your Google Form (as before).
+  const usingGoogleForm = GOOGLE_FORM.enabled;
 
   const panel = document.createElement('div');
   panel.className = 'panel obs';
+
+  // Helper: build a <label><select> with a placeholder
+  const buildSelect = (id, labelText, options) => {
+    const wrap = document.createElement('label');
+    wrap.textContent = ''; // we’ll append nodes instead for better control
+
+    const title = document.createElement('span');
+    title.textContent = labelText;
+
+    const sel = document.createElement('select');
+    sel.id = id;
+
+    // Placeholder
+    const ph = document.createElement('option');
+    ph.value = '';
+    ph.textContent = 'Please Select';
+    ph.disabled = false; // we allow changes; validation handles empties
+    ph.selected = true;
+    sel.appendChild(ph);
+
+    // Real options
+    options.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.value ?? v;
+      opt.textContent = v.label ?? v;
+      sel.appendChild(opt);
+    });
+
+    wrap.appendChild(title);
+    wrap.appendChild(sel);
+    return wrap;
+  };
+
+  // Build the grid contents dynamically according to noData/anecdotal
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+
+  // Q1 (always visible when we ask for observations)
+  grid.appendChild(buildSelect('q1', 'Was this combination used in clinical practice?', [
+    {label:'Yes', value:'Yes'},
+    {label:'No',  value:'No'}
+  ]));
+
+  // When there is NO DATA, show the full set in THIS order:
+  // 2) Did the combination appear compatible (Yes / No)
+  // 3) How frequently was the infusion changed?
+  // 4) What diluent was used?
+  // 5) Was there an infusion reaction observed?
+  // 6) Was this combination administered for more than 24 hours?
+  if(noData){
+    grid.appendChild(buildSelect('q2', 'Did the combination appear compatible?', [
+      {label:'Yes', value:'Yes'},
+      {label:'No',  value:'No'}
+    ]));
+
+    grid.appendChild(buildSelect('q3', 'How frequently was the infusion changed?', [
+      {label:'24 hours', value:'24'},
+      {label:'48 hours', value:'48'},
+      {label:'> 48 hours', value:'> 48'}
+    ]));
+
+    grid.appendChild(buildSelect('q4', 'What diluent was used?', [
+      'Water for injection',
+      'Sodium chloride 0.9%',
+      'No diluent',
+      'Other'
+    ]));
+
+    grid.appendChild(buildSelect('q5', 'Was there an infusion reaction observed?', [
+      {label:'Yes', value:'Yes'},
+      {label:'No',  value:'No'}
+    ]));
+
+    grid.appendChild(buildSelect('q6', 'Was this combination administered for more than 24 hours?', [
+      {label:'Yes', value:'Yes'},
+      {label:'No',  value:'No'}
+    ]));
+  }
+
   panel.innerHTML = `
     <h4>Safer Care Victoria is collecting data on combinations used in practice to better inform future compatibility testing.</h4>
-    <div class="grid">
-      <label>Was this combination used in clinical practice?
-        <select id="q1"><option>Yes</option><option>No</option></select>
-      </label>
-      ${noData ? `
-      <label>Was this infusion administered for more than 24 hours?
-        <select id="q2"><option>Yes</option><option>No</option></select>
-      </label>
-      <label>What diluent was used?
-        <select id="q3"><option>Water for injection</option><option>Sodium chloride 0.9%</option><option>No diluent</option><option>Other</option></select>
-      </label>
-      <label>Was there an infusion reaction observed?
-        <select id="q4"><option>No</option><option>Yes</option></select>
-      </label>
-      <label>How frequently was the infusion changed?
-        <select id="q5"><option>24</option><option>48</option><option>&gt; 48</option></select>
-      </label>` : ``}
-    </div>
-    <p class="confirm-text">I confirm this is an observational report, de-identified, for quality improvement and to inform future compatibility research.</p>
-    <button type="button" class="btn" id="openForm">Submit</button>
   `;
+  panel.appendChild(grid);
+
+  const confirm = document.createElement('p');
+  confirm.className = 'confirm-text';
+  confirm.textContent = 'I confirm this is an observational report, de-identified, for quality improvement and to inform future compatibility research.';
+  panel.appendChild(confirm);
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'btn';
+  btn.id = 'openForm';
+  btn.textContent = 'Submit';
+  btn.disabled = true; // start disabled until valid
+  panel.appendChild(btn);
+
+  const hint = document.createElement('p');
+  hint.className = 'meta';
+  hint.textContent = 'Complete all fields to enable Submit.';
+  panel.appendChild(hint);
+
   resultsEl.appendChild(panel);
 
-  document.getElementById('openForm').addEventListener('click', ()=>{
-    const params = new URLSearchParams();
-    const F = GOOGLE_FORM.fields;
-    const [d1,d2,d3] = [drugs[0]||'', drugs[1]||'', drugs[2]||''];
+  // ---------- Validation ----------
+  const requiredIds = noData ? ['q1','q2','q3','q4','q5','q6'] : ['q1'];
+  const get = id => /** @type {HTMLSelectElement} */(document.getElementById(id));
 
-    params.set(F.combo_drug_1, d1);
-    params.set(F.combo_drug_2, d2);
-    if(d3) params.set(F.combo_drug_3, d3);
+  const isComplete = () => requiredIds.every(id => (get(id)?.value ?? '') !== '');
 
-    // Context label (not numeric)
-    params.set(F.classification_at_search, noData ? 'No data' : 'Appears compatible');
+  const refreshState = () => {
+    btn.disabled = !isComplete();
+  };
 
-    params.set(F.q1_used_in_practice, document.getElementById('q1').value);
+  requiredIds.forEach(id => {
+    const el = get(id);
+    if(el) el.addEventListener('change', refreshState);
+  });
+  refreshState();
+
+  // ---------- Submission ----------
+  const [d1,d2,d3] = [drugs[0]||'', drugs[1]||'', drugs[2]||''];
+  const ctxLabel = noData ? 'No data' : (anecdotal ? 'Appears compatible (anecdotal)' : 'Appears compatible');
+
+  // Local CSV download (no server needed)
+  const downloadCSV = () => {
+    // Build one-row CSV
+    const headers = [
+      'datetime_iso',
+      'drug_1','drug_2','drug_3',
+      'classification_at_search',
+      'used_in_practice',
+      ...(noData ? [
+        'appeared_compatible',
+        'change_frequency_hours',
+        'diluent_used',
+        'reaction_observed',
+        'administered_more_than_24h'
+      ] : [])
+    ];
+    const now = new Date().toISOString();
+    const row = [
+      now,
+      d1, d2, d3,
+      ctxLabel,
+      get('q1').value
+    ];
     if(noData){
-      params.set(F.q2_more_than_24h, document.getElementById('q2').value);
-      params.set(F.q3_diluent_used, document.getElementById('q3').value);
-      params.set(F.q4_reaction_observed, document.getElementById('q4').value);
-      params.set(F.q5_change_frequency, document.getElementById('q5').value);
+      row.push(
+        get('q2').value,  // appeared compatible
+        get('q3').value,  // change frequency
+        get('q4').value,  // diluent
+        get('q5').value,  // reaction
+        get('q6').value   // >24h
+      );
     }
+    // Escape fields that contain commas/quotes
+    const esc = v => {
+      const s = String(v ?? '');
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+    };
+    const csv = [headers.map(esc).join(','), row.map(esc).join(',')].join('\n');
 
-    const url = `${GOOGLE_FORM.action}?${params.toString()}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const drugsLabel = [d1,d2,d3].filter(Boolean).join('_');
+    a.href = url;
+    a.download = `syringe-observation_${drugsLabel}_${now.slice(0,10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  btn.addEventListener('click', ()=>{
+    if(btn.disabled) return;
+
+    if(usingGoogleForm){
+      // Existing Google Form path (unchanged from prior behaviour)
+      const params = new URLSearchParams();
+      const F = GOOGLE_FORM.fields;
+
+      params.set(F.combo_drug_1, d1);
+      params.set(F.combo_drug_2, d2);
+      if(d3) params.set(F.combo_drug_3, d3);
+      params.set(F.classification_at_search, ctxLabel);
+
+      params.set(F.q1_used_in_practice, get('q1').value);
+
+      if(noData){
+        // Map our new order -> existing Google Form field names
+        params.set(F.q2_more_than_24h,      get('q6').value);
+        params.set(F.q3_diluent_used,       get('q4').value);
+        params.set(F.q4_reaction_observed,  get('q5').value);
+        params.set(F.q5_change_frequency,   get('q3').value);
+        // NOTE: "Did the combination appear compatible?" is new (q2) —
+        // add a new field in your form and wire it up here if you like.
+      }
+
+      const url = `${GOOGLE_FORM.action}?${params.toString()}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      // Local CSV download path
+      downloadCSV();
+    }
   });
 }
 
