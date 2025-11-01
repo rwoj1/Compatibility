@@ -25,6 +25,100 @@ const GOOGLE_FORM = {
     q5_change_frequency: 'entry.Q5'
   }
 };
+// --- Background storage + admin download (no user download) ---
+// MODE NOTES:
+//  - "local"   = saves on the visitor's device only (good for testing/offline).
+//  - "form"    = submits to your Google Form (central collection).
+//  - "webhook" = POSTs to your own endpoint (Google Apps Script / Sheet / DB).
+const BACKEND = {
+  mode: 'local',                   // 'local' | 'form' | 'webhook'
+  webhookUrl: '',                  // fill only if mode === 'webhook'
+};
+
+// A very small CSV accumulator in localStorage.
+// IMPORTANT LIMITATION: 'local' mode stores on *the submitter's* browser only.
+// For centralised collection, use BACKEND.mode='form' (Google Form) or 'webhook'.
+const ReportStore = (() => {
+  const KEY = 'syringe_observations_csv_rows_v1';
+
+  const read = () => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  };
+
+  const write = (rows) => {
+    localStorage.setItem(KEY, JSON.stringify(rows));
+  };
+
+  const appendRow = (rowObj) => {
+    const rows = read();
+    rows.push(rowObj);
+    write(rows);
+  };
+
+  const clear = () => write([]);
+
+  const toCSV = () => {
+    const rows = read();
+    if (rows.length === 0) return 'No rows';
+    const headers = Object.keys(rows[0]);
+    const esc = v => {
+      const s = String(v ?? '');
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+    };
+    const body = rows.map(r => headers.map(h => esc(r[h])).join(',')).join('\n');
+    return `${headers.map(esc).join(',')}\n${body}`;
+  };
+
+  const downloadCSV = () => {
+    const csv = toCSV();
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const now = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = `syringe-observations_ALL_${now}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  return { read, appendRow, clear, toCSV, downloadCSV };
+})();
+
+// Admin bar appears only when the URL contains ?admin=1
+(function injectAdminBarIfNeeded(){
+  const params = new URLSearchParams(location.search);
+  if (params.get('admin') !== '1') return;
+
+  const bar = document.createElement('div');
+  bar.style.cssText = `
+    position: fixed; inset: auto 12px 12px auto; z-index: 9999;
+    background: #111; color: #fff; padding: 12px 14px; border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25); font: 14px/1.2 system-ui, sans-serif;
+  `;
+  bar.innerHTML = `
+    <div style="font-weight:600;margin-bottom:8px;">Admin tools</div>
+    <button id="admin-download" style="margin-right:8px;">Download ALL as CSV</button>
+    <button id="admin-clear" style="opacity:.9">Clear stored rows</button>
+  `;
+  document.body.appendChild(bar);
+
+  bar.querySelector('#admin-download').addEventListener('click', () => {
+    ReportStore.downloadCSV();
+  });
+  bar.querySelector('#admin-clear').addEventListener('click', () => {
+    if (confirm('Clear ALL locally stored observation rows on this device?')) {
+      ReportStore.clear();
+      alert('Cleared.');
+    }
+  });
+})();
+
+
 
 /* =======================
    CSV PARSER (handles quoted commas)
@@ -237,37 +331,33 @@ function renderResult(drugs, summaries){
 
 /* ===== Observation panel -> Google Form ===== */
 function renderObservationPanel(drugs, noData, anecdotal){
-  // If the feature flag is off we will download a CSV locally.
-  // If it's on, we'll still open your Google Form (as before).
-  const usingGoogleForm = GOOGLE_FORM.enabled;
+  // Which centralisation path are we using?
+  // - BACKEND.mode === 'form'    => send to Google Form (GOOGLE_FORM.* must be set)
+  // - BACKEND.mode === 'webhook' => POST JSON to your endpoint (see below)
+  // - BACKEND.mode === 'local'   => accumulate in localStorage (on submitter’s device)
+  const usingGoogleForm = (BACKEND.mode === 'form');
 
   const panel = document.createElement('div');
   panel.className = 'panel obs';
 
-  // Helper: build a <label><select> with a placeholder
   const buildSelect = (id, labelText, options) => {
     const wrap = document.createElement('label');
-    wrap.textContent = ''; // we’ll append nodes instead for better control
-
     const title = document.createElement('span');
     title.textContent = labelText;
 
     const sel = document.createElement('select');
     sel.id = id;
 
-    // Placeholder
     const ph = document.createElement('option');
     ph.value = '';
     ph.textContent = 'Please Select';
-    ph.disabled = false; // we allow changes; validation handles empties
     ph.selected = true;
     sel.appendChild(ph);
 
-    // Real options
-    options.forEach(v => {
+    (options || []).forEach(v => {
       const opt = document.createElement('option');
-      opt.value = v.value ?? v;
-      opt.textContent = v.label ?? v;
+      opt.value = (v.value ?? v);
+      opt.textContent = (v.label ?? v);
       sel.appendChild(opt);
     });
 
@@ -276,46 +366,32 @@ function renderObservationPanel(drugs, noData, anecdotal){
     return wrap;
   };
 
-  // Build the grid contents dynamically according to noData/anecdotal
   const grid = document.createElement('div');
   grid.className = 'grid';
 
-  // Q1 (always visible when we ask for observations)
+  // Q1 (always asked)
   grid.appendChild(buildSelect('q1', 'Was this combination used in clinical practice?', [
     {label:'Yes', value:'Yes'},
     {label:'No',  value:'No'}
   ]));
 
-  // When there is NO DATA, show the full set in THIS order:
-  // 2) Did the combination appear compatible (Yes / No)
-  // 3) How frequently was the infusion changed?
-  // 4) What diluent was used?
-  // 5) Was there an infusion reaction observed?
-  // 6) Was this combination administered for more than 24 hours?
   if(noData){
     grid.appendChild(buildSelect('q2', 'Did the combination appear compatible?', [
       {label:'Yes', value:'Yes'},
       {label:'No',  value:'No'}
     ]));
-
     grid.appendChild(buildSelect('q3', 'How frequently was the infusion changed?', [
       {label:'24 hours', value:'24'},
       {label:'48 hours', value:'48'},
       {label:'> 48 hours', value:'> 48'}
     ]));
-
     grid.appendChild(buildSelect('q4', 'What diluent was used?', [
-      'Water for injection',
-      'Sodium chloride 0.9%',
-      'No diluent',
-      'Other'
+      'Water for injection', 'Sodium chloride 0.9%', 'No diluent', 'Other'
     ]));
-
     grid.appendChild(buildSelect('q5', 'Was there an infusion reaction observed?', [
       {label:'Yes', value:'Yes'},
       {label:'No',  value:'No'}
     ]));
-
     grid.appendChild(buildSelect('q6', 'Was this combination administered for more than 24 hours?', [
       {label:'Yes', value:'Yes'},
       {label:'No',  value:'No'}
@@ -337,7 +413,7 @@ function renderObservationPanel(drugs, noData, anecdotal){
   btn.className = 'btn';
   btn.id = 'openForm';
   btn.textContent = 'Submit';
-  btn.disabled = true; // start disabled until valid
+  btn.disabled = true;
   panel.appendChild(btn);
 
   const hint = document.createElement('p');
@@ -347,107 +423,96 @@ function renderObservationPanel(drugs, noData, anecdotal){
 
   resultsEl.appendChild(panel);
 
-  // ---------- Validation ----------
+  // ---- validation
   const requiredIds = noData ? ['q1','q2','q3','q4','q5','q6'] : ['q1'];
   const get = id => /** @type {HTMLSelectElement} */(document.getElementById(id));
-
   const isComplete = () => requiredIds.every(id => (get(id)?.value ?? '') !== '');
-
-  const refreshState = () => {
-    btn.disabled = !isComplete();
-  };
-
-  requiredIds.forEach(id => {
-    const el = get(id);
-    if(el) el.addEventListener('change', refreshState);
-  });
+  const refreshState = () => { btn.disabled = !isComplete(); };
+  requiredIds.forEach(id => get(id)?.addEventListener('change', refreshState));
   refreshState();
 
-  // ---------- Submission ----------
+  // ---- submission
   const [d1,d2,d3] = [drugs[0]||'', drugs[1]||'', drugs[2]||''];
   const ctxLabel = noData ? 'No data' : (anecdotal ? 'Appears compatible (anecdotal)' : 'Appears compatible');
 
-  // Local CSV download (no server needed)
-  const downloadCSV = () => {
-    // Build one-row CSV
-    const headers = [
-      'datetime_iso',
-      'drug_1','drug_2','drug_3',
-      'classification_at_search',
-      'used_in_practice',
-      ...(noData ? [
-        'appeared_compatible',
-        'change_frequency_hours',
-        'diluent_used',
-        'reaction_observed',
-        'administered_more_than_24h'
-      ] : [])
-    ];
-    const now = new Date().toISOString();
-    const row = [
-      now,
-      d1, d2, d3,
-      ctxLabel,
-      get('q1').value
-    ];
-    if(noData){
-      row.push(
-        get('q2').value,  // appeared compatible
-        get('q3').value,  // change frequency
-        get('q4').value,  // diluent
-        get('q5').value,  // reaction
-        get('q6').value   // >24h
-      );
-    }
-    // Escape fields that contain commas/quotes
-    const esc = v => {
-      const s = String(v ?? '');
-      return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+  const buildRowObject = () => {
+    const base = {
+      datetime_iso: new Date().toISOString(),
+      drug_1: d1, drug_2: d2, drug_3: d3,
+      classification_at_search: ctxLabel,
+      used_in_practice: get('q1').value
     };
-    const csv = [headers.map(esc).join(','), row.map(esc).join(',')].join('\n');
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    const drugsLabel = [d1,d2,d3].filter(Boolean).join('_');
-    a.href = url;
-    a.download = `syringe-observation_${drugsLabel}_${now.slice(0,10)}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    if(noData){
+      base.appeared_compatible = get('q2').value;
+      base.change_frequency_hours = get('q3').value;
+      base.diluent_used = get('q4').value;
+      base.reaction_observed = get('q5').value;
+      base.administered_more_than_24h = get('q6').value;
+    }
+    return base;
   };
 
-  btn.addEventListener('click', ()=>{
+  const sendToWebhook = async (payload) => {
+    const resp = await fetch(BACKEND.webhookUrl, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!resp.ok) throw new Error(`Webhook error: ${resp.status}`);
+  };
+
+  const sendToGoogleForm = () => {
+    const params = new URLSearchParams();
+    const F = GOOGLE_FORM.fields;
+
+    params.set(F.combo_drug_1, d1);
+    params.set(F.combo_drug_2, d2);
+    if(d3) params.set(F.combo_drug_3, d3);
+    params.set(F.classification_at_search, ctxLabel);
+    params.set(F.q1_used_in_practice, get('q1').value);
+
+    if(noData){
+      // map to your existing field IDs (adjust as needed)
+      params.set(F.q2_more_than_24h,      get('q6').value);
+      params.set(F.q3_diluent_used,       get('q4').value);
+      params.set(F.q4_reaction_observed,  get('q5').value);
+      params.set(F.q5_change_frequency,   get('q3').value);
+      // add a new Google Form field for "appeared compatible" if desired
+      // params.set(F.qX_appeared_compatible, get('q2').value);
+    }
+
+    const url = `${GOOGLE_FORM.action}?${params.toString()}`;
+    // Background submit without opening a new tab:
+    navigator.sendBeacon?.(url) || fetch(url, {mode:'no-cors'}).catch(()=>{});
+  };
+
+  const showThankYou = () => {
+    panel.innerHTML = `
+      <div class="thankyou">
+        <h4>Thank you for providing the observational report.</h4>
+        <p>Your response has been recorded.</p>
+      </div>
+    `;
+  };
+
+  btn.addEventListener('click', async ()=>{
     if(btn.disabled) return;
 
-    if(usingGoogleForm){
-      // Existing Google Form path (unchanged from prior behaviour)
-      const params = new URLSearchParams();
-      const F = GOOGLE_FORM.fields;
+    const row = buildRowObject();
 
-      params.set(F.combo_drug_1, d1);
-      params.set(F.combo_drug_2, d2);
-      if(d3) params.set(F.combo_drug_3, d3);
-      params.set(F.classification_at_search, ctxLabel);
-
-      params.set(F.q1_used_in_practice, get('q1').value);
-
-      if(noData){
-        // Map our new order -> existing Google Form field names
-        params.set(F.q2_more_than_24h,      get('q6').value);
-        params.set(F.q3_diluent_used,       get('q4').value);
-        params.set(F.q4_reaction_observed,  get('q5').value);
-        params.set(F.q5_change_frequency,   get('q3').value);
-        // NOTE: "Did the combination appear compatible?" is new (q2) —
-        // add a new field in your form and wire it up here if you like.
+    try {
+      if (BACKEND.mode === 'form') {
+        sendToGoogleForm();
+      } else if (BACKEND.mode === 'webhook') {
+        await sendToWebhook(row);
+      } else {
+        // local mode (background save to this device only)
+        ReportStore.appendRow(row);
       }
-
-      const url = `${GOOGLE_FORM.action}?${params.toString()}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      // Local CSV download path
-      downloadCSV();
+      showThankYou();
+    } catch (e) {
+      alert('Sorry, there was a problem saving your report. Please try again.');
+      console.error(e);
     }
   });
 }
