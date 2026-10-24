@@ -1,20 +1,21 @@
+
 /* =======================
    CONFIG
 ======================= */
 const DATA = {
-  main: 'data/Website_DataSet.csv',              // required
-  refs: 'data/reference.csv',                    // required (id,full_reference)
-  classLegend: 'data/classification_legend.csv', // required (id,label,description; includes 5)
-  qualLegend: 'data/qualifier_legend.csv',       // required (code,description: C,H,O,S,P)
-  classes: 'data/drug_classes.csv'               // NEW: drug_name,class (for same-class rule)
+  main: 'data/Website_DataSet.csv',
+  refs: 'data/reference.csv',
+  classLegend: 'data/classification_legend.csv',
+  qualLegend: 'data/qualifier_legend.csv',
+  advice: 'data/specific_advice.json',
+  classes: 'data/drug_classes.csv'
 };
 
-// Google Form settings (prefilled submission). Replace with your actual formResponse URL & entry IDs.
 const GOOGLE_FORM = {
   enabled: false,
   action: 'PASTE_YOUR_GOOGLE_FORM_formResponse_URL_HERE',
   fields: {
-    combo_drug_1: 'entry.DRUG1',          // e.g., entry.1111111111
+    combo_drug_1: 'entry.DRUG1',
     combo_drug_2: 'entry.DRUG2',
     combo_drug_3: 'entry.DRUG3',
     classification_at_search: 'entry.CLASS',
@@ -25,19 +26,13 @@ const GOOGLE_FORM = {
     q5_change_frequency: 'entry.Q5'
   }
 };
-// --- Background storage + admin download (no user download) ---
-// MODE NOTES:
-//  - "local"   = saves on the visitor's device only (good for testing/offline).
-//  - "form"    = submits to your Google Form (central collection).
-//  - "webhook" = POSTs to your own endpoint (Google Apps Script / Sheet / DB).
+
+// Local storage is for prototype testing only.
 const BACKEND = {
-  mode: 'local',                   // 'local' | 'form' | 'webhook'
-  webhookUrl: '',                  // fill only if mode === 'webhook'
+  mode: 'local',
+  webhookUrl: ''
 };
 
-// A very small CSV accumulator in localStorage.
-// IMPORTANT LIMITATION: 'local' mode stores on *the submitter's* browser only.
-// For centralised collection, use BACKEND.mode='form' (Google Form) or 'webhook'.
 const ReportStore = (() => {
   const KEY = 'syringe_observations_csv_rows_v1';
 
@@ -45,14 +40,16 @@ const ReportStore = (() => {
     try {
       const raw = localStorage.getItem(KEY);
       return raw ? JSON.parse(raw) : [];
-    } catch { return []; }
+    } catch {
+      return [];
+    }
   };
 
-  const write = (rows) => {
+  const write = rows => {
     localStorage.setItem(KEY, JSON.stringify(rows));
   };
 
-  const appendRow = (rowObj) => {
+  const appendRow = rowObj => {
     const rows = read();
     rows.push(rowObj);
     write(rows);
@@ -62,538 +59,1705 @@ const ReportStore = (() => {
 
   const toCSV = () => {
     const rows = read();
-    if (rows.length === 0) return 'No rows';
-    const headers = Object.keys(rows[0]);
-    const esc = v => {
-      const s = String(v ?? '');
-      return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+    if (!rows.length) return 'No rows';
+
+    const headers = [...new Set(
+      rows.flatMap(row => Object.keys(row))
+    )];
+
+    const esc = value => {
+      const s = String(value ?? '');
+      return /[",\n]/.test(s)
+        ? `"${s.replace(/"/g, '""')}"`
+        : s;
     };
-    const body = rows.map(r => headers.map(h => esc(r[h])).join(',')).join('\n');
-    return `${headers.map(esc).join(',')}\n${body}`;
+
+    return [
+      headers.map(esc).join(','),
+      ...rows.map(row =>
+        headers.map(h => esc(row[h])).join(',')
+      )
+    ].join('\n');
   };
 
   const downloadCSV = () => {
-    const csv = toCSV();
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([toCSV()], {
+      type: 'text/csv;charset=utf-8;'
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    const now = new Date().toISOString().slice(0,10);
+
     a.href = url;
-    a.download = `syringe-observations_ALL_${now}.csv`;
+    a.download =
+      `syringe-observations_${new Date()
+        .toISOString().slice(0, 10)}.csv`;
+
     document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
+    a.remove();
     URL.revokeObjectURL(url);
   };
 
-  return { read, appendRow, clear, toCSV, downloadCSV };
+  return {
+    read, appendRow, clear, toCSV, downloadCSV
+  };
 })();
 
-// Admin bar appears only when the URL contains ?admin=1
-(function injectAdminBarIfNeeded(){
+// Prototype-only local administration controls.
+// This is NOT secure authentication.
+(function injectAdminBarIfNeeded() {
   const params = new URLSearchParams(location.search);
   if (params.get('admin') !== '1') return;
 
   const bar = document.createElement('div');
-  bar.style.cssText = `
-    position: fixed; inset: auto 12px 12px auto; z-index: 9999;
-    background: #111; color: #fff; padding: 12px 14px; border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25); font: 14px/1.2 system-ui, sans-serif;
-  `;
+  bar.className = 'prototype-admin';
+
   bar.innerHTML = `
-    <div style="font-weight:600;margin-bottom:8px;">Admin tools</div>
-    <button id="admin-download" style="margin-right:8px;">Download ALL as CSV</button>
-    <button id="admin-clear" style="opacity:.9">Clear stored rows</button>
+    <strong>Local prototype admin tools</strong>
+    <button type="button" id="admin-download">
+      Download local reports
+    </button>
+    <button type="button" id="admin-clear">
+      Clear local reports
+    </button>
   `;
+
   document.body.appendChild(bar);
 
-  bar.querySelector('#admin-download').addEventListener('click', () => {
-    ReportStore.downloadCSV();
-  });
-  bar.querySelector('#admin-clear').addEventListener('click', () => {
-    if (confirm('Clear ALL locally stored observation rows on this device?')) {
-      ReportStore.clear();
-      alert('Cleared.');
-    }
-  });
+  bar.querySelector('#admin-download')
+    .addEventListener('click', () => {
+      ReportStore.downloadCSV();
+    });
+
+  bar.querySelector('#admin-clear')
+    .addEventListener('click', () => {
+      if (confirm('Clear locally stored reports?')) {
+        ReportStore.clear();
+      }
+    });
 })();
 
-
-
 /* =======================
-   CSV PARSER (handles quoted commas)
+   CSV PARSER
 ======================= */
-function parseCSV(text){
+function parseCSV(text) {
   const rows = [];
-  let i=0, field='', row=[], inQuotes=false;
-  const pushField = () => { row.push(field); field=''; };
-  const pushRow = () => { rows.push(row); row=[]; };
+  let i = 0;
+  let field = '';
+  let row = [];
+  let inQuotes = false;
 
-  while(i < text.length){
+  const pushField = () => {
+    row.push(field);
+    field = '';
+  };
+
+  const pushRow = () => {
+    rows.push(row);
+    row = [];
+  };
+
+  while (i < text.length) {
     const c = text[i];
-    if(inQuotes){
-      if(c === '"'){
-        if(text[i+1] === '"'){ field += '"'; i+=2; continue; } // escaped quote
-        inQuotes = false; i++; continue;
+
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') {
+          field += '"';
+          i += 2;
+          continue;
+        }
+        inQuotes = false;
+        i++;
+        continue;
       }
-      field += c; i++; continue;
-    }else{
-      if(c === '"'){ inQuotes = true; i++; continue; }
-      if(c === ','){ pushField(); i++; continue; }
-      if(c === '\r'){ i++; continue; }
-      if(c === '\n'){ pushField(); pushRow(); i++; continue; }
-      field += c; i++; continue;
+
+      field += c;
+      i++;
+      continue;
     }
+
+    if (c === '"') {
+      inQuotes = true;
+    } else if (c === ',') {
+      pushField();
+    } else if (c === '\n') {
+      pushField();
+      pushRow();
+    } else if (c !== '\r') {
+      field += c;
+    }
+
+    i++;
   }
-  if(field.length || row.length){ pushField(); pushRow(); }
+
+  if (field.length || row.length) {
+    pushField();
+    pushRow();
+  }
+
   return rows;
 }
 
-async function loadCSV(url){
-  const res = await fetch(url);
-  const txt = await res.text();
-  const rows = parseCSV(txt).filter(r => r.length && r.join('').trim().length);
+async function loadCSV(url) {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Unable to load ${url}`);
+  }
+
+  const text = await response.text();
+  const rows = parseCSV(text).filter(
+    row => row.length && row.join('').trim()
+  );
+
+  if (!rows.length) {
+    throw new Error(`Empty CSV: ${url}`);
+  }
+
   const headers = rows[0].map(h => h.trim());
-  const out = rows.slice(1).map(r => {
-    const obj = {};
-    headers.forEach((h,idx)=> obj[h] = ((r[idx] ?? '') + '').trim());
-    return obj;
-  });
-  return {headers, rows: out};
+
+  return {
+    headers,
+    rows: rows.slice(1).map(row => {
+      const obj = {};
+      headers.forEach((h, index) => {
+        obj[h] = String(row[index] ?? '').trim();
+      });
+      return obj;
+    })
+  };
+}
+
+
+/* =======================
+   HELPERS AND STATE
+======================= */
+
+const norm = value => String(value ?? '')
+  .trim()
+  .toLowerCase()
+  .replace(/\s+/g, ' ');
+
+const uniq = values => [...new Set(values)];
+
+const nonEmpty = value =>
+  String(value ?? '').trim().length > 0;
+
+const escapeHtml = value =>
+  String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+
+// Existing classification precedence.
+const precedence = {
+  '3': 6,
+  '5': 5,
+  '2': 4,
+  '7': 3,
+  '6': 2,
+  '1': 1
+};
+
+const classificationLabels = new Map();
+const qualifierLabels = new Map();
+const refsMap = new Map();
+
+let dataset = [];
+let classMap = new Map();
+let specificAdvice = {};
+
+// Medicine names and aliases used for matching.
+const MEDICINE_ALIASES = {
+  'furosemide': 'furosemide',
+  'frusemide': 'furosemide',
+  'lidocaine': 'lidocaine',
+  'lignocaine': 'lidocaine',
+  'proton pump inhibitor': 'proton pump inhibitor',
+  'proton pump inhibitors': 'proton pump inhibitor'
+};
+
+function canonicalMedicine(name) {
+  const key = norm(name);
+  return MEDICINE_ALIASES[key] || key;
+}
+
+// These medicines display advice only.
+// They cannot be combined with other medicines
+// in the prototype search.
+const ADVICE_ONLY_MEDICINES = [
+  'dexmedetomidine',
+  'famotidine',
+  'ranitidine',
+  'furosemide',
+  'lidocaine',
+  'phenobarbital',
+  'proton pump inhibitor',
+  'sodium valproate',
+  'dexamethasone',
+  'olanzapine',
+  'parecoxib'
+];
+
+const adviceOnlySet = new Set(
+  ADVICE_ONLY_MEDICINES.map(canonicalMedicine)
+);
+
+// Levetiracetam remains searchable.
+// Its advice appears only after Search.
+const SEARCHABLE_ADVICE_MEDICINES = new Set([
+  'levetiracetam'
+]);
+
+function isAdviceOnly(name) {
+  return adviceOnlySet.has(canonicalMedicine(name));
+}
+
+function hasSearchAdvice(name) {
+  return SEARCHABLE_ADVICE_MEDICINES.has(
+    canonicalMedicine(name)
+  );
 }
 
 /* =======================
-   HELPERS & STATE
+   USER INTERFACE REFERENCES
 ======================= */
-const norm = s => (s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');
-const uniq = arr => [...new Set(arr)];
-const nonEmpty = x => x && x.trim().length;
 
-// conservative precedence: 3 (incompatible) > 5 (not recommended) > 2 > 7 > 6 > 1
-const precedence = { "3":6, "5":5, "2":4, "7":3, "6":2, "1":1 };
-
-const classificationLabels = new Map(); // id -> {label, description}
-const qualifierLabels = new Map();      // code -> description
-const refsMap = new Map();              // id -> full_reference
-let dataset = [];
-let classMap = new Map();               // canon drug -> class
-
-/* UI refs */
 const drug1Sel = document.getElementById('drug1');
 const drug2Sel = document.getElementById('drug2');
 const drug3Sel = document.getElementById('drug3');
+
 const resultsEl = document.getElementById('results');
+const searchForm = document.getElementById('searchForm');
 
-function setOptions(selectEl, values){
-  selectEl.innerHTML = '';
-  const blankOpt = document.createElement('option');
-  blankOpt.value = '';
-  blankOpt.textContent = '— Select —';
-  selectEl.appendChild(blankOpt);
-  values.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v;
-    opt.textContent = v;
-    selectEl.appendChild(opt);
-  });
-}
+// These containers will be created automatically
+// if they do not exist in index.html.
 
-function keyFor(drugs){
-  return drugs.map(norm).filter(Boolean).sort().join(' | ');
-}
+function ensureElement(id, tag = 'div', before = null) {
+  let element = document.getElementById(id);
 
-function buildDrugOptions(){
-  const names = [];
-  dataset.forEach(r => {
-    if(nonEmpty(r.raw.drug_1)) names.push(r.raw.drug_1);
-    if(nonEmpty(r.raw.drug_2)) names.push(r.raw.drug_2);
-    if(nonEmpty(r.raw.drug_3)) names.push(r.raw.drug_3);
-  });
-  const canonSeen = new Set();
-  const displayList = [];
-  names.forEach(n => {
-    const c = norm(n);
-    if(!canonSeen.has(c)){ canonSeen.add(c); displayList.push(n); }
-  });
-  displayList.sort((a,b)=>a.localeCompare(b, undefined, {sensitivity:'base'}));
-  setOptions(drug1Sel, displayList);
-  setOptions(drug2Sel, displayList);
-  setOptions(drug3Sel, displayList);
-}
+  if (!element) {
+    element = document.createElement(tag);
+    element.id = id;
 
-function findMatches(drugs){
-  const k = keyFor(drugs);
-  return dataset.filter(r => r.key === k);
-}
-
-/* ===== Same-class rule (SCV p.3) ===== */
-const FLAG_CLASSES = new Set(['Opioid','Dopamine antagonist']); // extend if needed
-
-function sharedFlagClass(drugs){
-  const counts = {};
-  drugs.map(d => d||'')
-       .map(s => s.toLowerCase().replace(/\s+/g,' '))
-       .forEach(k => {
-         const cls = classMap.get(k);
-         if(!cls) return;
-         counts[cls] = (counts[cls]||0) + 1;
-       });
-  for(const cls of Object.keys(counts)){
-    if(FLAG_CLASSES.has(cls) && counts[cls] >= 2) return cls;
+    if (before?.parentNode) {
+      before.parentNode.insertBefore(element, before);
+    } else {
+      searchForm.parentNode.appendChild(element);
+    }
   }
+
+  return element;
+}
+
+const adviceEl = ensureElement(
+  'specificAdvice',
+  'section',
+  resultsEl
+);
+
+const searchMessageEl = ensureElement(
+  'searchMessage',
+  'div',
+  resultsEl
+);
+
+adviceEl.setAttribute('aria-live', 'polite');
+searchMessageEl.setAttribute('role', 'status');
+resultsEl.setAttribute('aria-live', 'polite');
+
+/* =======================
+   MEDICINE OPTIONS
+======================= */
+
+function setOptions(selectEl, values) {
+  const previousValue = selectEl.value;
+
+  selectEl.innerHTML = '';
+
+  const blank = document.createElement('option');
+  blank.value = '';
+  blank.textContent = '— Select medicine —';
+  selectEl.appendChild(blank);
+
+  values.forEach(name => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    selectEl.appendChild(option);
+  });
+
+  if (values.includes(previousValue)) {
+    selectEl.value = previousValue;
+  }
+}
+
+function buildDrugOptions() {
+  const names = [];
+
+  dataset.forEach(record => {
+    [
+      record.raw.drug_1,
+      record.raw.drug_2,
+      record.raw.drug_3
+    ].forEach(name => {
+      if (nonEmpty(name)) names.push(name);
+    });
+  });
+
+  // Additional medicines available in Medicine 1,
+  // even when no compatibility combinations exist.
+  const adviceNames = [
+    'Dexmedetomidine',
+    'Famotidine',
+    'Ranitidine',
+    'Furosemide',
+    'Lidocaine',
+    'Phenobarbital',
+    'Proton pump inhibitor',
+    'Sodium valproate',
+    'Dexamethasone',
+    'Olanzapine',
+    'Parecoxib'
+  ];
+
+  const seen = new Set();
+  const allNames = [];
+
+  [...names, ...adviceNames].forEach(name => {
+    const key = canonicalMedicine(name);
+
+    if (!seen.has(key)) {
+      seen.add(key);
+      allNames.push(name);
+    }
+  });
+
+  allNames.sort((a, b) =>
+    a.localeCompare(b, undefined, {
+      sensitivity: 'base'
+    })
+  );
+
+  // Medicine 1 includes all medicines.
+  setOptions(drug1Sel, allNames);
+
+  // Medicine 2 and 3 exclude advice-only medicines.
+  const searchableNames = allNames.filter(
+    name => !isAdviceOnly(name)
+  );
+
+  setOptions(drug2Sel, searchableNames);
+  setOptions(drug3Sel, searchableNames);
+}
+
+/* =======================
+   COMBINATION MATCHING
+======================= */
+
+// Medicine order does not affect matching.
+function keyFor(drugs) {
+  return drugs
+    .map(norm)
+    .filter(Boolean)
+    .sort()
+    .join(' | ');
+}
+
+function findMatches(drugs) {
+  const key = keyFor(drugs);
+  return dataset.filter(record => record.key === key);
+}
+
+/* =======================
+   SAME-CLASS RULE
+======================= */
+
+// Preserve the existing SCV same-class restriction.
+const FLAG_CLASSES = new Set([
+  'Opioid',
+  'Dopamine antagonist'
+]);
+
+function sharedFlagClass(drugs) {
+  const counts = {};
+
+  drugs.forEach(drug => {
+    const cls = classMap.get(norm(drug));
+    if (!cls) return;
+
+    counts[cls] = (counts[cls] || 0) + 1;
+  });
+
+  for (const cls of Object.keys(counts)) {
+    if (
+      FLAG_CLASSES.has(cls) &&
+      counts[cls] >= 2
+    ) {
+      return cls;
+    }
+  }
+
   return null;
 }
 
-/* ===== Summarise rows per diluent ===== */
-function summariseByDiluent(records){
-  const by = new Map();
-  records.forEach(r => {
-    const d = r.diluent;
-    if(!by.has(d)) by.set(d, []);
-    by.get(d).push(r);
+/* =======================
+   SUMMARISE BY DILUENT
+======================= */
+
+function summariseByDiluent(records) {
+  const grouped = new Map();
+
+  records.forEach(record => {
+    const diluent = record.diluent;
+
+    if (!grouped.has(diluent)) {
+      grouped.set(diluent, []);
+    }
+
+    grouped.get(diluent).push(record);
   });
+
   const summaries = [];
-  by.forEach((rows, diluent)=>{
-    const classes = rows.map(x => (x.classification||'').trim()).filter(Boolean);
-    const best = classes.sort((a,b) => (precedence[b]||0)-(precedence[a]||0))[0] || '';
-    const quals = uniq(rows.flatMap(x => (x.qualifiers||'').split(/[\s,\|]+/).filter(Boolean)));
-    const refs  = uniq(rows.flatMap(x => (x.reference_ids||'').split(',').map(s=>s.trim()).filter(Boolean)));
-    summaries.push({ diluent, classification: best, qualifiers: quals, references: refs });
+
+  grouped.forEach((rows, diluent) => {
+    const classifications = rows
+      .map(row => String(row.classification).trim())
+      .filter(Boolean);
+
+    const classification = classifications.sort(
+      (a, b) =>
+        (precedence[b] || 0) -
+        (precedence[a] || 0)
+    )[0] || '';
+
+    const qualifiers = uniq(
+      rows.flatMap(row =>
+        String(row.qualifiers || '')
+          .split(/[\s,|]+/)
+          .filter(Boolean)
+      )
+    );
+
+    const references = uniq(
+      rows.flatMap(row =>
+        String(row.reference_ids || '')
+          .split(',')
+          .map(id => id.trim())
+          .filter(Boolean)
+      )
+    );
+
+    summaries.push({
+      diluent,
+      classification,
+      qualifiers,
+      references
+    });
   });
-  // Preferred order: Water for injection, Sodium chloride 0.9%, then others if any
-  summaries.sort((a,b)=>{
-    const score = s => s === 'Water for injection' ? 0 : s === 'Sodium chloride 0.9%' ? 1 : 2;
+
+  // Preserve preferred diluent ordering.
+  summaries.sort((a, b) => {
+    const score = name => {
+      if (name === 'Water for injection') return 0;
+      if (name === 'Sodium chloride 0.9%') return 1;
+      return 2;
+    };
+
     return score(a.diluent) - score(b.diluent);
   });
+
   return summaries;
 }
 
-function clsBadge(code){ return `badge c${code}`; }
+/* =======================
+   MEDICINE-SPECIFIC ADVICE
+======================= */
 
-function refsHtml(refIds){
-  if(!refIds.length) return '';
-  const items = refIds.map(id => `<li>${id}. ${refsMap.get(id) || ('Reference '+id)}</li>`).join('');
-  return `<div class="section-title">References</div><ul class="refs">${items}</ul>`;
+function getMedicineAdvice(name) {
+  const key = canonicalMedicine(name);
+
+  if (!key) return null;
+
+  // Supports either a JSON object keyed by medicine
+  // or an array containing medicine objects.
+  if (Array.isArray(specificAdvice)) {
+    return specificAdvice.find(item =>
+      canonicalMedicine(
+        item.medicine || item.name || item.drug
+      ) === key
+    ) || null;
+  }
+
+  for (const [nameKey, item] of
+    Object.entries(specificAdvice)) {
+
+    if (canonicalMedicine(nameKey) === key) {
+      return item;
+    }
+  }
+
+  return null;
 }
 
-function qualsHtml(qualCodes){
-  if(!qualCodes.length) return '';
-  const chips = qualCodes.map(code => {
-    const txt = qualifierLabels.get(code) || '';
-    return `<span class="qual">${txt}</span>`;
+function renderSpecificAdvice(medicine) {
+  adviceEl.innerHTML = '';
+
+  const advice = getMedicineAdvice(medicine);
+
+  if (!advice) {
+    adviceEl.innerHTML = `
+      <div class="panel">
+        <h3>Specific administration advice</h3>
+        <p>
+          Guidance for ${escapeHtml(medicine)}
+          is not available in the loaded advice file.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  const heading =
+    advice.heading ||
+    advice.title ||
+    advice.category ||
+    'Specific administration advice';
+
+  const description =
+    advice.description ||
+    advice.text ||
+    advice.advice ||
+    '';
+
+  const paragraphs = Array.isArray(description)
+    ? description
+    : [description];
+
+  const adviceHtml = paragraphs
+    .filter(Boolean)
+    .map(text =>
+      `<p>${escapeHtml(text)}</p>`
+    )
+    .join('');
+
+  const references = advice.references || [];
+
+  const referencesHtml = Array.isArray(references)
+    ? references.map(ref =>
+        `<li>${escapeHtml(ref)}</li>`
+      ).join('')
+    : `<li>${escapeHtml(references)}</li>`;
+
+  adviceEl.innerHTML = `
+    <section class="panel specific-advice-panel">
+      <h3>${escapeHtml(heading)}</h3>
+      <h4>${escapeHtml(medicine)}</h4>
+
+      ${adviceHtml}
+
+      ${referencesHtml
+        ? `<div class="section-title">References</div>
+           <ul class="refs">${referencesHtml}</ul>`
+        : ''}
+    </section>
+  `;
+}
+
+function clearSpecificAdvice() {
+  adviceEl.innerHTML = '';
+}
+
+/* =======================
+   MEDICINE SELECTION LOGIC
+======================= */
+
+function setSearchMessage(message) {
+  searchMessageEl.textContent = message || '';
+}
+
+function clearResults() {
+  resultsEl.innerHTML = '';
+  clearSpecificAdvice();
+  setSearchMessage('');
+}
+
+function updateMedicineSelection() {
+  const medicine1 = drug1Sel.value;
+
+  clearResults();
+
+  // Find the existing labels wrapping Medicine 2
+  // and Medicine 3.
+  const medicine2Field = drug2Sel.closest('label');
+  const medicine3Field = drug3Sel.closest('label');
+
+  if (!medicine1) {
+    if (medicine2Field) medicine2Field.hidden = false;
+    if (medicine3Field) medicine3Field.hidden = false;
+
+    drug2Sel.disabled = false;
+    drug3Sel.disabled = false;
+    return;
+  }
+
+  if (isAdviceOnly(medicine1)) {
+    // Clear previously selected combinations.
+    drug2Sel.value = '';
+    drug3Sel.value = '';
+
+    drug2Sel.disabled = true;
+    drug3Sel.disabled = true;
+
+    if (medicine2Field) medicine2Field.hidden = true;
+    if (medicine3Field) medicine3Field.hidden = true;
+
+    // Advice appears immediately.
+    renderSpecificAdvice(medicine1);
+
+    setSearchMessage(
+      'Specific administration advice is displayed. ' +
+      'Combination searching is unavailable for this medicine.'
+    );
+
+    return;
+  }
+
+  // Standard medicines and levetiracetam.
+  drug2Sel.disabled = false;
+  drug3Sel.disabled = false;
+
+  if (medicine2Field) medicine2Field.hidden = false;
+  if (medicine3Field) medicine3Field.hidden = false;
+
+  // Levetiracetam advice deliberately does not
+  // appear until Search is pressed.
+}
+
+drug1Sel.addEventListener(
+  'change',
+  updateMedicineSelection
+);
+
+drug2Sel.addEventListener('change', () => {
+  resultsEl.innerHTML = '';
+  if (!isAdviceOnly(drug1Sel.value)) {
+    clearSpecificAdvice();
+  }
+});
+
+drug3Sel.addEventListener('change', () => {
+  resultsEl.innerHTML = '';
+  if (!isAdviceOnly(drug1Sel.value)) {
+    clearSpecificAdvice();
+  }
+});
+
+
+/* =======================
+   SECTION 3
+   RESULTS AND OBSERVATIONS
+======================= */
+
+/* =======================
+   RESULT DISPLAY HELPERS
+======================= */
+
+function clsBadge(code) {
+  return `badge c${code}`;
+}
+
+function refsHtml(refIds) {
+  if (!refIds.length) return '';
+
+  const items = refIds.map(id => {
+    const reference =
+      refsMap.get(id) || `Reference ${id}`;
+
+    return `
+      <li>
+        ${escapeHtml(id)}.
+        ${escapeHtml(reference)}
+      </li>
+    `;
   }).join('');
-  return `<div class="section-title">Qualifiers</div><div class="qualifiers">${chips}</div>`;
+
+  return `
+    <div class="section-title">References</div>
+    <ul class="refs">${items}</ul>
+  `;
 }
 
-/* ===== Render results + observation form ===== */
-function renderResult(drugs, summaries){
+function qualsHtml(qualCodes) {
+  if (!qualCodes.length) return '';
+
+  const items = qualCodes.map(code => {
+    const description =
+      qualifierLabels.get(code) || code;
+
+    return `
+      <span class="qual">
+        ${escapeHtml(description)}
+      </span>
+    `;
+  }).join('');
+
+  return `
+    <div class="section-title">Qualifiers</div>
+    <div class="qualifiers">${items}</div>
+  `;
+}
+
+/* =======================
+   RENDER COMPATIBILITY RESULTS
+======================= */
+
+function renderResult(drugs, summaries) {
   resultsEl.innerHTML = '';
 
-  if(!summaries.length){
-    // No data
-    const wrap = document.createElement('div');
+  const combination = drugs
+    .filter(Boolean)
+    .join(' + ');
+
+  // No published compatibility data.
+  if (!summaries.length) {
+    const wrap = document.createElement('section');
     wrap.className = 'result';
+
     wrap.innerHTML = `
-      <h3>${drugs.filter(Boolean).join(' + ')}</h3>
-      <div class="badges"><span class="badge c4">No data</span></div>
-      <p class="meta">No published compatibility found for this combination. Consider separate infusions and seek specialist advice.</p>
+      <h3>${escapeHtml(combination)}</h3>
+
+      <div class="badges">
+        <span class="badge c4">No data</span>
+      </div>
+
+      <p>
+        No published compatibility data were found
+        for this combination.
+      </p>
+
+      <p class="meta">
+        Consider separate infusions and seek
+        specialist advice.
+      </p>
     `;
+
     resultsEl.appendChild(wrap);
-    renderObservationPanel(drugs, /*noData*/true, /*anecdotal*/false);
+
+    renderObservationPanel(
+      drugs,
+      true,
+      false
+    );
+
     return;
   }
 
   let anyAnecdotal = false;
-  summaries.forEach(s => {
-    const cls = classificationLabels.get((s.classification||'').toString()) || {label:'', description:''};
-    if(s.classification === '1') anyAnecdotal = true;
 
-    const wrap = document.createElement('div');
+  summaries.forEach(summary => {
+    const code = String(
+      summary.classification || ''
+    );
+
+    const classification =
+      classificationLabels.get(code) || {
+        label: 'Classification unavailable',
+        description: ''
+      };
+
+    if (code === '1') {
+      anyAnecdotal = true;
+    }
+
+    const wrap = document.createElement('section');
     wrap.className = 'result';
+
     wrap.innerHTML = `
-      <h3>${drugs.filter(Boolean).join(' + ')}</h3>
+      <h3>${escapeHtml(combination)}</h3>
+
       <div class="badges">
-        <span class="badge diluent">${s.diluent}</span>
-        <span class="${clsBadge(s.classification)}">${cls.label}</span>
+        <span class="badge diluent">
+          ${escapeHtml(summary.diluent)}
+        </span>
+
+        <span class="${clsBadge(code)}">
+          ${escapeHtml(classification.label)}
+        </span>
       </div>
-      <p class="meta">${cls.description}</p>
-      ${qualsHtml(s.qualifiers)}
-      ${refsHtml(s.references)}
+
+      <p class="meta">
+        ${escapeHtml(classification.description)}
+      </p>
+
+      ${qualsHtml(summary.qualifiers)}
+
+      ${refsHtml(summary.references)}
     `;
+
     resultsEl.appendChild(wrap);
   });
 
-  // If any diluent result is anecdotal (1), show Q1 panel
-  if(anyAnecdotal){
-    renderObservationPanel(drugs, /*noData*/false, /*anecdotal*/true);
+  // Registry is only shown for classification 1.
+  if (anyAnecdotal) {
+    renderObservationPanel(
+      drugs,
+      false,
+      true
+    );
   }
 }
 
-/* ===== Observation panel -> Google Form ===== */
-function renderObservationPanel(drugs, noData, anecdotal){
-  // Which centralisation path are we using?
-  // - BACKEND.mode === 'form'    => send to Google Form (GOOGLE_FORM.* must be set)
-  // - BACKEND.mode === 'webhook' => POST JSON to your endpoint (see below)
-  // - BACKEND.mode === 'local'   => accumulate in localStorage (on submitter’s device)
-  const usingGoogleForm = (BACKEND.mode === 'form');
+/* =======================
+   OBSERVATIONAL REGISTRY
+======================= */
 
-  const panel = document.createElement('div');
+function renderObservationPanel(
+  drugs,
+  noData,
+  anecdotal
+) {
+  const panel = document.createElement('section');
   panel.className = 'panel obs';
 
-  const buildSelect = (id, labelText, options) => {
-    const wrap = document.createElement('label');
-    const title = document.createElement('span');
-    title.textContent = labelText;
+  const heading = document.createElement('h3');
+  heading.textContent = 'Clinical experience report';
 
-    const sel = document.createElement('select');
-    sel.id = id;
+  panel.appendChild(heading);
 
-    const ph = document.createElement('option');
-    ph.value = '';
-    ph.textContent = 'Please Select';
-    ph.selected = true;
-    sel.appendChild(ph);
+  const introduction = document.createElement('p');
 
-    (options || []).forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = (v.value ?? v);
-      opt.textContent = (v.label ?? v);
-      sel.appendChild(opt);
+  introduction.textContent =
+    'Safer Care Victoria is collecting information ' +
+    'about medicine combinations used in clinical ' +
+    'practice to help inform future compatibility ' +
+    'research. Do not include patient-identifiable ' +
+    'information.';
+
+  panel.appendChild(introduction);
+
+  const form = document.createElement('form');
+  form.className = 'observation-form';
+  form.noValidate = true;
+
+  panel.appendChild(form);
+
+  /* =======================
+     QUESTION BUILDERS
+  ======================= */
+
+  function buildRadioQuestion(
+    id,
+    question,
+    options,
+    required = true
+  ) {
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'observation-question';
+
+    const legend = document.createElement('legend');
+    legend.textContent = question;
+
+    fieldset.appendChild(legend);
+
+    options.forEach((option, index) => {
+      const label = document.createElement('label');
+      label.className = 'radio-option';
+
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = id;
+      input.value = option.value;
+      input.required = required && index === 0;
+
+      const text = document.createElement('span');
+      text.textContent = option.label;
+
+      label.appendChild(input);
+      label.appendChild(text);
+
+      fieldset.appendChild(label);
     });
 
-    wrap.appendChild(title);
-    wrap.appendChild(sel);
-    return wrap;
-  };
-
-  const grid = document.createElement('div');
-  grid.className = 'grid';
-
-  // Q1 (always asked)
-  grid.appendChild(buildSelect('q1', 'Was this combination used in clinical practice?', [
-    {label:'Yes', value:'Yes'},
-    {label:'No',  value:'No'}
-  ]));
-
-  if(noData){
-    grid.appendChild(buildSelect('q2', 'Did the combination appear compatible?', [
-      {label:'Yes', value:'Yes'},
-      {label:'No',  value:'No'}
-    ]));
-    grid.appendChild(buildSelect('q3', 'How frequently was the infusion changed?', [
-      {label:'24 hours', value:'24'},
-      {label:'48 hours', value:'48'},
-      {label:'> 48 hours', value:'> 48'}
-    ]));
-    grid.appendChild(buildSelect('q4', 'What diluent was used?', [
-      'Water for injection', 'Sodium chloride 0.9%', 'No diluent', 'Other'
-    ]));
-    grid.appendChild(buildSelect('q5', 'Was there an infusion reaction observed?', [
-      {label:'Yes', value:'Yes'},
-      {label:'No',  value:'No'}
-    ]));
-    grid.appendChild(buildSelect('q6', 'Was this combination administered for more than 24 hours?', [
-      {label:'Yes', value:'Yes'},
-      {label:'No',  value:'No'}
-    ]));
+    return fieldset;
   }
 
-  panel.innerHTML = `
-    <h4>Safer Care Victoria is collecting data on combinations used in practice to better inform future compatibility testing.</h4>
-  `;
-  panel.appendChild(grid);
+  function buildSelectQuestion(
+    id,
+    question,
+    options
+  ) {
+    const label = document.createElement('label');
+    label.className = 'observation-question';
 
-  const confirm = document.createElement('p');
-  confirm.className = 'confirm-text';
-  confirm.textContent = 'I confirm this is an observational report, de-identified, for quality improvement and to inform future compatibility research.';
-  panel.appendChild(confirm);
+    const text = document.createElement('span');
+    text.textContent = question;
 
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'btn';
-  btn.id = 'openForm';
-  btn.textContent = 'Submit';
-  btn.disabled = true;
-  panel.appendChild(btn);
+    const select = document.createElement('select');
+    select.name = id;
+    select.required = true;
 
-  const hint = document.createElement('p');
-  hint.className = 'meta';
-  hint.textContent = 'Complete all fields to enable Submit.';
-  panel.appendChild(hint);
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Please select';
+
+    select.appendChild(placeholder);
+
+    options.forEach(option => {
+      const opt = document.createElement('option');
+
+      if (typeof option === 'string') {
+        opt.value = option;
+        opt.textContent = option;
+      } else {
+        opt.value = option.value;
+        opt.textContent = option.label;
+      }
+
+      select.appendChild(opt);
+    });
+
+    label.appendChild(text);
+    label.appendChild(select);
+
+    return label;
+  }
+
+  /* =======================
+     QUESTION 1
+  ======================= */
+
+  const q1 = buildRadioQuestion(
+    'usage_duration',
+    '1. Has this combination been used in clinical practice?',
+    [
+      {
+        label:
+          'Yes — administered for more than 24 hours',
+        value: 'more_than_24h'
+      },
+      {
+        label:
+          'Yes — administered for 24 hours or less',
+        value: '24h_or_less'
+      },
+      {
+        label: 'No',
+        value: 'not_used'
+      }
+    ]
+  );
+
+  form.appendChild(q1);
+
+  /* =======================
+     FOLLOW-UP QUESTIONS
+  ======================= */
+
+  const followUp = document.createElement('div');
+  followUp.className = 'observation-followup';
+  followUp.hidden = true;
+
+  // For no-data combinations, collect observations.
+  if (noData) {
+    followUp.appendChild(
+      buildRadioQuestion(
+        'appeared_compatible',
+        '2. Did the combination appear physically compatible?',
+        [
+          {
+            label: 'Yes',
+            value: 'Yes'
+          },
+          {
+            label: 'No',
+            value: 'No'
+          },
+          {
+            label: 'Unable to determine',
+            value: 'Unable to determine'
+          }
+        ]
+      )
+    );
+
+    followUp.appendChild(
+      buildSelectQuestion(
+        'change_frequency',
+        '3. How frequently was the infusion changed?',
+        [
+          {
+            label: 'Every 24 hours',
+            value: '24'
+          },
+          {
+            label: 'Every 48 hours',
+            value: '48'
+          },
+          {
+            label: 'More than 48 hours',
+            value: '>48'
+          },
+          {
+            label: 'Unsure',
+            value: 'Unsure'
+          }
+        ]
+      )
+    );
+
+    followUp.appendChild(
+      buildSelectQuestion(
+        'diluent_used',
+        '4. What diluent was used?',
+        [
+          'Water for injection',
+          'Sodium chloride 0.9%',
+          'No diluent',
+          'Other',
+          'Unsure'
+        ]
+      )
+    );
+
+    followUp.appendChild(
+      buildRadioQuestion(
+        'reaction_observed',
+        '5. Were any infusion-site reactions observed?',
+        [
+          {
+            label: 'Yes',
+            value: 'Yes'
+          },
+          {
+            label: 'No',
+            value: 'No'
+          },
+          {
+            label: 'Unsure',
+            value: 'Unsure'
+          }
+        ]
+      )
+    );
+  }
+
+  // For classification 1, only Q1 is required.
+  // No further questions are currently collected.
+
+  form.appendChild(followUp);
+
+  /* =======================
+     SUBMISSION CONTROLS
+  ======================= */
+
+  const confirmation = document.createElement('p');
+  confirmation.className = 'confirm-text';
+
+  confirmation.textContent =
+    'Please submit observational information only. ' +
+    'Do not include patient-identifiable information. ' +
+    'An observation of physical compatibility does not ' +
+    'establish chemical stability.';
+
+  form.appendChild(confirmation);
+
+  const errorMessage = document.createElement('p');
+  errorMessage.className = 'form-error';
+  errorMessage.setAttribute('role', 'alert');
+  errorMessage.hidden = true;
+
+  form.appendChild(errorMessage);
+
+  const submitButton = document.createElement('button');
+  submitButton.type = 'submit';
+  submitButton.className = 'btn';
+  submitButton.textContent = 'Submit report';
+  submitButton.disabled = true;
+
+  form.appendChild(submitButton);
 
   resultsEl.appendChild(panel);
 
-  // ---- validation
-  const requiredIds = noData ? ['q1','q2','q3','q4','q5','q6'] : ['q1'];
-  const get = id => /** @type {HTMLSelectElement} */(document.getElementById(id));
-  const isComplete = () => requiredIds.every(id => (get(id)?.value ?? '') !== '');
-  const refreshState = () => { btn.disabled = !isComplete(); };
-  requiredIds.forEach(id => get(id)?.addEventListener('change', refreshState));
-  refreshState();
+  /* =======================
+     BRANCHING
+  ======================= */
 
-  // ---- submission
-  const [d1,d2,d3] = [drugs[0]||'', drugs[1]||'', drugs[2]||''];
-  const ctxLabel = noData ? 'No data' : (anecdotal ? 'Appears compatible (anecdotal)' : 'Appears compatible');
+  function getValue(name) {
+    const checked = form.querySelector(
+      `input[name="${name}"]:checked`
+    );
 
-  const buildRowObject = () => {
-    const base = {
-      datetime_iso: new Date().toISOString(),
-      drug_1: d1, drug_2: d2, drug_3: d3,
-      classification_at_search: ctxLabel,
-      used_in_practice: get('q1').value
-    };
-    if(noData){
-      base.appeared_compatible = get('q2').value;
-      base.change_frequency_hours = get('q3').value;
-      base.diluent_used = get('q4').value;
-      base.reaction_observed = get('q5').value;
-      base.administered_more_than_24h = get('q6').value;
-    }
-    return base;
-  };
+    if (checked) return checked.value;
 
-  const sendToWebhook = async (payload) => {
-    const resp = await fetch(BACKEND.webhookUrl, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
+    const select = form.querySelector(
+      `select[name="${name}"]`
+    );
+
+    return select ? select.value : '';
+  }
+
+  function updateObservationForm() {
+    const usage = getValue('usage_duration');
+
+    const usedInPractice =
+      usage === 'more_than_24h' ||
+      usage === '24h_or_less';
+
+    // Follow-up only applies to no-data results
+    // where the combination has been used.
+    followUp.hidden = !(noData && usedInPractice);
+
+    const fields = followUp.querySelectorAll(
+      'input, select'
+    );
+
+    fields.forEach(field => {
+      field.disabled = followUp.hidden;
     });
-    if(!resp.ok) throw new Error(`Webhook error: ${resp.status}`);
-  };
 
-  const sendToGoogleForm = () => {
-    const params = new URLSearchParams();
-    const F = GOOGLE_FORM.fields;
+    let complete = Boolean(usage);
 
-    params.set(F.combo_drug_1, d1);
-    params.set(F.combo_drug_2, d2);
-    if(d3) params.set(F.combo_drug_3, d3);
-    params.set(F.classification_at_search, ctxLabel);
-    params.set(F.q1_used_in_practice, get('q1').value);
-
-    if(noData){
-      // map to your existing field IDs (adjust as needed)
-      params.set(F.q2_more_than_24h,      get('q6').value);
-      params.set(F.q3_diluent_used,       get('q4').value);
-      params.set(F.q4_reaction_observed,  get('q5').value);
-      params.set(F.q5_change_frequency,   get('q3').value);
-      // add a new Google Form field for "appeared compatible" if desired
-      // params.set(F.qX_appeared_compatible, get('q2').value);
+    if (noData && usedInPractice) {
+      complete =
+        complete &&
+        Boolean(getValue('appeared_compatible')) &&
+        Boolean(getValue('change_frequency')) &&
+        Boolean(getValue('diluent_used')) &&
+        Boolean(getValue('reaction_observed'));
     }
 
-    const url = `${GOOGLE_FORM.action}?${params.toString()}`;
-    // Background submit without opening a new tab:
-    navigator.sendBeacon?.(url) || fetch(url, {mode:'no-cors'}).catch(()=>{});
-  };
+    submitButton.disabled = !complete;
+    errorMessage.hidden = true;
+  }
 
-  const showThankYou = () => {
-    panel.innerHTML = `
-      <div class="thankyou">
-        <h4>Thank you for providing the observational report.</h4>
-        <p>Your response has been recorded.</p>
-      </div>
-    `;
-  };
+  form.addEventListener(
+    'change',
+    updateObservationForm
+  );
 
-  btn.addEventListener('click', async ()=>{
-    if(btn.disabled) return;
+  updateObservationForm();
 
-    const row = buildRowObject();
+  /* =======================
+     BUILD REPORT
+  ======================= */
+
+  function buildReport() {
+    const usage = getValue('usage_duration');
+
+    const [d1, d2, d3] = [
+      drugs[0] || '',
+      drugs[1] || '',
+      drugs[2] || ''
+    ];
+
+    const report = {
+      datetime_iso: new Date().toISOString(),
+
+      drug_1: d1,
+      drug_2: d2,
+      drug_3: d3,
+
+      classification_at_search:
+        noData
+          ? 'No data'
+          : anecdotal
+            ? 'Appears compatible (anecdotal)'
+            : 'Other',
+
+      used_in_practice:
+        usage === 'not_used' ? 'No' : 'Yes',
+
+      usage_duration: usage,
+
+      administered_more_than_24h:
+        usage === 'more_than_24h'
+          ? 'Yes'
+          : usage === '24h_or_less'
+            ? 'No'
+            : ''
+    };
+
+    if (noData && usage !== 'not_used') {
+      report.appeared_compatible =
+        getValue('appeared_compatible');
+
+      report.change_frequency_hours =
+        getValue('change_frequency');
+
+      report.diluent_used =
+        getValue('diluent_used');
+
+      report.reaction_observed =
+        getValue('reaction_observed');
+    }
+
+    return report;
+  }
+
+  /* =======================
+     SUBMISSION
+  ======================= */
+
+  async function saveReport(report) {
+    if (BACKEND.mode === 'local') {
+      ReportStore.appendRow(report);
+      return;
+    }
+
+    if (BACKEND.mode === 'webhook') {
+      if (!BACKEND.webhookUrl) {
+        throw new Error('Webhook URL not configured');
+      }
+
+      const response = await fetch(
+        BACKEND.webhookUrl,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(report)
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Report submission failed: ${response.status}`
+        );
+      }
+
+      return;
+    }
+
+    if (BACKEND.mode === 'form') {
+      throw new Error(
+        'Google Forms submission requires configuration.'
+      );
+    }
+
+    throw new Error('Unknown reporting mode');
+  }
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    updateObservationForm();
+
+    if (submitButton.disabled) {
+      errorMessage.textContent =
+        'Please complete all required questions.';
+      errorMessage.hidden = false;
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting…';
 
     try {
-      if (BACKEND.mode === 'form') {
-        sendToGoogleForm();
-      } else if (BACKEND.mode === 'webhook') {
-        await sendToWebhook(row);
-      } else {
-        // local mode (background save to this device only)
-        ReportStore.appendRow(row);
-      }
-      showThankYou();
-    } catch (e) {
-      alert('Sorry, there was a problem saving your report. Please try again.');
-      console.error(e);
+      const report = buildReport();
+
+      await saveReport(report);
+
+      panel.innerHTML = `
+        <div class="thankyou" role="status">
+          <h3>Thank you for your report</h3>
+          <p>
+            Your observational report has been
+            recorded in this prototype.
+          </p>
+        </div>
+      `;
+    } catch (error) {
+      console.error(error);
+
+      errorMessage.textContent =
+        'There was a problem saving your report. ' +
+        'Please try again.';
+
+      errorMessage.hidden = false;
+
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit report';
     }
   });
 }
 
 /* =======================
-   INIT
+   SECTION 4
+   APPLICATION INITIALISATION
 ======================= */
-async function init(){
-  // legends
-  try{
-    const [cl, ql] = await Promise.all([
+
+/* =======================
+   SEARCH CONTROLS
+======================= */
+
+function updateSearchButton() {
+  const medicine1 = drug1Sel.value;
+  const medicine2 = drug2Sel.value;
+
+  const searchButton = searchForm.querySelector(
+    'button[type="submit"]'
+  );
+
+  if (!searchButton) return;
+
+  // Advice-only medicines do not require Search.
+  if (isAdviceOnly(medicine1)) {
+    searchButton.hidden = true;
+    searchButton.disabled = true;
+    return;
+  }
+
+  searchButton.hidden = false;
+  searchButton.disabled = false;
+
+  // Allow the button to remain visible while
+  // selecting medicines. Native validation will
+  // require Medicine 1 and Medicine 2.
+}
+
+/* =======================
+   MEDICINE SELECTION EVENTS
+======================= */
+
+function initialiseMedicineEvents() {
+  drug1Sel.addEventListener('change', () => {
+    updateSearchButton();
+  });
+
+  drug2Sel.addEventListener('change', () => {
+    updateSearchButton();
+  });
+
+  drug3Sel.addEventListener('change', () => {
+    updateSearchButton();
+  });
+}
+
+/* =======================
+   SEARCH VALIDATION
+======================= */
+
+function validateSearch(drugs) {
+  const selected = drugs.filter(Boolean);
+
+  if (selected.length < 2) {
+    return 'Please select at least two medicines.';
+  }
+
+  // Prevent selecting the same medicine twice.
+  const normalised = selected.map(canonicalMedicine);
+
+  if (new Set(normalised).size !== normalised.length) {
+    return 'Please select different medicines.';
+  }
+
+  // Advice-only medicines cannot form combinations.
+  if (selected.some(isAdviceOnly)) {
+    return (
+      'Combination searching is unavailable for ' +
+      'the selected medicine.'
+    );
+  }
+
+  return '';
+}
+
+/* =======================
+   SEARCH EXECUTION
+======================= */
+
+function performCompatibilitySearch(event) {
+  event.preventDefault();
+
+  const medicine1 = drug1Sel.value;
+  const medicine2 = drug2Sel.value;
+  const medicine3 = drug3Sel.value;
+
+  clearResults();
+
+  // Advice-only medicines display guidance
+  // immediately without a compatibility search.
+  if (isAdviceOnly(medicine1)) {
+    renderSpecificAdvice(medicine1);
+
+    setSearchMessage(
+      'Specific administration advice is displayed. ' +
+      'Combination searching is unavailable.'
+    );
+
+    return;
+  }
+
+  const selectedDrugs = [
+    medicine1,
+    medicine2,
+    medicine3
+  ].filter(Boolean);
+
+  const validationError =
+    validateSearch(selectedDrugs);
+
+  if (validationError) {
+    setSearchMessage(validationError);
+    return;
+  }
+
+  // Preserve the existing same-class rule.
+  // Classification 5 takes precedence over
+  // dataset compatibility results.
+  const classHit = sharedFlagClass(selectedDrugs);
+
+  if (classHit) {
+    const summaries = [{
+      diluent: '—',
+      classification: '5',
+      qualifiers: [],
+      references: []
+    }];
+
+    renderResult(selectedDrugs, summaries);
+
+  } else {
+    // Find matching combinations in the dataset.
+    const matches = findMatches(selectedDrugs);
+
+    const summaries = summariseByDiluent(matches);
+
+    renderResult(selectedDrugs, summaries);
+  }
+
+  // Levetiracetam advice appears ONLY after Search.
+  if (selectedDrugs.some(hasSearchAdvice)) {
+    const adviceMedicine = selectedDrugs.find(
+      hasSearchAdvice
+    );
+
+    renderSpecificAdvice(adviceMedicine);
+  }
+
+  setSearchMessage(
+    'Compatibility search completed.'
+  );
+}
+
+/* =======================
+   LOAD MEDICINE-SPECIFIC ADVICE
+======================= */
+
+async function loadSpecificAdvice() {
+  const response = await fetch(DATA.advice);
+
+  if (!response.ok) {
+    throw new Error(
+      `Unable to load medicine advice: ${DATA.advice}`
+    );
+  }
+
+  specificAdvice = await response.json();
+}
+
+/* =======================
+   LOAD CLASSIFICATION LEGENDS
+======================= */
+
+async function loadLegends() {
+  const [classification, qualifiers] =
+    await Promise.all([
       loadCSV(DATA.classLegend),
       loadCSV(DATA.qualLegend)
     ]);
-    cl.rows.forEach(r => classificationLabels.set((r.id||'').trim(), {label:r.label||'', description:r.description||''}));
-    ql.rows.forEach(r => qualifierLabels.set((r.code||'').trim(), (r.description||'')));
-  }catch(e){ console.warn('Legend files missing?', e); }
 
-  // references
-  try{
-    const {rows} = await loadCSV(DATA.refs);
-    rows.forEach(r => { if(r.id) refsMap.set(r.id.trim(), (r.full_reference||'').trim()); });
-  }catch(e){ console.warn('reference.csv missing?', e); }
-
-  // class map (same-class rule)
-  try{
-    const {rows} = await loadCSV(DATA.classes);
-    rows.forEach(r=>{
-      const name = (r.drug_name||'').trim();
-      const cls  = (r.class||'').trim();
-      if(name && cls) classMap.set((name.toLowerCase().replace(/\s+/g,' ')), cls);
-    });
-  }catch(e){ console.warn('drug_classes.csv missing?', e); }
-
-  // dataset
-  const main = await loadCSV(DATA.main);
-  dataset = main.rows.map(r => {
-    const a = r.drug_1||''; const b = r.drug_2||''; const c = r.drug_3||'';
-    return {
-      raw: r,
-      key: keyFor([a,b,c]),
-      drugs: [a,b,c].filter(Boolean),
-      diluent: r.diluent||'',
-      classification: (r.classification||'').trim(),   // "1","2","3","5","6","7"
-      qualifiers: (r.qualifiers||'').trim(),           // letters: C,H,O,S,P (comma/pipe ok)
-      reference_ids: (r.reference_ids||'').trim()
-    };
+  classification.rows.forEach(row => {
+    classificationLabels.set(
+      String(row.id || '').trim(),
+      {
+        label: row.label || '',
+        description: row.description || ''
+      }
+    );
   });
 
-  // dropdowns
-  buildDrugOptions();
-
-  // search
-  document.getElementById('searchForm').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const d1 = drug1Sel.value, d2 = drug2Sel.value, d3 = drug3Sel.value;
-    if(!nonEmpty(d1) || !nonEmpty(d2)){ alert('Please select at least two medicines.'); return; }
-
-    const chosen = d3 ? [d1,d2,d3] : [d1,d2];
-
-    // apply same-class rule (Code 5) before any dataset lookup
-    const clsHit = sharedFlagClass(chosen);
-    if(clsHit){
-      // This class-based rule applies regardless of diluent — present a single black badge
-      const summaries = [{
-        diluent: '—',
-        classification: '5',
-        qualifiers: [],
-        references: []
-      }];
-      renderResult(chosen, summaries);
-      return;
-    }
-
-    const matches = findMatches(chosen);
-    const summaries = summariseByDiluent(matches);
-    renderResult(chosen, summaries);
+  qualifiers.rows.forEach(row => {
+    qualifierLabels.set(
+      String(row.code || '').trim(),
+      row.description || ''
+    );
   });
-
-  // footer version stamp
-  const vEl = document.getElementById('dataVersion');
-  if(vEl) vEl.textContent = new Date().toISOString().slice(0,10);
 }
+
+/* =======================
+   LOAD REFERENCES
+======================= */
+
+async function loadReferences() {
+  const { rows } = await loadCSV(DATA.refs);
+
+  rows.forEach(row => {
+    if (!row.id) return;
+
+    refsMap.set(
+      String(row.id).trim(),
+      String(row.full_reference || '').trim()
+    );
+  });
+}
+
+/* =======================
+   LOAD MEDICINE CLASSES
+======================= */
+
+async function loadMedicineClasses() {
+  const { rows } = await loadCSV(DATA.classes);
+
+  rows.forEach(row => {
+    const name = norm(row.drug_name);
+    const medicineClass = String(
+      row.class || ''
+    ).trim();
+
+    if (name && medicineClass) {
+      classMap.set(name, medicineClass);
+    }
+  });
+}
+
+/* =======================
+   LOAD COMPATIBILITY DATASET
+======================= */
+
+async function loadCompatibilityDataset() {
+  const { rows } = await loadCSV(DATA.main);
+
+  dataset = rows
+    // Ranitidine records should already have
+    // been removed from the CSV.
+    // This additional filter is a safeguard.
+    .filter(row => {
+      const medicines = [
+        row.drug_1,
+        row.drug_2,
+        row.drug_3
+      ];
+
+      return !medicines.some(
+        medicine =>
+          canonicalMedicine(medicine) ===
+          'ranitidine'
+      );
+    })
+
+    .map(row => {
+      const drugs = [
+        row.drug_1 || '',
+        row.drug_2 || '',
+        row.drug_3 || ''
+      ];
+
+      return {
+        raw: row,
+
+        key: keyFor(drugs),
+
+        drugs: drugs.filter(Boolean),
+
+        diluent: row.diluent || '',
+
+        classification: String(
+          row.classification || ''
+        ).trim(),
+
+        qualifiers: String(
+          row.qualifiers || ''
+        ).trim(),
+
+        reference_ids: String(
+          row.reference_ids || ''
+        ).trim()
+      };
+    });
+}
+
+/* =======================
+   APPLICATION VERSION
+======================= */
+
+function updateVersion() {
+  const versionElement =
+    document.getElementById('dataVersion');
+
+  if (versionElement) {
+    versionElement.textContent =
+      'Prototype v2 — October 2026';
+  }
+}
+
+/* =======================
+   INITIALISE APPLICATION
+======================= */
+
+async function init() {
+  try {
+    setSearchMessage('Loading compatibility data…');
+
+    // Load clinical information and references.
+    await Promise.all([
+      loadLegends(),
+      loadReferences(),
+      loadMedicineClasses(),
+      loadSpecificAdvice(),
+      loadCompatibilityDataset()
+    ]);
+
+    // Populate medicine dropdowns.
+    buildDrugOptions();
+
+    // Initialise selection behaviour.
+    initialiseMedicineEvents();
+
+    // Set the initial search button state.
+    updateSearchButton();
+
+    // Connect Search button.
+    searchForm.addEventListener(
+      'submit',
+      performCompatibilitySearch
+    );
+
+    // Display application version.
+    updateVersion();
+
+    setSearchMessage('');
+
+  } catch (error) {
+    console.error(
+      'Application initialisation failed:',
+      error
+    );
+
+    setSearchMessage(
+      'Unable to load the compatibility data. ' +
+      'Please refresh the page or contact the ' +
+      'application administrator.'
+    );
+
+    const searchButton = searchForm.querySelector(
+      'button[type="submit"]'
+    );
+
+    if (searchButton) {
+      searchButton.disabled = true;
+    }
+  }
+}
+
+/* =======================
+   START APPLICATION
+======================= */
+
 init();
