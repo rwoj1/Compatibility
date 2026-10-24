@@ -1105,30 +1105,18 @@ function renderObservationPanel(
   diluent,
   mountElement
 ) {
-const details = document.createElement('details');
-details.className = 'observation-details';
-
-const summary = document.createElement('summary');
-summary.textContent = 'Report clinical experience';
-details.appendChild(summary);
-
 const panel = document.createElement('section');
-panel.className = 'panel obs';
-details.appendChild(panel);
+panel.className = 'panel obs observation-inline';
 
 const heading = document.createElement('h3');
-heading.textContent = 'Clinical experience report';
+heading.textContent = 'Have you used this combination?';
 panel.appendChild(heading);
 
   const introduction = document.createElement('p');
 
-  introduction.textContent =
-    'Safer Care Victoria is collecting information ' +
-    'about medicine combinations used in clinical ' +
-    'practice to help inform future compatibility ' +
-    'research. Do not include patient-identifiable ' +
-    'information.';
-
+ introduction.textContent =
+  'Help improve compatibility information by sharing ' +
+  'your clinical experience with this combination and diluent.';
   panel.appendChild(introduction);
 
   const form = document.createElement('form');
@@ -1358,7 +1346,7 @@ panel.appendChild(heading);
 
   form.appendChild(submitButton);
 
-mountElement.appendChild(details);
+mountElement.appendChild(panel);
 
   /* =======================
      BRANCHING
