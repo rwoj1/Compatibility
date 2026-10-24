@@ -233,6 +233,42 @@ code{
   border: 1px solid #d0d5dd;
 }
 
+
+/* =======================
+   INLINE CLINICAL EXPERIENCE
+======================= */
+
+.observation-inline {
+  margin-top: 20px;
+  padding: 18px 0 0;
+  border: 0;
+  border-top: 1px solid #dce3ec;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.observation-inline h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: #163b5c;
+}
+
+.observation-inline > p {
+  margin: 0 0 14px;
+}
+
+.observation-inline .observation-question {
+  margin-top: 12px;
+}
+
+.observation-inline .confirm-text {
+  font-size: 0.875rem;
+  color: #526579;
+  margin-top: 14px;
+}
+
+
 /* =======================
    COLLAPSIBLE QUESTIONNAIRE
 ======================= */
