@@ -255,12 +255,22 @@ const escapeHtml = value =>
 
 // Existing classification precedence.
 const precedence = {
-  '3': 6,
-  '5': 5,
-  '2': 4,
-  '7': 3,
-  '6': 2,
-  '1': 1
+  '7': 7, // Physical and chemical compatibility reported
+  '6': 6, // Physical compatibility reported
+  '1': 5, // Appears compatible
+  '2': 4, // Use with caution
+  '5': 3, // Combination generally not recommended
+  '3': 2, // Incompatible
+  '4': 1  // No data
+};
+const safetyPrecedence = {
+  '3': 7, // Incompatible
+  '5': 6, // Generally not recommended
+  '2': 5, // Use with caution
+  '7': 4,
+  '6': 3,
+  '1': 2,
+  '4': 1
 };
 
 const classificationLabels = new Map();
@@ -530,11 +540,11 @@ function summariseByDiluent(records) {
       .map(row => String(row.classification).trim())
       .filter(Boolean);
 
-    const classification = classifications.sort(
-      (a, b) =>
-        (precedence[b] || 0) -
-        (precedence[a] || 0)
-    )[0] || '';
+  const classification = classifications.sort(
+  (a, b) =>
+    (safetyPrecedence[b] || 0) -
+    (safetyPrecedence[a] || 0)
+)[0] || '';
 
     const qualifiers = uniq(
       rows.flatMap(row =>
@@ -1322,6 +1332,7 @@ mountElement.appendChild(details);
   noData ? 'No data' : '1',
 
 diluent_at_search: diluent,
+diluent_used: diluent,
 
       used_in_practice:
         usage === 'not_used' ? 'No' : 'Yes',
@@ -1342,8 +1353,6 @@ diluent_at_search: diluent,
 
       report.change_frequency_hours =
         getValue('change_frequency');
-
-     report.diluent_used = diluent;
 
       report.reaction_observed =
         getValue('reaction_observed');
