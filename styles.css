@@ -224,6 +224,69 @@ code{
   border-radius:6px;
 }
 
+/* =======================
+   DILUENT LABELS
+======================= */
+
+.badge.diluent-wfi {
+  background: #e7f1ff;
+  color: #174a82;
+  border: 1px solid #b8d5f5;
+}
+
+.badge.diluent-nacl {
+  background: #e9f5f1;
+  color: #17634d;
+  border: 1px solid #b4dfd0;
+}
+
+.badge.diluent-other {
+  background: #f1f3f5;
+  color: #344054;
+  border: 1px solid #d0d5dd;
+}
+
+/* =======================
+   COLLAPSIBLE QUESTIONNAIRE
+======================= */
+
+.observation-details {
+  margin-top: 20px;
+  border-top: 1px solid #dce3ec;
+  padding-top: 16px;
+}
+
+.observation-details > summary {
+  cursor: pointer;
+  color: #075e9e;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+.observation-details > summary:hover {
+  text-decoration: underline;
+}
+
+.observation-details > summary:focus-visible {
+  outline: 3px solid #0969da;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.observation-details .obs {
+  margin-top: 12px;
+}
+
+.observation-details[open] > summary {
+  margin-bottom: 8px;
+}
+
+/* Respect the hidden attribute */
+[hidden] {
+  display: none !important;
+}
+
+
 /* ===== Mobile tweaks ===== */
 @media (max-width:600px){
   .obs label{font-size:0.95rem;}
