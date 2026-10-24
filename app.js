@@ -974,59 +974,6 @@ function renderResult(drugs, summaries) {
 
   let anyAnecdotal = false;
 
-  summaries.forEach(summary => {
-    const code = String(
-      summary.classification || ''
-    );
-
-    const classification =
-      classificationLabels.get(code) || {
-        label: 'Classification unavailable',
-        description: ''
-      };
-
-    if (code === '1') {
-      anyAnecdotal = true;
-    }
-
-    const wrap = document.createElement('section');
-    wrap.className = 'result';
-
-    wrap.innerHTML = `
-      <h3>${escapeHtml(combination)}</h3>
-
-      <div class="badges">
-        <span class="badge diluent">
-          ${escapeHtml(summary.diluent)}
-        </span>
-
-        <span class="${clsBadge(code)}">
-          ${escapeHtml(classification.label)}
-        </span>
-      </div>
-
-      <p class="meta">
-        ${escapeHtml(classification.description)}
-      </p>
-
-      ${qualsHtml(summary.qualifiers)}
-
-      ${refsHtml(summary.references)}
-    `;
-
-    resultsEl.appendChild(wrap);
-  });
-
-  // Registry is only shown for classification 1.
-  if (anyAnecdotal) {
-    renderObservationPanel(
-      drugs,
-      false,
-      true
-    );
-  }
-}
-
 /* =======================
    OBSERVATIONAL REGISTRY
 ======================= */
