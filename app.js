@@ -651,15 +651,44 @@ const adviceHtml = Array.isArray(description)
     ? `<p>${escapeHtml(description)}</p>`
     : '';
 
-  const references = advice.references
-  ? [advice.references]
-  : [];
+const referenceString = String(advice.references || '');
 
-  const referencesHtml = Array.isArray(references)
-    ? references.map(ref =>
-        `<li>${escapeHtml(ref)}</li>`
-      ).join('')
-    : `<li>${escapeHtml(references)}</li>`;
+function expandReferenceIds(value) {
+  const ids = [];
+
+  value.split(',').forEach(part => {
+    const text = part.trim();
+
+    const range = text.match(/^(\d+)\s*[-–]\s*(\d+)$/);
+
+    if (range) {
+      const start = Number(range[1]);
+      const end = Number(range[2]);
+
+      if (end >= start && end - start <= 100) {
+        for (let id = start; id <= end; id++) {
+          ids.push(String(id));
+        }
+      }
+    } else if (/^\d+$/.test(text)) {
+      ids.push(text);
+    }
+  });
+
+  return [...new Set(ids)];
+}
+
+const referenceIds = expandReferenceIds(referenceString);
+
+const referencesHtml = referenceIds.map(id => {
+  const reference = refsMap.get(id);
+
+  return `<li>
+    ${escapeHtml(id)}. ${escapeHtml(
+      reference || `Reference ${id} not found`
+    )}
+  </li>`;
+}).join('');
 
   adviceEl.innerHTML = `
     <section class="panel specific-advice-panel">
