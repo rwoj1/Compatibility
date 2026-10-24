@@ -229,3 +229,19 @@ code{
   .obs label{font-size:0.95rem;}
   select{font-size:0.95rem;}
 }
+
+/* Accessibility and advice panel */
+:focus-visible{outline:3px solid #005fcc;outline-offset:3px}
+[hidden]{display:none!important}
+.field-hint{font-size:.85rem;color:var(--sub);font-weight:400}
+.advice-panel{border:2px solid #ae751c;background:#fff9eb;border-radius:12px;padding:16px;margin:16px 0}
+.advice-panel h3{margin:0 0 8px;font-size:1.15rem}
+.advice-panel ul{margin:8px 0;padding-left:24px}
+.advice-panel li{margin:6px 0}
+.advice-panel .meta{color:#4c4433}
+.obs fieldset{border:1px solid var(--line);border-radius:10px;padding:12px;margin:0}
+.obs legend{font-weight:650;padding:0 5px}
+.obs .radio-option{display:flex;flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;margin:8px 0}
+.obs input[type=radio]{width:18px;height:18px;flex:none;margin-top:3px}
+.status-message{padding:10px 12px;border-left:4px solid var(--accent);background:#f0f6fb;margin:12px 0}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
