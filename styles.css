@@ -136,19 +136,6 @@ select{
   gap:6px;
 }
 
-/* Diluent emphasis */
-.badge.diluent{
-  background:#eef6ff;
-  border-color:#d7e7ff;
-  font-weight:700;
-}
-.badge.diluent::before{
-  content:"Diluent:";
-  font-weight:600;
-  color:var(--sub);
-  margin-right:4px;
-}
-
 /* Classification colour mapping */
 .badge.c1{background:var(--c1);color:var(--cTextDark)}
 .badge.c2{background:var(--c2);color:var(--cTextDark)}
@@ -280,12 +267,6 @@ code{
 .observation-details[open] > summary {
   margin-bottom: 8px;
 }
-
-/* Respect the hidden attribute */
-[hidden] {
-  display: none !important;
-}
-
 
 /* ===== Mobile tweaks ===== */
 @media (max-width:600px){
