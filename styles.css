@@ -268,42 +268,6 @@ code{
   margin-top: 14px;
 }
 
-
-/* =======================
-   COLLAPSIBLE QUESTIONNAIRE
-======================= */
-
-.observation-details {
-  margin-top: 20px;
-  border-top: 1px solid #dce3ec;
-  padding-top: 16px;
-}
-
-.observation-details > summary {
-  cursor: pointer;
-  color: #075e9e;
-  font-weight: 600;
-  padding: 10px 0;
-}
-
-.observation-details > summary:hover {
-  text-decoration: underline;
-}
-
-.observation-details > summary:focus-visible {
-  outline: 3px solid #0969da;
-  outline-offset: 4px;
-  border-radius: 4px;
-}
-
-.observation-details .obs {
-  margin-top: 12px;
-}
-
-.observation-details[open] > summary {
-  margin-bottom: 8px;
-}
-
 /* ===== Mobile tweaks ===== */
 @media (max-width:600px){
   .obs label{font-size:0.95rem;}
