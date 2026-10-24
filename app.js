@@ -561,16 +561,27 @@ function summariseByDiluent(records) {
     });
   });
 
-  // Preserve preferred diluent ordering.
-  summaries.sort((a, b) => {
-    const score = name => {
-      if (name === 'Water for injection') return 0;
-      if (name === 'Sodium chloride 0.9%') return 1;
-      return 2;
-    };
+// Sort using the existing classification hierarchy.
+// Preserve a consistent diluent order for ties.
+summaries.sort((a, b) => {
+  const rankA = precedence[String(a.classification)] || 0;
+  const rankB = precedence[String(b.classification)] || 0;
 
-    return score(a.diluent) - score(b.diluent);
-  });
+  if (rankA !== rankB) {
+    return rankB - rankA;
+  }
+
+  const diluentOrder = name => {
+    const key = norm(name);
+
+    if (key === 'water for injection') return 0;
+    if (key === 'sodium chloride 0.9%') return 1;
+    return 2;
+  };
+
+  return diluentOrder(a.diluent) -
+    diluentOrder(b.diluent);
+});
 
   return summaries;
 }
@@ -852,15 +863,34 @@ function qualsHtml(qualCodes) {
    RENDER COMPATIBILITY RESULTS
 ======================= */
 
+
+function diluentClass(diluent) {
+  const key = norm(diluent);
+
+  if (key === 'water for injection') {
+    return 'diluent-wfi';
+  }
+
+  if (key === 'sodium chloride 0.9%') {
+    return 'diluent-nacl';
+  }
+
+  return 'diluent-other';
+}
+
 function renderResult(drugs, summaries) {
   resultsEl.innerHTML = '';
 
-  const combination = drugs
-    .filter(Boolean)
-    .join(' + ');
+  const combination = drugs.filter(Boolean).join(' + ');
 
-  // No published compatibility data.
-  if (!summaries.length) {
+  function createResultCard(summary) {
+    const code = String(summary.classification || '');
+    const classification =
+      classificationLabels.get(code) || {
+        label: 'Classification unavailable',
+        description: ''
+      };
+
     const wrap = document.createElement('section');
     wrap.className = 'result';
 
@@ -868,30 +898,79 @@ function renderResult(drugs, summaries) {
       <h3>${escapeHtml(combination)}</h3>
 
       <div class="badges">
-        <span class="badge c4">No data</span>
+        <span class="badge ${diluentClass(summary.diluent)}">
+          Diluent: ${escapeHtml(summary.diluent)}
+        </span>
+
+        <span class="${clsBadge(code)}">
+          ${escapeHtml(classification.label)}
+        </span>
       </div>
 
-      <p>
-        No published compatibility data were found
-        for this combination.
+      <p class="meta">
+        ${escapeHtml(classification.description)}
       </p>
 
-      <p class="meta">
-        Consider separate infusions and seek
-        specialist advice.
-      </p>
+      ${qualsHtml(summary.qualifiers)}
+      ${refsHtml(summary.references)}
     `;
 
     resultsEl.appendChild(wrap);
 
-    renderObservationPanel(
-      drugs,
-      true,
-      false
-    );
+    // Only Classification 1 receives a questionnaire.
+    if (code === '1') {
+      renderObservationPanel(
+        drugs,
+        false,
+        true,
+        summary.diluent,
+        wrap
+      );
+    }
+  }
+
+  if (!summaries.length) {
+    // No records for the selected combination:
+    // allow reports for either supported diluent.
+    [
+      'Water for injection',
+      'Sodium chloride 0.9%'
+    ].forEach(diluent => {
+      const wrap = document.createElement('section');
+      wrap.className = 'result';
+
+      wrap.innerHTML = `
+        <h3>${escapeHtml(combination)}</h3>
+
+        <div class="badges">
+          <span class="badge ${diluentClass(diluent)}">
+            Diluent: ${escapeHtml(diluent)}
+          </span>
+          <span class="badge c4">No data</span>
+        </div>
+
+        <p>
+          No compatibility data were found for this
+          medicine combination in the loaded dataset.
+        </p>
+      `;
+
+      resultsEl.appendChild(wrap);
+
+      renderObservationPanel(
+        drugs,
+        true,
+        false,
+        diluent,
+        wrap
+      );
+    });
 
     return;
   }
+
+  summaries.forEach(createResultCard);
+}
 
   let anyAnecdotal = false;
 
@@ -955,15 +1034,24 @@ function renderResult(drugs, summaries) {
 function renderObservationPanel(
   drugs,
   noData,
-  anecdotal
+  anecdotal,
+  diluent,
+  mountElement
 ) {
-  const panel = document.createElement('section');
-  panel.className = 'panel obs';
+const details = document.createElement('details');
+details.className = 'observation-details';
 
-  const heading = document.createElement('h3');
-  heading.textContent = 'Clinical experience report';
+const summary = document.createElement('summary');
+summary.textContent = 'Report clinical experience';
+details.appendChild(summary);
 
-  panel.appendChild(heading);
+const panel = document.createElement('section');
+panel.className = 'panel obs';
+details.appendChild(panel);
+
+const heading = document.createElement('h3');
+heading.textContent = 'Clinical experience report';
+panel.appendChild(heading);
 
   const introduction = document.createElement('p');
 
@@ -1069,7 +1157,7 @@ function renderObservationPanel(
 
   const q1 = buildRadioQuestion(
     'usage_duration',
-    '1. Has this combination been used in clinical practice?',
+    `1. Has this combination been used with ${diluent} in clinical practice?`,
     [
       {
         label:
@@ -1147,23 +1235,9 @@ function renderObservationPanel(
     );
 
     followUp.appendChild(
-      buildSelectQuestion(
-        'diluent_used',
-        '4. What diluent was used?',
-        [
-          'Water for injection',
-          'Sodium chloride 0.9%',
-          'No diluent',
-          'Other',
-          'Unsure'
-        ]
-      )
-    );
-
-    followUp.appendChild(
       buildRadioQuestion(
         'reaction_observed',
-        '5. Were any infusion-site reactions observed?',
+        '4. Were any infusion-site reactions observed?',
         [
           {
             label: 'Yes',
@@ -1217,7 +1291,7 @@ function renderObservationPanel(
 
   form.appendChild(submitButton);
 
-  resultsEl.appendChild(panel);
+mountElement.appendChild(details);
 
   /* =======================
      BRANCHING
@@ -1263,7 +1337,6 @@ function renderObservationPanel(
         complete &&
         Boolean(getValue('appeared_compatible')) &&
         Boolean(getValue('change_frequency')) &&
-        Boolean(getValue('diluent_used')) &&
         Boolean(getValue('reaction_observed'));
     }
 
@@ -1299,11 +1372,9 @@ function renderObservationPanel(
       drug_3: d3,
 
       classification_at_search:
-        noData
-          ? 'No data'
-          : anecdotal
-            ? 'Appears compatible (anecdotal)'
-            : 'Other',
+  noData ? 'No data' : '1',
+
+diluent_at_search: diluent,
 
       used_in_practice:
         usage === 'not_used' ? 'No' : 'Yes',
@@ -1325,8 +1396,7 @@ function renderObservationPanel(
       report.change_frequency_hours =
         getValue('change_frequency');
 
-      report.diluent_used =
-        getValue('diluent_used');
+     report.diluent_used = diluent;
 
       report.reaction_observed =
         getValue('reaction_observed');
