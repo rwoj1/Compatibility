@@ -1,0 +1,127 @@
+{
+  "Dexmedetomidine": {
+    "category": "Specialist advice and/or input may be required",
+    "points": [
+      "Reported administration as bolus dosing, intermittent or continuous subcutaneous infusion.",
+      "Reported bioavailability of more than 80% after a single subcutaneous 10-minute infusion.",
+      "Dilute in sodium chloride 0.9%."
+    ],
+    "references": "8\u201313",
+    "searchable": false
+  },
+  "Famotidine": {
+    "category": "Specialist advice and/or input may be required",
+    "points": [
+      "Not registered in Australia under the Therapeutic Goods Administration (TGA); only available through the Special Access Scheme (SAS).",
+      "Reported administration as bolus dosing or continuous subcutaneous infusion.",
+      "Dilute in sodium chloride 0.9% or water for injection."
+    ],
+    "references": "1, 4",
+    "searchable": false
+  },
+  "Levetiracetam": {
+    "category": "Specialist advice and/or input may be required",
+    "points": [
+      "Reported administration included infusion in 50 mL of sodium chloride 0.9% over 24 hours or intermittent infusion over 30 minutes.",
+      "There are observational reports of admixtures containing up to 1000 mg of levetiracetam diluted to at least 18 mL."
+    ],
+    "references": "14\u201323",
+    "searchable": true
+  },
+  "Ranitidine": {
+    "category": "Specialist advice and/or input may be required",
+    "points": [
+      "Not registered in Australia under the Therapeutic Goods Administration (TGA); only available through the Special Access Scheme (SAS).",
+      "Reported administration as bolus dosing or continuous subcutaneous infusion.",
+      "Dilute in sodium chloride 0.9% or water for injection.",
+      "Known incompatibility with levomepromazine and phenobarbital.",
+      "Ranitidine should always be the last medicine added to an already diluted combination of medicines."
+    ],
+    "references": "1, 2",
+    "searchable": false
+  },
+  "Furosemide": {
+    "category": "Advice to infuse alone",
+    "points": [
+      "Intravenous administration is preferred; however continuous or intermittent subcutaneous infusions can be considered (seek specialist advice).",
+      "Dilute maximally in sodium chloride 0.9%.",
+      "Solution is alkaline \u2014 high risk of incompatibility, especially with acidic medications. Known incompatibility with metoclopramide and midazolam.",
+      "A pH-neutral or buffered formulation is commercially available internationally."
+    ],
+    "references": "1, 2, 24, 25",
+    "searchable": false
+  },
+  "Lidocaine (lignocaine)": {
+    "category": "Advice to infuse alone",
+    "points": [
+      "For use in a specialist setting only as it requires intermittent or continuing ECG and clinical monitoring.",
+      "Limited compatibility data and volume constraints exist."
+    ],
+    "references": "2",
+    "searchable": false
+  },
+  "Phenobarbital": {
+    "category": "Advice to infuse alone",
+    "points": [
+      "Phenobarbital has an alkaline pH and can cause tissue necrosis when administered as a subcutaneous bolus injection.",
+      "In practice, phenobarbital can be initiated with a bolus intramuscular or intravenous injection, then via subcutaneous infusion with sodium chloride 0.9% as diluent.",
+      "Bolus subcutaneous injections up to 130 mg in 2 mL were not correlated with site reactions in one case series.",
+      "It should be given via a separate syringe driver. Dilution up to 10 times is recommended."
+    ],
+    "references": "26, 27",
+    "searchable": false
+  },
+  "Proton pump inhibitors": {
+    "category": "Advice to infuse alone",
+    "points": [
+      "Seek specialist advice.",
+      "Limited safety and efficacy data exists.",
+      "Case reports of esomeprazole and omeprazole being used subcutaneously."
+    ],
+    "references": "28\u201330",
+    "searchable": false
+  },
+  "Sodium valproate": {
+    "category": "Advice to infuse alone",
+    "points": [
+      "Reports of administering as an infusion alone.",
+      "Dilute maximally with either water for injection or sodium chloride 0.9%.",
+      "Limited safety data available; however reports of tissue necrosis."
+    ],
+    "references": "21, 31, 32",
+    "searchable": false
+  },
+  "Dexamethasone": {
+    "category": "Bolus subcutaneous injections only",
+    "points": [
+      "Dexamethasone has a long half-life and bolus dosing is recommended.",
+      "Reports of use within a syringe driver to prevent infusion site reactions; however use limited due to incompatibility (seek specialist advice).",
+      "Concentration-dependent incompatibility exists with cyclizine, haloperidol and levomepromazine.",
+      "Chemical incompatibility with midazolam and glycopyrronium bromide (glycopyrrolate)."
+    ],
+    "references": "2",
+    "searchable": false
+  },
+  "Olanzapine": {
+    "category": "Bolus subcutaneous injections only",
+    "points": [
+      "Reconstitute powder with water for injection prior to administration.",
+      "Olanzapine has a long half-life and there are increasing reports of its safe use when given as a bolus injection.",
+      "There is no laboratory physical or chemical stability reported for a reconstituted solution of olanzapine in a syringe driver or a pre-drawn syringe. The reconstituted solution is stable for 1 hour post dilution and therefore its use within a syringe driver should be avoided.",
+      "There has been one published report of its use via a 24-hour infusion in the last days of life in a patient already stable on olanzapine."
+    ],
+    "references": "33, 34",
+    "searchable": false
+  },
+  "Parecoxib": {
+    "category": "Bolus subcutaneous injections only",
+    "points": [
+      "Reconstitute powder with 2 mL of sodium chloride 0.9%.",
+      "Reported administration as bolus dosing or continuous subcutaneous infusion. Due to its long duration of action and half-life, bolus dosing is generally recommended.",
+      "Limited compatibility with other medicines; recommendation to administer alone.",
+      "Injection site reactions are common, however usually mild."
+    ],
+    "references": "35\u201337",
+    "searchable": false
+  }
+}
