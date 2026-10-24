@@ -277,6 +277,7 @@ const MEDICINE_ALIASES = {
   'frusemide': 'furosemide',
   'lidocaine': 'lidocaine',
   'lignocaine': 'lidocaine',
+  'lidocaine (lignocaine)': 'lidocaine',
   'proton pump inhibitor': 'proton pump inhibitor',
   'proton pump inhibitors': 'proton pump inhibitor'
 };
@@ -628,24 +629,31 @@ function renderSpecificAdvice(medicine) {
     advice.category ||
     'Specific administration advice';
 
-  const description =
-    advice.description ||
-    advice.text ||
-    advice.advice ||
-    '';
+const description =
+  advice.points ||
+  advice.description ||
+  advice.text ||
+  advice.advice ||
+  '';
 
   const paragraphs = Array.isArray(description)
     ? description
     : [description];
 
-  const adviceHtml = paragraphs
-    .filter(Boolean)
-    .map(text =>
-      `<p>${escapeHtml(text)}</p>`
-    )
-    .join('');
+const adviceHtml = Array.isArray(description)
+  ? `<ul class="advice-points">
+      ${description
+        .filter(Boolean)
+        .map(text => `<li>${escapeHtml(text)}</li>`)
+        .join('')}
+     </ul>`
+  : description
+    ? `<p>${escapeHtml(description)}</p>`
+    : '';
 
-  const references = advice.references || [];
+  const references = advice.references
+  ? [advice.references]
+  : [];
 
   const referencesHtml = Array.isArray(references)
     ? references.map(ref =>
