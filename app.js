@@ -811,14 +811,13 @@ function clsBadge(code) {
 function refsHtml(refIds) {
   if (!refIds.length) return '';
 
-  const items = refIds.map(id => {
+  const items = refIds.map((id, index) => {
     const reference =
-      refsMap.get(id) || `Reference ${id}`;
+      refsMap.get(id) || `Reference ${id} not found`;
 
     return `
       <li>
-        ${escapeHtml(id)}.
-        ${escapeHtml(reference)}
+        ${index + 1}. ${escapeHtml(reference)}
       </li>
     `;
   }).join('');
