@@ -407,6 +407,97 @@ function setOptions(selectEl, values) {
   }
 }
 
+
+/* =======================
+   MEDICINE DROPDOWN GROUPING
+======================= */
+
+const MEDICINE_GROUP_ORDER = [
+  'Opioids',
+  'Benzodiazepines',
+  'Dopamine antagonists',
+  'Antimuscarinics',
+  'Other medicines'
+];
+
+const MEDICINE_GROUPS = {
+  'Opioids': [
+    'Fentanyl',
+    'Hydromorphone',
+    'Methadone',
+    'Morphine hydrochloride',
+    'Morphine sulfate',
+    'Oxycodone'
+  ],
+  'Benzodiazepines': [
+    'Clonazepam',
+    'Midazolam'
+  ],
+  'Dopamine antagonists': [
+    'Haloperidol',
+    'Levomepromazine',
+    'Metoclopramide'
+  ],
+'Antimuscarinics': [
+  'Glycopyrronium bromide',
+  'Glycopyrronium bromide (glycopyrrolate)',
+  'Glycopyrrolate',
+  'Hyoscine butylbromide'
+]
+};
+
+function medicineDropdownGroup(medicine) {
+  const key = norm(medicine);
+
+  for (const [group, medicines] of
+    Object.entries(MEDICINE_GROUPS)) {
+    if (medicines.some(name => norm(name) === key)) {
+      return group;
+    }
+  }
+
+  return 'Other medicines';
+}
+
+function sortMedicinesWithinGroup(medicines, group) {
+  return [...medicines].sort((a, b) => {
+    if (group === 'Opioids') {
+      if (norm(a) === 'morphine sulfate') return -1;
+      if (norm(b) === 'morphine sulfate') return 1;
+    }
+
+    return a.localeCompare(b, 'en', {
+      sensitivity: 'base'
+    });
+  });
+}
+
+function appendGroupedMedicineOptions(select, medicines) {
+  MEDICINE_GROUP_ORDER.forEach(group => {
+    const members = sortMedicinesWithinGroup(
+      medicines.filter(
+        medicine => medicineDropdownGroup(medicine) === group
+      ),
+      group
+    );
+
+    if (!members.length) return;
+
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = group;
+
+    members.forEach(medicine => {
+      const option = document.createElement('option');
+      option.value = medicine;
+      option.textContent = medicine;
+      optgroup.appendChild(option);
+    });
+
+    select.appendChild(optgroup);
+  });
+}
+
+
 function buildDrugOptions() {
   const names = [];
 
@@ -420,8 +511,8 @@ function buildDrugOptions() {
     });
   });
 
-  // Additional medicines available in Medicine 1,
-  // even when no compatibility combinations exist.
+  // Advice-only medicines remain available in
+  // Medicine 1, even without compatibility records.
   const adviceNames = [
     'Dexmedetomidine',
     'Famotidine',
@@ -436,6 +527,7 @@ function buildDrugOptions() {
     'Parecoxib'
   ];
 
+  // Remove duplicates using canonical medicine names.
   const seen = new Set();
   const allNames = [];
 
@@ -448,22 +540,40 @@ function buildDrugOptions() {
     }
   });
 
-  allNames.sort((a, b) =>
-    a.localeCompare(b, undefined, {
-      sensitivity: 'base'
-    })
-  );
-
-  // Medicine 1 includes all medicines.
-  setOptions(drug1Sel, allNames);
-
   // Medicine 2 and 3 exclude advice-only medicines.
   const searchableNames = allNames.filter(
     name => !isAdviceOnly(name)
   );
 
-  setOptions(drug2Sel, searchableNames);
-  setOptions(drug3Sel, searchableNames);
+  function populateGroupedSelect(select, medicines) {
+    const previousValue = select.value;
+
+    // Clear existing options.
+    select.innerHTML = '';
+
+    // Add the initial placeholder.
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = '— Select medicine —';
+    select.appendChild(placeholder);
+
+    // Add medicines under their therapeutic class.
+    appendGroupedMedicineOptions(select, medicines);
+
+    // Preserve the previous selection if available.
+    if (medicines.includes(previousValue)) {
+      select.value = previousValue;
+    } else {
+      select.value = '';
+    }
+  }
+
+  // Medicine 1 includes all medicines.
+  populateGroupedSelect(drug1Sel, allNames);
+
+  // Medicine 2 and 3 retain the advice-only restrictions.
+  populateGroupedSelect(drug2Sel, searchableNames);
+  populateGroupedSelect(drug3Sel, searchableNames);
 }
 
 /* =======================
