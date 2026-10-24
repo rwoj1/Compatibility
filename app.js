@@ -680,11 +680,11 @@ function expandReferenceIds(value) {
 
 const referenceIds = expandReferenceIds(referenceString);
 
-const referencesHtml = referenceIds.map(id => {
+const referencesHtml = referenceIds.map((id, index) => {
   const reference = refsMap.get(id);
 
   return `<li>
-    ${escapeHtml(id)}. ${escapeHtml(
+    ${index + 1}. ${escapeHtml(
       reference || `Reference ${id} not found`
     )}
   </li>`;
