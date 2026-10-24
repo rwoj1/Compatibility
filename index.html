@@ -19,8 +19,8 @@
     <aside class="toc">
       <h2>Key messages</h2>
       <ul>
-        <li>Refer to SaferCareVictoria Syringe Driver Compatiblity Guidance Document for further information.</li>
-        <li>Results assume a <strong>24-hour infusion</strong> at room temperature; monitor infusions closely, especially for those with anectodal evidence</li>
+        <li>Refer to Safer Care Victoria Syringe Driver Compatibility Guidance Document for further information.</li>
+        <li>Results assume a <strong>24-hour infusion</strong> at room temperature; monitor infusions closely, especially for those with anecdotal evidence</li>
         <li>Limit to ≤ 3 medicines per syringe; consider separate infusions if unsure.</li>
       </ul>
     </aside>
@@ -31,22 +31,23 @@
         <div class="grid">
           <label>
             Medicine 1
-            <select id="drug1" required></select>
+            <select id="drug1" required aria-describedby="medicine1Hint"></select><span id="medicine1Hint" class="field-hint">Select a medicine to begin.</span>
           </label>
-          <label>
+          <label id="drug2Wrap">
             Medicine 2
             <select id="drug2" required></select>
           </label>
-          <label>
+          <label id="drug3Wrap">
             Medicine 3 (optional)
             <select id="drug3"></select>
           </label>
         </div>
-        <button type="submit" class="btn">Search</button>
+        <div id="specificAdvice" aria-live="polite"></div>
+        <button id="searchButton" type="submit" class="btn">Search compatibility</button>
       </form>
     </section>
 
-    <section id="results"></section>
+    <section id="results" aria-live="polite" aria-atomic="true" tabindex="-1"></section>
 
     <section class="panel subtle">
       <h2>Disclaimer</h2>
