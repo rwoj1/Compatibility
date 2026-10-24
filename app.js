@@ -1647,9 +1647,7 @@ function performCompatibilitySearch(event) {
     renderSpecificAdvice(adviceMedicine);
   }
 
-  setSearchMessage(
-    'Compatibility search completed.'
-  );
+ setSearchMessage('');
 }
 
 /* =======================
